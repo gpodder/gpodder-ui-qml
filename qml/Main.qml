@@ -70,6 +70,9 @@ Item {
             setHandler('download-progress', pgst.downloadProgress);
             setHandler('downloaded', pgst.downloaded);
 
+            var path = Qt.resolvedUrl('..').substr('file://'.length);
+            addImportPath(path);
+
             // Load the Python side of things
             importModule('main', function() {
                 pgst.ready = true;
