@@ -1,3 +1,4 @@
+
 /**
  *
  * gPodder QML UI Reference Implementation
@@ -18,24 +19,27 @@
  */
 
 import QtQuick 2.0
-import 'qml'
 
-Rectangle {
-    color: '#336688'
+Row {
+    id: buttonRow
+    property var model
 
-    width: 480
-    height: 800
+    height: 100 * pgst.scalef
 
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/mask.png'
+    Repeater {
+        id: repeater
+        model: buttonRow.model
+
+        delegate: ButtonArea {
+            height: buttonRow.height
+            width: buttonRow.width / repeater.count
+            onClicked: buttonRow.model[index].clicked()
+
+            PLabel {
+                anchors.centerIn: parent
+                text: modelData.label
+            }
+        }
     }
-
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/noise.png'
-        fillMode: Image.Tile
-    }
-
-    Main {}
 }
+

@@ -1,3 +1,4 @@
+
 /**
  *
  * gPodder QML UI Reference Implementation
@@ -18,24 +19,35 @@
  */
 
 import QtQuick 2.0
-import 'qml'
 
 Rectangle {
-    color: '#336688'
+    id: slider
 
-    width: 480
-    height: 800
+    property real value
+    property real min: 0.0
+    property real max: 1.0
 
-    Image {
+    signal valueChangeRequested(real newValue)
+
+    color: '#aa000000'
+
+    height: 50 * pgst.scalef
+
+    MouseArea {
         anchors.fill: parent
-        source: 'qml/images/mask.png'
+        onClicked: slider.valueChangeRequested(min + (max - min) * (mouse.x / width))
     }
 
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/noise.png'
-        fillMode: Image.Tile
-    }
+    Rectangle {
+        height: parent.height * 0.9
+        width: height
 
-    Main {}
+        color: '#aaffffff'
+
+        anchors {
+            verticalCenter: parent.verticalCenter
+            left: parent.left
+            leftMargin: parent.width * (parent.value - parent.min) / (parent.max - parent.min)
+        }
+    }
 }

@@ -68,6 +68,10 @@ SlidePage {
     PullMenu {
         PullMenuItem {
             source: 'images/play.png'
+            onClicked: {
+                pgst.loadPage('PlayerPage.qml');
+                podcastsPage.unPull();
+            }
         }
 
         PullMenuItem {

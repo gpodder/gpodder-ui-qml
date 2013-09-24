@@ -18,24 +18,11 @@
  */
 
 import QtQuick 2.0
+import Sailfish.Silica 1.0
 import 'qml'
 
-Rectangle {
-    color: '#336688'
-
-    width: 480
-    height: 800
-
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/mask.png'
+ApplicationWindow {
+    initialPage: Page {
+        Main {}
     }
-
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/noise.png'
-        fillMode: Image.Tile
-    }
-
-    Main {}
 }

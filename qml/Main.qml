@@ -21,25 +21,13 @@
 import QtQuick 2.0
 import io.thp.pyotherside 1.0
 
-Rectangle {
+Item {
     id: pgst
     property bool ready: false
 
     property real scalef: width / 480
 
     anchors.fill: parent
-    color: '#336688'
-
-    Image {
-        anchors.fill: parent
-        source: 'images/mask.png'
-    }
-
-    Image {
-        anchors.fill: parent
-        source: 'images/noise.png'
-        fillMode: Image.Tile
-    }
 
     function update(page, x) {
         var index = -1;
@@ -95,6 +83,10 @@ Rectangle {
         onError: {
             console.log('Python failure: ' + traceback);
         }
+    }
+
+    Player {
+        id: player
     }
 
     PBusyIndicator {

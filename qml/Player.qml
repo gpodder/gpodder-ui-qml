@@ -1,3 +1,4 @@
+
 /**
  *
  * gPodder QML UI Reference Implementation
@@ -18,24 +19,19 @@
  */
 
 import QtQuick 2.0
-import 'qml'
+import QtMultimedia 5.0
 
-Rectangle {
-    color: '#336688'
+MediaPlayer {
+    id: player
 
-    width: 480
-    height: 800
+    property int episode
+    property var queue: ([])
 
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/mask.png'
+    function playbackEpisode(episode_id) {
+        player.episode = episode_id;
+        py.call('main.play_episode', [episode_id], function (episode) {
+            player.source = episode.source;
+            player.play();
+        });
     }
-
-    Image {
-        anchors.fill: parent
-        source: 'qml/images/noise.png'
-        fillMode: Image.Tile
-    }
-
-    Main {}
 }

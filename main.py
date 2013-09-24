@@ -202,6 +202,14 @@ class gPotherSide:
         self._checking_for_new_episodes = False
         pyotherside.send('refreshing', False)
 
+    def play_episode(self, episode_id):
+        episode = self._get_episode_by_id(episode_id)
+        return {
+            'source': episode.local_filename(False)
+                if episode.was_downloaded(and_exists=True)
+                else episode.url,
+        }
+
     def show_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         return {
@@ -218,6 +226,7 @@ pyotherside.send('hello', gpodder.__version__, gpodder.__copyright__)
 load_podcasts = gpotherside.load_podcasts
 load_episodes = gpotherside.load_episodes
 show_episode = gpotherside.show_episode
+play_episode = gpotherside.play_episode
 subscribe = gpotherside.subscribe
 unsubscribe = gpotherside.unsubscribe
 check_for_episodes = gpotherside.check_for_episodes

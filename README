@@ -10,6 +10,7 @@ Dependencies:
 Package        Min.Version   URL
 ------------------------------------------------------------
 Qt             5.0.2         http://qt-project.org/
+Qt Multimedia  5.0.2         http://qt-project.org/
 Python         3.3.0         http://python.org/
 PyOtherSide    1.0.0         http://thp.io/2011/pyotherside/
 gPodder        4.0.0         http://gpodder.org/

@@ -182,6 +182,22 @@ SlidePage {
             }
 
             ButtonArea {
+                onClicked: pgst.loadPage('PlayerPage.qml');
+
+                anchors {
+                    left: recommendationsPane.left
+                    right: recommendationsPane.right
+                }
+
+                height: 100 * pgst.scalef
+
+                PLabel {
+                    anchors.centerIn: parent
+                    text: 'Now playing'
+                }
+            }
+
+            ButtonArea {
                 onClicked: pgst.loadPage('Settings.qml');
 
                 anchors {

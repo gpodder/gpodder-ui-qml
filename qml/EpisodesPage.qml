@@ -44,6 +44,7 @@ SlidePage {
         PullMenuItem {
             source: 'images/play.png'
             onClicked: {
+                pgst.loadPage('PlayerPage.qml');
                 episodesPage.unPull();
             }
         }
