@@ -158,6 +158,7 @@ class gPotherSide:
     def subscribe(self, url):
         url = util.normalize_feed_url(url)
         self.core.model.load_podcast(url, create=True)
+        self.core.save()
         pyotherside.send('podcast-list-changed')
         pyotherside.send('update-stats')
 
@@ -165,6 +166,7 @@ class gPotherSide:
     def unsubscribe(self, podcast_id):
         podcast = self._get_podcast_by_id(podcast_id)
         podcast.unsubscribe()
+        self.core.save()
         pyotherside.send('podcast-list-changed')
         pyotherside.send('update-stats')
 
@@ -178,6 +180,7 @@ class gPotherSide:
             pyotherside.send('downloaded', episode_id)
         else:
             pyotherside.send('download-failed', episode_id)
+        self.core.save()
         pyotherside.send('update-stats')
 
     @run_in_background_thread
@@ -199,6 +202,7 @@ class gPotherSide:
             pyotherside.send('updated-podcast', self.convert_podcast(podcast))
             pyotherside.send('update-stats')
 
+        self.core.save()
         self._checking_for_new_episodes = False
         pyotherside.send('refreshing', False)
 
