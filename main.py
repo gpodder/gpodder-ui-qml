@@ -116,6 +116,7 @@ class gPotherSide:
             'id': episode.id,
             'title': episode.title,
             'progress': episode.download_progress(),
+            'downloadState': episode.state,
         }
 
     def load_episodes(self, id):
@@ -142,6 +143,7 @@ class gPotherSide:
             'podcast': episode.channel.title,
             'published': util.format_date(episode.published),
             'progress': episode.download_progress(),
+            'downloadState': episode.state,
         }
 
     def get_fresh_episodes(self):

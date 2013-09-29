@@ -47,13 +47,31 @@ ButtonArea {
     PLabel {
         anchors {
             left: parent.left
-            right: parent.right
+            right: downloadStatusIcon.left
             verticalCenter: parent.verticalCenter
             margins: 30 * pgst.scalef
         }
 
         elide: Text.ElideRight
         text: title
+    }
+
+    Image {
+        id: downloadStatusIcon
+
+        anchors {
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+            margins: 30 * pgst.scalef
+        }
+
+        source: {
+            switch (downloadState) {
+                case Constants.state.normal: return '';
+                case Constants.state.downloaded: return 'images/play.png';
+                case Constants.state.deleted: return 'images/delete.png';
+            }
+        }
     }
 }
 

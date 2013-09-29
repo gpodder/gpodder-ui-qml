@@ -31,3 +31,9 @@ var colors = {
     playback: '#729fcf', /* playback blue */
 };
 
+var state = {
+    normal: 0,
+    downloaded: 1,
+    deleted: 2,
+};
+
