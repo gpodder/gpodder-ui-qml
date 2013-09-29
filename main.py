@@ -210,7 +210,7 @@ class gPotherSide:
         episode = self._get_episode_by_id(episode_id)
         return {
             'source': episode.local_filename(False)
-                if episode.was_downloaded(and_exists=True)
+                if episode.state == gpodder.STATE_DOWNLOADED
                 else episode.url,
         }
 
