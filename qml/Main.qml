@@ -47,7 +47,10 @@ Item {
 
     function loadPage(filename, properties) {
         var component = Qt.createComponent(filename);
-        console.log('error: ' + component.errorString());
+        if (component.status != Component.Ready) {
+            console.log('Error loading ' + filename + ':' +
+                component.errorString());
+        }
         if (properties === undefined) {
             component.createObject(pgst);
         } else {
