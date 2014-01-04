@@ -114,7 +114,7 @@ class gPotherSide:
     def convert_episode(self, episode):
         return {
             'id': episode.id,
-            'title': episode.title,
+            'title': episode.trimmed_title,
             'progress': episode.download_progress(),
             'downloadState': episode.state,
         }
@@ -218,6 +218,9 @@ class gPotherSide:
 
     def show_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
+        if episode is None:
+            return {}
+
         return {
             'title': episode.trimmed_title,
             'description': util.remove_html_tags(episode.description),
