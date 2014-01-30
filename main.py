@@ -159,10 +159,12 @@ class gPotherSide:
     @run_in_background_thread
     def subscribe(self, url):
         url = util.normalize_feed_url(url)
+        # TODO: Check if subscription already exists
         self.core.model.load_podcast(url, create=True)
         self.core.save()
         pyotherside.send('podcast-list-changed')
         pyotherside.send('update-stats')
+        # TODO: Return True/False for reporting success
 
     @run_in_background_thread
     def unsubscribe(self, podcast_id):
@@ -177,12 +179,22 @@ class gPotherSide:
         def progress_callback(progress):
             pyotherside.send('download-progress', episode_id, progress)
         episode = self._get_episode_by_id(episode_id)
+        if episode.state == gpodder.STATE_DOWNLOADED:
+            return
+
         pyotherside.send('downloading', episode_id)
         if episode.download(progress_callback):
             pyotherside.send('downloaded', episode_id)
         else:
             pyotherside.send('download-failed', episode_id)
         self.core.save()
+        pyotherside.send('update-stats')
+
+    @run_in_background_thread
+    def delete_episode(self, episode_id):
+        episode = self._get_episode_by_id(episode_id)
+        episode.delete()
+        pyotherside.send('deleted', episode_id)
         pyotherside.send('update-stats')
 
     @run_in_background_thread
@@ -243,3 +255,4 @@ get_stats = gpotherside.get_stats
 get_fresh_episodes = gpotherside.get_fresh_episodes
 get_fresh_episodes_summary = gpotherside.get_fresh_episodes_summary
 download_episode = gpotherside.download_episode
+delete_episode = gpotherside.delete_episode
