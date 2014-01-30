@@ -167,6 +167,19 @@ class gPotherSide:
         pyotherside.send('update-stats')
         # TODO: Return True/False for reporting success
 
+    def rename_podcast(self, podcast_id, new_title):
+        podcast = self._get_podcast_by_id(podcast_id)
+        podcast.rename(new_title)
+        self.core.save()
+        pyotherside.send('podcast-list-changed')
+
+    def change_section(self, podcast_id, new_section):
+        podcast = self._get_podcast_by_id(podcast_id)
+        podcast.section = new_section
+        podcast.save()
+        self.core.save()
+        pyotherside.send('podcast-list-changed')
+
     @run_in_background_thread
     def unsubscribe(self, podcast_id):
         podcast = self._get_podcast_by_id(podcast_id)
@@ -269,3 +282,5 @@ get_fresh_episodes_summary = gpotherside.get_fresh_episodes_summary
 download_episode = gpotherside.download_episode
 delete_episode = gpotherside.delete_episode
 toggle_new = gpotherside.toggle_new
+rename_podcast = gpotherside.rename_podcast
+change_section = gpotherside.change_section
