@@ -117,6 +117,7 @@ class gPotherSide:
             'title': episode.trimmed_title,
             'progress': episode.download_progress(),
             'downloadState': episode.state,
+            'isNew': episode.is_new,
         }
 
     def load_episodes(self, id):
@@ -198,6 +199,14 @@ class gPotherSide:
         pyotherside.send('update-stats')
 
     @run_in_background_thread
+    def toggle_new(self, episode_id):
+        episode = self._get_episode_by_id(episode_id)
+        episode.is_new = not episode.is_new
+        episode.save()
+        self.core.save()
+        pyotherside.send('is-new-changed', episode_id, episode.is_new)
+
+    @run_in_background_thread
     def check_for_episodes(self):
         if self._checking_for_new_episodes:
             return
@@ -222,6 +231,9 @@ class gPotherSide:
 
     def play_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
+        episode.playback_mark()
+        self.core.save()
+        pyotherside.send('is-new-changed', episode_id, episode.is_new)
         return {
             'source': episode.local_filename(False)
                 if episode.state == gpodder.STATE_DOWNLOADED
@@ -256,3 +268,4 @@ get_fresh_episodes = gpotherside.get_fresh_episodes
 get_fresh_episodes_summary = gpotherside.get_fresh_episodes_summary
 download_episode = gpotherside.download_episode
 delete_episode = gpotherside.delete_episode
+toggle_new = gpotherside.toggle_new
