@@ -215,9 +215,12 @@ class gPotherSide:
     def toggle_new(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         episode.is_new = not episode.is_new
+        if episode.is_new and episode.state == gpodder.STATE_DELETED:
+            episode.state = gpodder.STATE_NORMAL
         episode.save()
         self.core.save()
         pyotherside.send('is-new-changed', episode_id, episode.is_new)
+        pyotherside.send('state-changed', episode_id, episode.state)
 
     @run_in_background_thread
     def check_for_episodes(self):

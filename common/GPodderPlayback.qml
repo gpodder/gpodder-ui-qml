@@ -26,6 +26,7 @@ MediaPlayer {
 
     property int episode
     property var queue: ([])
+    property bool isPlaying: playbackState == MediaPlayer.PlayingState
 
     function playbackEpisode(episode_id) {
         player.episode = episode_id;

@@ -31,6 +31,7 @@ Python {
     signal downloaded(int episode_id)
     signal deleted(int episode_id)
     signal isNewChanged(int episode_id, bool is_new)
+    signal stateChanged(int episode_id, int state)
 
     Component.onCompleted: {
         setHandler('hello', function (version, copyright) {
@@ -43,6 +44,7 @@ Python {
         setHandler('downloaded', py.downloaded);
         setHandler('deleted', py.deleted);
         setHandler('is-new-changed', py.isNewChanged);
+        setHandler('state-changed', py.stateChanged);
 
         var path = Qt.resolvedUrl('../..').substr('file://'.length);
         addImportPath(path);
