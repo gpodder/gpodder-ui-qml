@@ -25,6 +25,7 @@ Item {
     id: pgst
 
     GPodderCore { id: py }
+    GPodderPlayback { id: player }
 
     property real scalef: width / 480
 
@@ -53,10 +54,6 @@ Item {
         } else {
             component.createObject(pgst, properties);
         }
-    }
-
-    Player {
-        id: player
     }
 
     PBusyIndicator {
