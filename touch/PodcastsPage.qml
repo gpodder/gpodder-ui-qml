@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 
-import 'util.js' as Util
+import 'common/util.js' as Util
 
 SlidePage {
     id: podcastsPage

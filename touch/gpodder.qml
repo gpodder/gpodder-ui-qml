@@ -18,7 +18,6 @@
  */
 
 import QtQuick 2.0
-import 'qml'
 
 Rectangle {
     color: '#336688'
@@ -28,12 +27,12 @@ Rectangle {
 
     Image {
         anchors.fill: parent
-        source: 'qml/images/mask.png'
+        source: 'images/mask.png'
     }
 
     Image {
         anchors.fill: parent
-        source: 'qml/images/noise.png'
+        source: 'images/noise.png'
         fillMode: Image.Tile
     }
 

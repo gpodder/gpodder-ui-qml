@@ -44,9 +44,9 @@ SlidePage {
 
     Flickable {
         Connections {
-            target: pgst
+            target: py
             onReadyChanged: {
-                if (pgst.ready) {
+                if (py.ready) {
                     startPage.update_stats();
                 }
             }
@@ -229,9 +229,9 @@ SlidePage {
                     spacing: 20 * pgst.scalef
 
                     Connections {
-                        target: pgst
+                        target: py
                         onReadyChanged: {
-                            if (pgst.ready) {
+                            if (py.ready) {
                                 py.call('main.load_podcasts', [], function (podcasts) {
                                     recommendationsRepeater.model = podcasts.splice(0, 4);
                                 });

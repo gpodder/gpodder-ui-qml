@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 
-import 'util.js' as Util
+import 'common/util.js' as Util
 
 SlidePage {
     id: freshEpisodes
@@ -51,7 +51,7 @@ SlidePage {
             onClicked: py.call('main.download_episode', [id]);
 
             Connections {
-                target: pgst
+                target: py
                 onDownloadProgress: {
                     if (episode_id == id) {
                         freshEpisodesListModel.setProperty(index, 'progress', progress);

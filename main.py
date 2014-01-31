@@ -19,7 +19,7 @@
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'gpodder', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'gpodder-core', 'src'))
 
 import pyotherside
 import gpodder

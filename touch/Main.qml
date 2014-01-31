@@ -19,11 +19,12 @@
  */
 
 import QtQuick 2.0
-import io.thp.pyotherside 1.0
+import 'common'
 
 Item {
     id: pgst
-    property bool ready: false
+
+    GPodderCore { id: py }
 
     property real scalef: width / 480
 
@@ -41,10 +42,6 @@ Item {
         children[index-1].opacity = x / width;
     }
 
-    signal downloading(int episode_id)
-    signal downloadProgress(int episode_id, real progress)
-    signal downloaded(int episode_id)
-
     function loadPage(filename, properties) {
         var component = Qt.createComponent(filename);
         if (component.status != Component.Ready) {
@@ -58,50 +55,17 @@ Item {
         }
     }
 
-    Python {
-        id: py
-
-        Component.onCompleted: {
-            addImportPath('.');
-
-            setHandler('hello', function (version, copyright) {
-                console.log('gPodder version ' + version + ' starting up');
-                console.log('Copyright: ' + copyright);
-            });
-
-            setHandler('downloading', pgst.downloading);
-            setHandler('download-progress', pgst.downloadProgress);
-            setHandler('downloaded', pgst.downloaded);
-
-            var path = Qt.resolvedUrl('..').substr('file://'.length);
-            addImportPath(path);
-
-            // Load the Python side of things
-            importModule('main', function() {
-                pgst.ready = true;
-            });
-        }
-
-        onReceived: {
-            console.log('unhandled message: ' + data);
-        }
-
-        onError: {
-            console.log('Python failure: ' + traceback);
-        }
-    }
-
     Player {
         id: player
     }
 
     PBusyIndicator {
         anchors.centerIn: parent
-        visible: !pgst.ready
+        visible: !py.ready
     }
 
     StartPage {
         id: startPage
-        visible: pgst.ready
+        visible: py.ready
     }
 }
