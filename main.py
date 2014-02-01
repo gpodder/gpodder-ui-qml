@@ -90,7 +90,7 @@ class gPotherSide:
     def _get_cover(self, podcast):
         filename = self.core.cover_downloader.get_cover(podcast)
         if not filename:
-            return 'artwork/default.png'
+            return ''
         return 'file://' + filename
 
     def convert_podcast(self, podcast):
