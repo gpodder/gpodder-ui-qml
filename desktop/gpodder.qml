@@ -16,9 +16,7 @@ ApplicationWindow {
 
         onReadyChanged: {
             if (ready) {
-                py.call('main.load_podcasts', [], function (podcasts) {
-                    Util.updateModelFrom(podcastListModel, podcasts);
-                });
+                podcastListModel.reload();
             }
         }
     }
@@ -32,7 +30,7 @@ ApplicationWindow {
 
         TableView {
             width: 200
-            model: ListModel { id: podcastListModel }
+            model: GPodderPodcastListModel { id: podcastListModel }
             headerVisible: false
             alternatingRowColors: false
 
@@ -72,15 +70,13 @@ ApplicationWindow {
 
             onCurrentRowChanged: {
                 var id = podcastListModel.get(currentRow).id;
-                py.call('main.load_episodes', [id], function (episodes) {
-                    Util.updateModelFrom(episodeListModel, episodes);
-                });
+                episodeListModel.loadEpisodes(id);
             }
         }
 
         TableView {
             Layout.fillWidth: true
-            model: ListModel { id: episodeListModel }
+            model: GPodderEpisodeListModel { id: episodeListModel }
 
             TableViewColumn { role: 'title'; title: 'Title' }
         }
