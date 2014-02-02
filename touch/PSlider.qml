@@ -29,7 +29,8 @@ Rectangle {
 
     signal valueChangeRequested(real newValue)
 
-    color: '#aa000000'
+    clip: true
+    color: '#000000'
 
     height: 50 * pgst.scalef
 
@@ -39,15 +40,27 @@ Rectangle {
     }
 
     Rectangle {
-        height: parent.height * 0.9
-        width: height
-
-        color: '#aaffffff'
+        id: fillBackground
+        color: '#333333'
+        height: parent.height * 0.8
+        width: parent.width * (parent.value - parent.min) / (parent.max - parent.min)
 
         anchors {
             verticalCenter: parent.verticalCenter
-            left: parent.left
-            leftMargin: parent.width * (parent.value - parent.min) / (parent.max - parent.min)
+        }
+    }
+
+    Rectangle {
+        height: parent.height * 0.9
+        width: height
+        radius: width / 2
+
+        color: '#666666'
+
+        anchors {
+            verticalCenter: parent.verticalCenter
+            left: fillBackground.right
+            leftMargin: -(width / 2)
         }
     }
 }

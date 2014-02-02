@@ -70,12 +70,11 @@ SlidePage {
 
             PSlider {
                 width: playerPage.width
-                value: player.playbackRate
-                min: 0.5
-                max: 3.0
+                value: player.position
+                min: 0
+                max: player.duration
                 onValueChangeRequested: {
-                    player.playbackRate = newValue
-                    value = player.playbackRate
+                    player.seekAndSync(newValue);
                 }
             }
         }
