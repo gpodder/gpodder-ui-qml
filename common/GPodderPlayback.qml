@@ -48,6 +48,12 @@ MediaPlayer {
         player.stop();
 
         py.call('main.play_episode', [episode_id], function (episode) {
+            if (episode.video) {
+                player.inhibitPositionEvents = false;
+                Qt.openUrlExternally(episode.source);
+                return;
+            }
+
             // Load media / prepare and start playback
             player.episode = episode_id;
             player.source = episode.source;

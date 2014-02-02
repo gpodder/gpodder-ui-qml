@@ -263,6 +263,7 @@ class gPotherSide:
                 else episode.url,
             'position': episode.current_position,
             'total': episode.total_time,
+            'video': episode.file_type() == 'video',
         }
 
     def report_playback_event(self, episode_id, position_from, position_to, duration):
