@@ -93,6 +93,12 @@ class gPotherSide:
             return ''
         return 'file://' + filename
 
+    def _get_playback_progress(self, episode):
+        if episode.total_time > 0 and episode.current_position > 0:
+            return float(episode.current_position) / float(episode.total_time)
+
+        return 0
+
     def convert_podcast(self, podcast):
         total, deleted, new, downloaded, unplayed = podcast.get_statistics()
 
@@ -118,6 +124,7 @@ class gPotherSide:
             'progress': episode.download_progress(),
             'downloadState': episode.state,
             'isNew': episode.is_new,
+            'playbackProgress': self._get_playback_progress(episode),
         }
 
     def load_episodes(self, id):
@@ -254,7 +261,15 @@ class gPotherSide:
             'source': episode.local_filename(False)
                 if episode.state == gpodder.STATE_DOWNLOADED
                 else episode.url,
+            'position': episode.current_position,
+            'total': episode.total_time,
         }
+
+    def report_playback_event(self, episode_id, position_from, position_to, duration):
+        episode = self._get_episode_by_id(episode_id)
+        print('Played', episode.title, 'from', position_from, 'to', position_to, 'of', duration)
+        episode.report_playback_event(position_from, position_to, duration)
+        pyotherside.send('playback-progress', episode_id, self._get_playback_progress(episode))
 
     def show_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
@@ -287,3 +302,4 @@ delete_episode = gpotherside.delete_episode
 toggle_new = gpotherside.toggle_new
 rename_podcast = gpotherside.rename_podcast
 change_section = gpotherside.change_section
+report_playback_event = gpotherside.report_playback_event

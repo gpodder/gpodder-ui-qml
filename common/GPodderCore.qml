@@ -28,6 +28,7 @@ Python {
     property bool ready: false
     signal downloading(int episode_id)
     signal downloadProgress(int episode_id, real progress)
+    signal playbackProgress(int episode_id, real progress)
     signal downloaded(int episode_id)
     signal deleted(int episode_id)
     signal isNewChanged(int episode_id, bool is_new)
@@ -41,6 +42,7 @@ Python {
 
         setHandler('downloading', py.downloading);
         setHandler('download-progress', py.downloadProgress);
+        setHandler('playback-progress', py.playbackProgress);
         setHandler('downloaded', py.downloaded);
         setHandler('deleted', py.deleted);
         setHandler('is-new-changed', py.isNewChanged);
