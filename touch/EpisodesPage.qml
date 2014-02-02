@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2013, 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 
+import 'common'
 import 'common/util.js' as Util
 
 SlidePage {
@@ -33,11 +34,7 @@ SlidePage {
     width: parent.width
     height: parent.height
 
-    Component.onCompleted: {
-        py.call('main.load_episodes', [podcast_id], function (episodes) {
-            Util.updateModelFrom(episodeListModel, episodes);
-        });
-    }
+    Component.onCompleted: episodeListModel.loadEpisodes(podcast_id);
 
     PullMenu {
         PullMenuItem {
@@ -60,7 +57,7 @@ SlidePage {
     PListView {
         id: episodeList
         title: episodesPage.title
-        model: ListModel { id: episodeListModel }
+        model: GPodderEpisodeListModel { id: episodeListModel }
 
         delegate: EpisodeItem {
             onClicked: pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
