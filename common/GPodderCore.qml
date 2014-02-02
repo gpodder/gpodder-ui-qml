@@ -33,6 +33,9 @@ Python {
     signal deleted(int episode_id)
     signal isNewChanged(int episode_id, bool is_new)
     signal stateChanged(int episode_id, int state)
+    signal podcastListChanged()
+    signal updatingPodcast(int podcast_id)
+    signal updatedPodcast(var podcast)
 
     Component.onCompleted: {
         setHandler('hello', function (version, copyright) {
@@ -47,6 +50,9 @@ Python {
         setHandler('deleted', py.deleted);
         setHandler('is-new-changed', py.isNewChanged);
         setHandler('state-changed', py.stateChanged);
+        setHandler('podcast-list-changed', py.podcastListChanged);
+        setHandler('updating-podcast', py.updatingPodcast);
+        setHandler('updated-podcast', py.updatedPodcast);
 
         var path = Qt.resolvedUrl('../..').substr('file://'.length);
         addImportPath(path);
