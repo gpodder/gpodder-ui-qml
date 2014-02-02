@@ -20,10 +20,11 @@
 
 import QtQuick 2.0
 
-import 'constants.js' as Constants
+import 'common/constants.js' as Constants
 
 ButtonArea {
     id: podcastItem
+    property bool isPlaying: ((player.episode == id) && player.isPlaying)
 
     Rectangle {
         anchors {
@@ -31,9 +32,22 @@ ButtonArea {
             bottom: parent.bottom
             left: parent.left
         }
+
         width: parent.width * progress
         color: Constants.colors.download
         opacity: .4
+    }
+
+    Rectangle {
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
+
+        width: parent.width * playbackProgress
+        color: Constants.colors.playback
+        opacity: isPlaying ? .6 : .2
     }
 
     transparent: true
