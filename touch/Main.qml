@@ -27,6 +27,8 @@ Item {
     GPodderCore { id: py }
     GPodderPlayback { id: player }
 
+    GPodderPodcastListModel { id: podcastListModel }
+
     property real scalef: width / 480
 
     anchors.fill: parent

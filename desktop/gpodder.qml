@@ -13,12 +13,6 @@ ApplicationWindow {
 
     GPodderCore {
         id: py
-
-        onReadyChanged: {
-            if (ready) {
-                podcastListModel.reload();
-            }
-        }
     }
 
     menuBar: MenuBar {

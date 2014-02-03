@@ -51,8 +51,14 @@ def run_in_background_thread(f):
 
 class gPotherSide:
     def __init__(self):
-        self.core = core.Core()
+        self.core = None
         self._checking_for_new_episodes = False
+
+    def initialize(self, progname):
+        assert self.core is None, 'Already initialized'
+
+        self.core = core.Core(progname=progname)
+        pyotherside.send('podcast-list-changed')
 
     def atexit(self):
         self.core.shutdown()
@@ -288,6 +294,7 @@ pyotherside.atexit(gpotherside.atexit)
 pyotherside.send('hello', gpodder.__version__, gpodder.__copyright__)
 
 # Exposed API Endpoints for calls from QML
+initialize = gpotherside.initialize
 load_podcasts = gpotherside.load_podcasts
 load_episodes = gpotherside.load_episodes
 show_episode = gpotherside.show_episode

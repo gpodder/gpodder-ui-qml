@@ -27,8 +27,6 @@ SlidePage {
     id: podcastsPage
     hasPull: true
 
-    Component.onCompleted: podcastListModel.reload();
-
     PullMenu {
         PullMenuItem {
             source: 'images/play.png'
@@ -62,7 +60,7 @@ SlidePage {
         section.property: 'section'
         section.delegate: SectionHeader { text: section }
 
-        model: GPodderPodcastListModel { id: podcastListModel }
+        model: podcastListModel
 
         delegate: PodcastItem {
             onClicked: pgst.loadPage('EpisodesPage.qml', {'podcast_id': id, 'title': title});

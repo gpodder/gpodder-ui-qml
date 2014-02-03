@@ -25,6 +25,7 @@ import io.thp.pyotherside 1.0
 Python {
     id: py
 
+    property string progname: 'gpodder'
     property bool ready: false
     signal downloading(int episode_id)
     signal downloadProgress(int episode_id, real progress)
@@ -59,7 +60,9 @@ Python {
 
         // Load the Python side of things
         importModule('main', function() {
-            py.ready = true;
+            py.call('main.initialize', [py.progname], function() {
+                py.ready = true;
+            });
         });
     }
 
