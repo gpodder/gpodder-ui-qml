@@ -204,8 +204,8 @@ SlidePage {
             StartPageButton {
                 id: recommendationsPane
 
-                title: 'Recommendations'
-                onClicked: pgst.loadPage('Settings.qml');
+                title: 'gpodder.net'
+                onClicked: pgst.loadPage('Directory.qml');
 
                 Row {
                     anchors {
