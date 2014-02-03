@@ -110,21 +110,8 @@ SlidePage {
             StartPageButton {
                 id: freshEpisodesPage
 
-                title: 'Fresh episodes'
+                title: py.refreshing ? 'Refreshing feeds' : 'Fresh episodes'
                 onClicked: pgst.loadPage('FreshEpisodes.qml');
-
-                Component.onCompleted: {
-                    py.setHandler('refreshing', function (is_refreshing) {
-                        refresherButtonArea.visible = !is_refreshing;
-                        if (!is_refreshing) {
-                            freshEpisodesPage.title = 'Fresh episodes';
-                        }
-                    });
-
-                    py.setHandler('refresh-progress', function (pos, total) {
-                        freshEpisodesPage.title = 'Refreshing feeds (' + pos + '/' + total + ')';
-                    });
-                }
 
                 Row {
                     anchors.bottom: parent.bottom
@@ -157,6 +144,7 @@ SlidePage {
 
                 ButtonArea {
                     id: refresherButtonArea
+                    visible: !py.refreshing
 
                     anchors {
                         bottom: parent.bottom

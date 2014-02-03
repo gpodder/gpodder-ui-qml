@@ -27,6 +27,7 @@ Python {
 
     property string progname: 'gpodder'
     property bool ready: false
+    property bool refreshing: false
     signal downloading(int episode_id)
     signal downloadProgress(int episode_id, real progress)
     signal playbackProgress(int episode_id, real progress)
@@ -54,6 +55,7 @@ Python {
         setHandler('podcast-list-changed', py.podcastListChanged);
         setHandler('updating-podcast', py.updatingPodcast);
         setHandler('updated-podcast', py.updatedPodcast);
+        setHandler('refreshing', function(v) { py.refreshing = v; });
 
         var path = Qt.resolvedUrl('../..').substr('file://'.length);
         addImportPath(path);
