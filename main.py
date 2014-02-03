@@ -118,10 +118,13 @@ class gPotherSide:
             'section': podcast.section,
         }
 
+    def _get_podcasts_sorted(self):
+        return sorted(self.core.model.get_podcasts(),
+                key=lambda podcast: (podcast.section, podcast.title))
+
     def load_podcasts(self):
-        podcasts = self.core.model.get_podcasts()
-        return [self.convert_podcast(podcast) for podcast in sorted(podcasts,
-            key=lambda podcast: (podcast.section, podcast.title))]
+        podcasts = self._get_podcasts_sorted()
+        return [self.convert_podcast(podcast) for podcast in podcasts]
 
     def convert_episode(self, episode):
         return {
@@ -242,7 +245,7 @@ class gPotherSide:
 
         self._checking_for_new_episodes = True
         pyotherside.send('refreshing', True)
-        podcasts = self.core.model.get_podcasts()
+        podcasts = self._get_podcasts_sorted()
         for index, podcast in enumerate(podcasts):
             pyotherside.send('refresh-progress', index, len(podcasts))
             pyotherside.send('updating-podcast', podcast.id)
