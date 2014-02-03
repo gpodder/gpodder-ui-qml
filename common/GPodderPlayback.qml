@@ -25,6 +25,8 @@ MediaPlayer {
     id: player
 
     property int episode: 0
+    signal playerCreated()
+
     property var queue: ([])
     property bool isPlaying: playbackState == MediaPlayer.PlayingState
 
@@ -55,10 +57,16 @@ MediaPlayer {
             }
 
             // Load media / prepare and start playback
+            var old_episode = player.episode;
             player.episode = episode_id;
             player.source = episode.source;
             player.seekTargetSeconds = episode.position;
             seekAfterPlay = true;
+
+            // Notify interested parties that the player is now active
+            if (old_episode == 0) {
+                player.playerCreated();
+            }
 
             player.play();
         });
