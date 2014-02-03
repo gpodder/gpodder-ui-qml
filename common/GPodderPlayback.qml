@@ -25,6 +25,8 @@ MediaPlayer {
     id: player
 
     property int episode: 0
+    property string episode_title: ''
+    property string podcast_title: ''
     signal playerCreated()
 
     property var queue: ([])
@@ -59,6 +61,8 @@ MediaPlayer {
             // Load media / prepare and start playback
             var old_episode = player.episode;
             player.episode = episode_id;
+            player.episode_title = episode.title;
+            player.podcast_title = episode.podcast_title;
             player.source = episode.source;
             player.seekTargetSeconds = episode.position;
             seekAfterPlay = true;

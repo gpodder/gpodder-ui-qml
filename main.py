@@ -267,6 +267,8 @@ class gPotherSide:
         self.core.save()
         pyotherside.send('is-new-changed', episode_id, episode.is_new)
         return {
+            'title': episode.title,
+            'podcast_title': episode.parent.title,
             'source': episode.local_filename(False)
                 if episode.state == gpodder.STATE_DOWNLOADED
                 else episode.url,
