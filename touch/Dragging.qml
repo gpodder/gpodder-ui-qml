@@ -39,13 +39,16 @@ MouseArea {
     }
 
     onPressedChanged: {
+        if (pgst.loadPageInProgress) {
+            return;
+        }
+
         if (pressed) {
             dragging.stacking.stopAllAnimations();
         } else {
             if (hasPull && parent.x < -parent.width / 4 + 10) {
                 pulled();
                 parent.x = -parent.width / 4;
-                //dragging.stacking.fadeInAgain();
             } else if (parent.x > parent.width / 3) {
                 dragging.stacking.startFadeOut();
             } else {

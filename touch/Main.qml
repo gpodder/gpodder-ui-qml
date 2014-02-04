@@ -45,17 +45,26 @@ Item {
         children[index-1].opacity = x / width;
     }
 
+    property bool loadPageInProgress: false
+
     function loadPage(filename, properties) {
+        if (pgst.loadPageInProgress) {
+            console.log('ignoring loadPage request while load in progress');
+            return;
+        }
+
         var component = Qt.createComponent(filename);
         if (component.status != Component.Ready) {
             console.log('Error loading ' + filename + ':' +
                 component.errorString());
         }
+
         if (properties === undefined) {
-            component.createObject(pgst);
-        } else {
-            component.createObject(pgst, properties);
+            properties = {};
         }
+
+        pgst.loadPageInProgress = true;
+        component.createObject(pgst, properties);
     }
 
     PBusyIndicator {

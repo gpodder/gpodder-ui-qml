@@ -31,6 +31,10 @@ Item {
         to: 0
         duration: 500
         easing.type: Easing.OutCubic
+
+        onStopped: {
+            pgst.loadPageInProgress = false;
+        }
     }
 
     PropertyAnimation {
