@@ -21,6 +21,8 @@
 import QtQuick 2.0
 
 ButtonArea {
+    id: iconMenuItem
+
     property alias text: label.text
     property alias iconSource: icon.source
 
@@ -31,6 +33,7 @@ ButtonArea {
     Image {
         id: icon
         anchors.centerIn: parent
+        opacity: iconMenuItem.enabled ? 1 : .2
     }
 
     PLabel {

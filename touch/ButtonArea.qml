@@ -20,19 +20,13 @@
 
 import QtQuick 2.0
 
-Rectangle {
-    id: buttonArea
-
-    signal clicked
-
-    property alias pressed: mouseArea.pressed
+MouseArea {
+    id: mouseArea
     property bool transparent: false
-    color: pressed?'#33ffffff':(transparent?'#00000000':'#88000000')
 
-    MouseArea {
-        id: mouseArea
+    Rectangle {
         anchors.fill: parent
-        onClicked: buttonArea.clicked();
+        color: mouseArea.pressed?'#33ffffff':(mouseArea.transparent?'#00000000':'#88000000')
+        visible: parent.enabled
     }
 }
-
