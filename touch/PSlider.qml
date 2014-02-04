@@ -27,6 +27,9 @@ Rectangle {
     property real min: 0.0
     property real max: 1.0
 
+    property real displayedValue: mouseArea.pressed ? temporaryValue : value
+    property real temporaryValue
+
     signal valueChangeRequested(real newValue)
 
     clip: true
@@ -35,15 +38,23 @@ Rectangle {
     height: 50 * pgst.scalef
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         onClicked: slider.valueChangeRequested(min + (max - min) * (mouse.x / width))
+        onPressed: {
+            slider.temporaryValue = (min + (max - min) * (mouse.x / width));
+        }
+        onPositionChanged: {
+            slider.temporaryValue = (min + (max - min) * (mouse.x / width));
+        }
+        preventStealing: true
     }
 
     Rectangle {
         id: fillBackground
         color: '#333333'
         height: parent.height * 0.8
-        width: parent.width * (parent.value - parent.min) / (parent.max - parent.min)
+        width: parent.width * (parent.displayedValue - parent.min) / (parent.max - parent.min)
 
         anchors {
             verticalCenter: parent.verticalCenter
