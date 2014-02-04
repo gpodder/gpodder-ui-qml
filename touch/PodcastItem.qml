@@ -31,7 +31,7 @@ ButtonArea {
         right: parent.right
     }
 
-    Image {
+    CoverArt {
         id: cover
         visible: !updating
 
@@ -41,13 +41,11 @@ ButtonArea {
             verticalCenter: parent.verticalCenter
         }
 
-        sourceSize.width: width
-        sourceSize.height: height
-
         width: 80 * pgst.scalef
         height: 80 * pgst.scalef
 
         source: coverart
+        text: title
     }
 
     PBusyIndicator {
