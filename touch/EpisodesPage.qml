@@ -38,7 +38,7 @@ SlidePage {
 
     PullMenu {
         PullMenuItem {
-            source: 'images/play.png'
+            source: 'icons/play_24x32.png'
             onClicked: {
                 pgst.loadPage('PlayerPage.qml');
                 episodesPage.unPull();
@@ -46,7 +46,7 @@ SlidePage {
         }
 
         PullMenuItem {
-            source: 'images/delete.png'
+            source: 'icons/trash_stroke_32x32.png'
             onClicked: {
                 py.call('main.unsubscribe', [episodesPage.podcast_id]);
                 episodesPage.closePage();
@@ -56,12 +56,11 @@ SlidePage {
 
     PListView {
         id: episodeList
+        property int selectedIndex: -1
         title: episodesPage.title
         model: GPodderEpisodeListModel { id: episodeListModel }
 
-        delegate: EpisodeItem {
-            onClicked: pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
-        }
+        delegate: EpisodeItem { }
     }
 }
 

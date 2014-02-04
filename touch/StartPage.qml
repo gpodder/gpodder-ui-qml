@@ -96,7 +96,7 @@ SlidePage {
 
                     Image {
                         id: subscriptions
-                        source: 'images/subscriptions.png'
+                        source: 'icons/plus_32x32.png'
 
                         anchors {
                             bottom: parent.bottom
@@ -158,7 +158,7 @@ SlidePage {
 
                     Image {
                         id: refresher
-                        source: 'images/search.png'
+                        source: 'icons/reload_24x28.png'
 
                         anchors {
                             bottom: parent.bottom

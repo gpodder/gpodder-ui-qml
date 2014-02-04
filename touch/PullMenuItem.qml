@@ -20,19 +20,17 @@
 
 import QtQuick 2.0
 
-Image {
+ButtonArea {
     id: pullMenuItem
-
-    signal clicked
+    property alias source: img.source
 
     width: 72 * pgst.scalef
     height: 72 * pgst.scalef
 
-    anchors.horizontalCenter: parent.horizontalCenter
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: pullMenuItem.clicked();
+    Image {
+        id: img
+        anchors.centerIn: parent
     }
-}
 
+    anchors.horizontalCenter: parent.horizontalCenter
+}

@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2013, 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,19 +20,28 @@
 
 import QtQuick 2.0
 
-Rectangle {
-    id: buttonArea
+ButtonArea {
+    property alias text: label.text
+    property alias iconSource: icon.source
 
-    signal clicked
+    transparent: true
+    height: 80 * pgst.scalef
+    width: height
 
-    property alias pressed: mouseArea.pressed
-    property bool transparent: false
-    color: pressed?'#33ffffff':(transparent?'#00000000':'#88000000')
+    Image {
+        id: icon
+        anchors.centerIn: parent
+    }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: buttonArea.clicked();
+    PLabel {
+        id: label
+        font.pixelSize: 15 * pgst.scalef
+        visible: parent.pressed
+
+        anchors {
+            bottom: icon.top
+            horizontalCenter: icon.horizontalCenter
+            margins: 5 * pgst.scalef
+        }
     }
 }
-

@@ -21,18 +21,13 @@
 import QtQuick 2.0
 
 Rectangle {
-    id: buttonArea
+    id: contextMenu
+    default property alias children: contextMenuRow.children
 
-    signal clicked
+    color: '#33000000'
 
-    property alias pressed: mouseArea.pressed
-    property bool transparent: false
-    color: pressed?'#33ffffff':(transparent?'#00000000':'#88000000')
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: buttonArea.clicked();
+    Row {
+        id: contextMenuRow
+        anchors.centerIn: parent
     }
 }
-

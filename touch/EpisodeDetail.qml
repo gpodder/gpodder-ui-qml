@@ -52,17 +52,6 @@ SlidePage {
                 title: detailPage.title
             }
 
-            ButtonArea {
-                width: detailPage.width
-                height: 100 * pgst.scalef
-                onClicked: player.playbackEpisode(detailPage.episode_id)
-
-                PLabel {
-                    anchors.centerIn: parent
-                    text: 'Play'
-                }
-            }
-
             PLabel {
                 id: label
                 width: parent.width * .8

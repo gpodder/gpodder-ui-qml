@@ -29,7 +29,7 @@ SlidePage {
 
     PullMenu {
         PullMenuItem {
-            source: 'images/play.png'
+            source: 'icons/play_24x32.png'
             onClicked: {
                 pgst.loadPage('PlayerPage.qml');
                 podcastsPage.unPull();
@@ -37,7 +37,7 @@ SlidePage {
         }
 
         PullMenuItem {
-            source: 'images/search.png'
+            source: 'icons/reload_24x28.png'
             onClicked: {
                 podcastsPage.unPull();
                 py.call('main.check_for_episodes');
@@ -45,7 +45,7 @@ SlidePage {
         }
 
         PullMenuItem {
-            source: 'images/subscriptions.png'
+            source: 'icons/plus_32x32.png'
             onClicked: {
                 pgst.loadPage('Subscribe.qml');
                 podcastsPage.unPull();
