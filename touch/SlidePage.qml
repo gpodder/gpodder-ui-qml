@@ -20,8 +20,6 @@
 
 import QtQuick 2.0
 
-import 'constants.js' as Constants
-
 Rectangle {
     id: page
     color: '#88000000'

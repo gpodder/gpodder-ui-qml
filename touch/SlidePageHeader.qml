@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 
-import 'constants.js' as Constants
+import 'common/constants.js' as Constants
 
 Item {
     id: slidePageHeader
