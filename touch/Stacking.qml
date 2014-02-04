@@ -60,8 +60,10 @@ Item {
     }
 
     Component.onCompleted: {
-        page.x = page.width;
-        fadeIn.start();
+        if (pgst.loadPageInProgress) {
+            page.x = page.width;
+            fadeIn.start();
+        }
     }
 }
 
