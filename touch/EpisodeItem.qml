@@ -47,7 +47,7 @@ Item {
             width: parent.width
 
             IconMenuItem {
-                text: 'Play'
+                text: episodeItem.isPlaying ? 'Pause' : 'Play'
                 iconSource: 'icons/' + (episodeItem.isPlaying ? 'pause_24x32.png' : 'play_24x32.png')
                 onClicked: {
                     if (episodeItem.isPlaying) {

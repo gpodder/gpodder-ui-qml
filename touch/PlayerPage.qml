@@ -20,18 +20,10 @@
 
 import QtQuick 2.0
 
-import 'constants.js' as Constants
+import 'common/util.js' as Util
 
 SlidePage {
     id: playerPage
-
-    property string episodeTitle
-
-    Component.onCompleted: {
-        py.call('main.show_episode', [player.episode], function (episode) {
-            playerPage.episodeTitle = episode.title;
-        });
-    }
 
     Flickable {
         id: flickable
@@ -50,25 +42,47 @@ SlidePage {
                 title: 'Now playing'
             }
 
-            ButtonRow {
-                width: playerPage.width
-                model: [
-                    { label: 'Play', clicked: function() {
-                        player.play();
-                    }},
-                    { label: 'Pause', clicked: function() {
-                        player.pause();
-                    }},
-                    { label: 'Details', clicked: function() {
-                        pgst.loadPage('EpisodeDetail.qml', {
-                            episode_id: player.episode,
-                            title: playerPage.episodeTitle
-                        });
-                    }}
-                ]
+            Column {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: 30 * pgst.scalef
+                }
+
+                PLabel {
+                    text: player.episode_title
+                    elide: Text.ElideRight
+                }
+
+                PLabel {
+                    text: player.podcast_title
+                    elide: Text.ElideRight
+                }
+            }
+
+            IconContextMenu {
+                width: parent.width
+
+                IconMenuItem {
+                    text: player.isPlaying ? 'Pause' : 'Play'
+                    iconSource: 'icons/' + (player.isPlaying ? 'pause_24x32.png' : 'play_24x32.png')
+                    onClicked: {
+                        if (player.isPlaying) {
+                            player.pause();
+                        } else {
+                            player.play();
+                        }
+                    }
+                }
+            }
+
+            PLabel {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: Util.formatPosition(slider.displayedValue/1000, player.duration/1000)
             }
 
             PSlider {
+                id: slider
                 width: playerPage.width
                 value: player.position
                 min: 0
