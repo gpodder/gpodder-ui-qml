@@ -74,6 +74,30 @@ SlidePage {
                         }
                     }
                 }
+
+                IconMenuItem {
+                    text: '-1m'
+                    iconSource: 'icons/first_32x32.png'
+                    onClicked: player.seekAndSync(player.position - 60 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '-10s'
+                    iconSource: 'icons/arrow_left_32x32.png'
+                    onClicked: player.seekAndSync(player.position - 10 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '+10s'
+                    iconSource: 'icons/arrow_right_32x32.png'
+                    onClicked: player.seekAndSync(player.position + 10 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '+1m'
+                    iconSource: 'icons/last_32x32.png'
+                    onClicked: player.seekAndSync(player.position + 60 * 1000);
+                }
             }
 
             PLabel {
