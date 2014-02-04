@@ -196,7 +196,6 @@ class gPotherSide:
         self.core.save()
         pyotherside.send('podcast-list-changed')
 
-    @run_in_background_thread
     def unsubscribe(self, podcast_id):
         podcast = self._get_podcast_by_id(podcast_id)
         podcast.unsubscribe()
@@ -220,14 +219,13 @@ class gPotherSide:
         self.core.save()
         pyotherside.send('update-stats')
 
-    @run_in_background_thread
     def delete_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         episode.delete()
+        self.core.save()
         pyotherside.send('deleted', episode_id)
         pyotherside.send('update-stats')
 
-    @run_in_background_thread
     def toggle_new(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         episode.is_new = not episode.is_new
