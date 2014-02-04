@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'common/util.js' as Util
 
 Item {
     id: episodeItem
@@ -75,9 +76,10 @@ Item {
             }
 
             IconMenuItem {
+                id: toggleNew
                 text: 'Toggle New'
                 iconSource: 'icons/star_32x32.png'
-                onClicked: py.call('main.toggle_new', [id]);
+                onClicked: Util.disableUntilReturn(toggleNew, py, 'main.toggle_new', [id]);
             }
 
             IconMenuItem {

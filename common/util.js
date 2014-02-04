@@ -61,3 +61,11 @@ function formatDuration(duration) {
 function formatPosition(position,duration) {
   return formatDuration(position) + " / " + formatDuration(duration)
 }
+
+// Call a Python function and disable item until the function returns
+function disableUntilReturn(item, py, func, args) {
+    item.enabled = false;
+    py.call(func, args, function() {
+        item.enabled = true;
+    });
+}
