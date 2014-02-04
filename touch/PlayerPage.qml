@@ -117,4 +117,6 @@ SlidePage {
             }
         }
     }
+
+    PScrollDecorator { flickable: flickable }
 }

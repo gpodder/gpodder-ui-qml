@@ -43,6 +43,8 @@ SlidePage {
     }
 
     Flickable {
+        id: flickable
+
         Connections {
             target: py
             onReadyChanged: {
@@ -235,5 +237,7 @@ SlidePage {
             }
         }
     }
+
+    PScrollDecorator { flickable: flickable }
 }
 

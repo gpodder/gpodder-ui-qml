@@ -59,5 +59,7 @@ SlidePage {
             }
         }
     }
+
+    PScrollDecorator { flickable: flickable }
 }
 

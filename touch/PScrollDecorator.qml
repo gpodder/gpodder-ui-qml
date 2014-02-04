@@ -20,15 +20,15 @@
 
 import QtQuick 2.0
 
-ListView {
-    id: pListView
+Rectangle {
+    property var flickable
 
-    anchors.fill: parent
-
-    property string title
-
-    header: SlidePageHeader { title: pListView.title }
-
-    PScrollDecorator { flickable: pListView }
+    x: flickable.width - width
+    y: flickable.visibleArea.yPosition * flickable.height
+    width: 5 * pgst.scalef
+    height: flickable.visibleArea.heightRatio * flickable.height
+    visible: flickable.visibleArea.heightRatio < 1
+    color: '#ffffff'
+    opacity: flickable.moving ? .2 : 0
+    Behavior on opacity { PropertyAnimation { duration: 100 } }
 }
-
