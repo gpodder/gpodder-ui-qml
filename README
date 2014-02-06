@@ -3,16 +3,17 @@ gPodder 4 QML UI Reference Implementation
 
 Nothing (much) to see here (yet), move along.
 
-Usage: qmlscene index.qml
+Usage:
+
+    qmlscene desktop/index.qml
+    qmlscene touch/index.qml
 
 Dependencies:
 
 Package        Min.Version   URL
 ------------------------------------------------------------
-Qt             5.0.2         http://qt-project.org/
-Qt Multimedia  5.0.2         http://qt-project.org/
-Python         3.3.0         http://python.org/
-PyOtherSide    1.0.0         http://thp.io/2011/pyotherside/
-gPodder        4.0.0         http://gpodder.org/
-
-On the Desktop: Qt Quick Controls 5.1
+Qt             5.1.0         http://qt-project.org/
+Qt Multimedia  5.1.0         http://qt-project.org/
+Python         3.2.0         http://python.org/
+PyOtherSide    1.1.0         http://thp.io/2011/pyotherside/
+gPodder Core   4.0.0         http://gpodder.org/
