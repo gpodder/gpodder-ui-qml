@@ -150,7 +150,7 @@ Item {
 
             anchors {
                 left: parent.left
-                right: parent.right
+                right: downloadedIcon.visible ? downloadedIcon.left : parent.right
                 verticalCenter: parent.verticalCenter
                 margins: 30 * pgst.scalef
             }
@@ -163,7 +163,7 @@ Item {
                     return Constants.colors.playback;
                 } else if (progress > 0) {
                     return Constants.colors.download;
-                } else if (isNew) {
+                } else if (isNew && downloadState != Constants.state.downloaded) {
                     return Constants.colors.fresh;
                 } else {
                     return 'white';
@@ -177,6 +177,19 @@ Item {
                     return 1.0;
                 }
             }
+        }
+
+        Image {
+            id: downloadedIcon
+
+            anchors {
+                right: parent.right
+                margins: 30 * pgst.scalef
+                verticalCenter: parent.verticalCenter
+            }
+
+            visible: downloadState == Constants.state.downloaded
+            source: 'icons/cd_32x32.png'
         }
     }
 }
