@@ -26,6 +26,7 @@ Rectangle {
     property real value
     property real min: 0.0
     property real max: 1.0
+    property color fillColor: '#333333'
 
     property real displayedValue: mouseArea.pressed ? temporaryValue : value
     property real temporaryValue
@@ -52,7 +53,7 @@ Rectangle {
 
     Rectangle {
         id: fillBackground
-        color: '#333333'
+        color: slider.fillColor
         height: parent.height * 0.8
         width: parent.width * (parent.displayedValue - parent.min) / (parent.max - parent.min)
 
@@ -66,7 +67,7 @@ Rectangle {
         width: height
         radius: width / 2
 
-        color: '#666666'
+        color: Qt.lighter(slider.fillColor, 1.5)
 
         anchors {
             verticalCenter: parent.verticalCenter

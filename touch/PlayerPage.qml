@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'common/util.js' as Util
+import 'common/constants.js' as Constants
 
 SlidePage {
     id: playerPage
@@ -111,6 +112,7 @@ SlidePage {
                 value: player.position
                 min: 0
                 max: player.duration
+                fillColor: Constants.colors.playback
                 onValueChangeRequested: {
                     player.seekAndSync(newValue);
                 }
