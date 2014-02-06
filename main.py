@@ -15,6 +15,11 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 
+# Version of the QML UI implementation, this is usually the same as the version
+# of gpodder-core, but we might have a different release schedule later on. If
+# we decide to have parallel releases, we can at least start using this version
+# to check if the core version is compatible with the QML UI version.
+__version__ = '4.0.0'
 
 import sys
 import os
@@ -294,9 +299,7 @@ class gPotherSide:
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
 
-pyotherside.send('hello',
-        gpodder.__version__, gpodder.__copyright__,
-        gpodder.__date__, gpodder.__url__)
+pyotherside.send('hello', gpodder.__version__, __version__)
 
 # Exposed API Endpoints for calls from QML
 initialize = gpotherside.initialize

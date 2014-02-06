@@ -40,11 +40,9 @@ Python {
     signal updatedPodcast(var podcast)
 
     Component.onCompleted: {
-        setHandler('hello', function (version, copyright, date, url) {
-            console.log('gPodder ' + version + ' (' + date + ')');
-            console.log(url);
-            console.log(copyright);
-
+        setHandler('hello', function (coreversion, uiversion) {
+            console.log('gPodder Core ' + coreversion);
+            console.log('gPodder QML UI ' + uiversion);
             console.log('PyOtherSide ' + py.pluginVersion());
             console.log('Python ' + py.pythonVersion());
         });
