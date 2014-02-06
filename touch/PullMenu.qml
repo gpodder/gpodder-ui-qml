@@ -20,16 +20,21 @@
 
 import QtQuick 2.0
 
-Column {
+MouseArea {
     id: pullMenu
+    default property alias items: pullMenuColumn.children
 
     width: parent.width / 4
     height: parent.height
     anchors.top: parent.top
     anchors.left: parent.right
 
-    Item { width: 1; height: 1 }
+    Column {
+        id: pullMenuColumn
 
-    spacing: (width - 72 * pgst.scalef) / 2
+        anchors.fill: parent
+        spacing: (width - 72 * pgst.scalef) / 2
+
+        Item { width: 1; height: 1 }
+    }
 }
-
