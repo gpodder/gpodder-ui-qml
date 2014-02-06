@@ -294,7 +294,9 @@ class gPotherSide:
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
 
-pyotherside.send('hello', gpodder.__version__, gpodder.__copyright__)
+pyotherside.send('hello',
+        gpodder.__version__, gpodder.__copyright__,
+        gpodder.__date__, gpodder.__url__)
 
 # Exposed API Endpoints for calls from QML
 initialize = gpotherside.initialize

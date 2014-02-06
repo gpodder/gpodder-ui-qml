@@ -40,9 +40,13 @@ Python {
     signal updatedPodcast(var podcast)
 
     Component.onCompleted: {
-        setHandler('hello', function (version, copyright) {
-            console.log('gPodder version ' + version + ' starting up');
-            console.log('Copyright: ' + copyright);
+        setHandler('hello', function (version, copyright, date, url) {
+            console.log('gPodder ' + version + ' (' + date + ')');
+            console.log(url);
+            console.log(copyright);
+
+            console.log('PyOtherSide ' + py.pluginVersion());
+            console.log('Python ' + py.pythonVersion());
         });
 
         setHandler('downloading', py.downloading);
@@ -57,8 +61,7 @@ Python {
         setHandler('updated-podcast', py.updatedPodcast);
         setHandler('refreshing', function(v) { py.refreshing = v; });
 
-        var path = Qt.resolvedUrl('../..').substr('file://'.length);
-        addImportPath(path);
+        addImportPath(Qt.resolvedUrl('../..'));
 
         // Load the Python side of things
         importModule('main', function() {
