@@ -93,8 +93,13 @@ Item {
     ButtonArea {
         id: episodeItemArea
 
+        opacity: canHighlight ? 1 : 0.2
+        canHighlight: (episodeList.selectedIndex == index) || (episodeList.selectedIndex == -1)
+
         onClicked: {
             if (episodeList.selectedIndex == index) {
+                episodeList.selectedIndex = -1;
+            } else if (episodeList.selectedIndex != -1) {
                 episodeList.selectedIndex = -1;
             } else {
                 episodeList.selectedIndex = index;
@@ -151,13 +156,23 @@ Item {
             elide: Text.ElideRight
             text: title
 
-            color: isNew ? Constants.colors.fresh : 'white'
+            color: {
+                if (episodeItem.isPlaying) {
+                    return Constants.colors.playback;
+                } else if (progress > 0) {
+                    return Constants.colors.download;
+                } else if (isNew) {
+                    return Constants.colors.fresh;
+                } else {
+                    return 'white';
+                }
+            }
 
             opacity: {
-                switch (downloadState) {
-                    case Constants.state.normal: return 0.8;
-                    case Constants.state.downloaded: return 1;
-                    case Constants.state.deleted: return 0.3;
+                if (downloadState == Constants.state.deleted && !isNew && progress <= 0) {
+                    return 0.3;
+                } else {
+                    return 1.0;
                 }
             }
         }

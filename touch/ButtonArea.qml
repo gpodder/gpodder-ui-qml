@@ -23,10 +23,11 @@ import QtQuick 2.0
 MouseArea {
     id: mouseArea
     property bool transparent: false
+    property bool canHighlight: true
 
     Rectangle {
         anchors.fill: parent
-        color: mouseArea.pressed?'#33ffffff':(mouseArea.transparent?'#00000000':'#88000000')
+        color: (mouseArea.pressed && mouseArea.canHighlight)?'#33ffffff':(mouseArea.transparent?'#00000000':'#88000000')
         visible: parent.enabled
     }
 }
