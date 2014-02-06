@@ -108,7 +108,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: '#ffffff'
+            color: titleLabel.color
             visible: (progress > 0) || isPlaying
             opacity: 0.1
         }
@@ -146,6 +146,8 @@ Item {
         }
 
         PLabel {
+            id: titleLabel
+
             anchors {
                 left: parent.left
                 right: parent.right
