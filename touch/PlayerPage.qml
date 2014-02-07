@@ -54,11 +54,19 @@ SlidePage {
                 }
 
                 PLabel {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
                     text: player.episode_title
                     elide: Text.ElideRight
                 }
 
                 PLabel {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
                     text: player.podcast_title
                     elide: Text.ElideRight
                 }
