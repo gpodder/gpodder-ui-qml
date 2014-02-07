@@ -75,7 +75,12 @@ Item {
                 color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.destructive
                 icon: Icons.trash
                 visible: downloadState != Constants.state.deleted
-                onClicked: py.call('main.delete_episode', [id]);
+                onClicked: {
+                    var ctx = { py: py, id: id };
+                    pgst.showConfirmation('Delete episode', Icons.trash, function () {
+                        ctx.py.call('main.delete_episode', [ctx.id]);
+                    });
+                }
             }
 
             IconMenuItem {

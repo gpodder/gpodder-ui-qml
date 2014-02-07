@@ -48,6 +48,14 @@ Item {
 
     property bool loadPageInProgress: false
 
+    function showConfirmation(title, icon, callback) {
+        loadPage('Confirmation.qml', {
+            title: title,
+            icon: icon,
+            callback: callback,
+        });
+    }
+
     function loadPage(filename, properties) {
         if (pgst.loadPageInProgress) {
             console.log('ignoring loadPage request while load in progress');

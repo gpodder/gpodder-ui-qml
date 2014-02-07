@@ -54,8 +54,13 @@ SlidePage {
             icon: Icons.trash
             color: Constants.colors.destructive
             onClicked: {
-                py.call('main.unsubscribe', [episodesPage.podcast_id]);
-                episodesPage.closePage();
+                episodesPage.unPull();
+
+                var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
+                pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
+                    ctx.py.call('main.unsubscribe', [ctx.id]);
+                    ctx.page.closePage();
+                });
             }
         }
     }
