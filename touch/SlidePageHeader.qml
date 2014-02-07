@@ -52,7 +52,7 @@ Item {
 
         color: 'white'
         horizontalAlignment: Text.AlignRight
-        font.pixelSize: parent.height * .4 * pgst.scalef
+        font.pixelSize: parent.height * .4
         elide: Text.ElideRight
         text: parent.title
     }
