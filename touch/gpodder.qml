@@ -20,21 +20,10 @@
 import QtQuick 2.0
 
 Rectangle {
-    color: '#336688'
+    color: 'white'
 
     width: 480
     height: 800
-
-    Image {
-        anchors.fill: parent
-        source: 'images/mask.png'
-    }
-
-    Image {
-        anchors.fill: parent
-        source: 'images/noise.png'
-        fillMode: Image.Tile
-    }
 
     Main {}
 }

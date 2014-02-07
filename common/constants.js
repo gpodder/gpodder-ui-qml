@@ -27,9 +27,19 @@ var layout = {
 var colors = {
     download: '#8ae234', /* download green */
     select: '#7f5785', /* gpodder dark purple */
-    fresh: '#cf65de', /* gpodder purple */
+    fresh: '#815c86', /* gpodder purple */
     playback: '#729fcf', /* playback blue */
+
+    text: '#333333', /* text color */
+    placeholder: '#666666',
+    highlight: '#433b67',
+    secondaryHighlight: '#605885',
+    background: '#948db3',
+    area: '#cccccc',
+    secondaryBackground: '#d0cce1',
 };
+
+var font = 'Source Sans Pro';
 
 var state = {
     normal: 0,

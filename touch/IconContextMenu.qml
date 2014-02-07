@@ -20,12 +20,10 @@
 
 import QtQuick 2.0
 
-Rectangle {
+Item {
     id: contextMenu
     default property alias children: contextMenuRow.children
     height: 80 * pgst.scalef
-
-    color: '#33000000'
 
     Row {
         id: contextMenuRow

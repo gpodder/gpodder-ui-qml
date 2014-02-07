@@ -20,14 +20,18 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 MouseArea {
     id: mouseArea
     property bool transparent: false
     property bool canHighlight: true
 
     Rectangle {
+        id: background
         anchors.fill: parent
-        color: (mouseArea.pressed && mouseArea.canHighlight)?'#33ffffff':(mouseArea.transparent?'#00000000':'#88000000')
-        visible: parent.enabled
+        color: Constants.colors.area
+        opacity: (mouseArea.pressed && mouseArea.canHighlight) ? 1 : .5
+        visible: parent.enabled && ((mouseArea.canHighlight && mouseArea.pressed) || !mouseArea.transparent)
     }
 }

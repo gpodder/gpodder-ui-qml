@@ -22,6 +22,7 @@ import QtQuick 2.0
 
 import 'common'
 import 'common/util.js' as Util
+import 'icons/icons.js' as Icons
 
 SlidePage {
     id: episodesPage
@@ -38,7 +39,8 @@ SlidePage {
 
     PullMenu {
         PullMenuItem {
-            source: 'icons/play_24x32.png'
+            text: 'Now Playing'
+            icon: Icons.play
             onClicked: {
                 pgst.loadPage('PlayerPage.qml');
                 episodesPage.unPull();
@@ -46,7 +48,8 @@ SlidePage {
         }
 
         PullMenuItem {
-            source: 'icons/trash_stroke_32x32.png'
+            text: 'Unsubscribe'
+            icon: Icons.trash
             onClicked: {
                 py.call('main.unsubscribe', [episodesPage.podcast_id]);
                 episodesPage.closePage();

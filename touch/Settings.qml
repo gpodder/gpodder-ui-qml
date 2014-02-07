@@ -23,10 +23,8 @@ import QtQuick 2.0
 SlidePage {
     SlidePageHeader { title: 'Settings' }
 
-    Text {
+    PLabel {
         anchors.centerIn: parent
-        color: 'white'
-        font.pixelSize: 50 * pgst.scalef
         text: 'TODO'
     }
 }

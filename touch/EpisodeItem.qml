@@ -22,6 +22,7 @@ import QtQuick 2.0
 
 import 'common/constants.js' as Constants
 import 'common/util.js' as Util
+import 'icons/icons.js' as Icons
 
 Item {
     id: episodeItem
@@ -32,7 +33,7 @@ Item {
     height: (opened ? 160 : 80) * pgst.scalef
     Behavior on height { PropertyAnimation { duration: 100 } }
 
-    Rectangle {
+    Item {
         clip: true
         anchors {
             left: parent.left
@@ -40,7 +41,6 @@ Item {
             bottom: parent.bottom
         }
         height: parent.height - 80 * pgst.scalef
-        color: '#66000000'
 
         IconContextMenu {
             height: parent.height
@@ -48,7 +48,8 @@ Item {
 
             IconMenuItem {
                 text: episodeItem.isPlaying ? 'Pause' : 'Play'
-                iconSource: 'icons/' + (episodeItem.isPlaying ? 'pause_24x32.png' : 'play_24x32.png')
+                color: titleLabel.color
+                icon: episodeItem.isPlaying ? Icons.pause : Icons.play
                 onClicked: {
                     if (episodeItem.isPlaying) {
                         player.pause();
@@ -60,7 +61,8 @@ Item {
 
             IconMenuItem {
                 text: 'Download'
-                iconSource: 'icons/cloud_download_32x32.png'
+                color: titleLabel.color
+                icon: Icons.cloud_download
                 visible: downloadState != Constants.state.downloaded
                 onClicked: {
                     episodeList.selectedIndex = -1;
@@ -70,21 +72,24 @@ Item {
 
             IconMenuItem {
                 text: 'Delete'
-                iconSource: 'icons/trash_stroke_32x32.png'
+                color: titleLabel.color
+                icon: Icons.trash
                 visible: downloadState != Constants.state.deleted
                 onClicked: py.call('main.delete_episode', [id]);
             }
 
             IconMenuItem {
                 id: toggleNew
+                color: titleLabel.color
                 text: 'Toggle New'
-                iconSource: 'icons/star_32x32.png'
+                icon: Icons.star
                 onClicked: Util.disableUntilReturn(toggleNew, py, 'main.toggle_new', [id]);
             }
 
             IconMenuItem {
                 text: 'Shownotes'
-                iconSource: 'icons/document_alt_stroke_24x32.png'
+                color: titleLabel.color
+                icon: Icons.article
                 onClicked: pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
             }
         }
@@ -93,8 +98,8 @@ Item {
     ButtonArea {
         id: episodeItemArea
 
-        opacity: canHighlight ? 1 : 0.2
-        canHighlight: (episodeList.selectedIndex == index) || (episodeList.selectedIndex == -1)
+        opacity: (canHighlight || episodeList.selectedIndex == index) ? 1 : 0.2
+        canHighlight: (episodeList.selectedIndex == -1)
 
         onClicked: {
             if (episodeList.selectedIndex == index) {
@@ -109,7 +114,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             color: titleLabel.color
-            visible: (progress > 0) || isPlaying
+            visible: (progress > 0) || isPlaying || episodeItem.opened
             opacity: 0.1
         }
 
@@ -133,7 +138,7 @@ Item {
 
             height: parent.height * .2
             width: parent.width * playbackProgress
-            color: Constants.colors.playback
+            color: titleLabel.color
             opacity: episodeItem.isPlaying ? .6 : .2
         }
 
@@ -163,10 +168,12 @@ Item {
                     return Constants.colors.playback;
                 } else if (progress > 0) {
                     return Constants.colors.download;
+                } else if (episodeItem.opened) {
+                    return Constants.colors.highlight;
                 } else if (isNew && downloadState != Constants.state.downloaded) {
                     return Constants.colors.fresh;
                 } else {
-                    return 'white';
+                    return Constants.colors.text;
                 }
             }
 
@@ -179,8 +186,9 @@ Item {
             }
         }
 
-        Image {
+        PIcon {
             id: downloadedIcon
+            color: titleLabel.color
 
             anchors {
                 right: parent.right
@@ -189,7 +197,7 @@ Item {
             }
 
             visible: downloadState == Constants.state.downloaded
-            source: 'icons/cd_32x32.png'
+            icon: Icons.cd
         }
     }
 }

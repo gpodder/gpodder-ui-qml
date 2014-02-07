@@ -20,8 +20,11 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Text {
     font.pixelSize: 30 * pgst.scalef
-    color: 'white'
+    font.family: Constants.font
+    color: Constants.colors.text
 }
 

@@ -20,26 +20,34 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 ButtonArea {
     id: iconMenuItem
 
     property alias text: label.text
-    property alias iconSource: icon.source
+    property color color: Constants.colors.secondaryHighlight
+    property alias icon: icon.icon
+    property bool alwaysShowText: false
 
     transparent: true
+    canHighlight: false
+
     height: 80 * pgst.scalef
     width: height
 
-    Image {
+    PIcon {
         id: icon
         anchors.centerIn: parent
         opacity: iconMenuItem.enabled ? 1 : .2
+        color: label.color
     }
 
     PLabel {
         id: label
         font.pixelSize: 15 * pgst.scalef
-        visible: parent.pressed
+        visible: parent.pressed || parent.alwaysShowText
+        color: parent.pressed ? Qt.darker(iconMenuItem.color, 1.1) : iconMenuItem.color
 
         anchors {
             bottom: icon.top

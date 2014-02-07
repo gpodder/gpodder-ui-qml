@@ -43,6 +43,7 @@ Item {
         }
 
         children[index-1].opacity = x / width;
+        //children[index-1].pushPhase = x / width;
     }
 
     property bool loadPageInProgress: false

@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Item {
     property alias text: pLabel.text
 
@@ -33,7 +35,7 @@ Item {
             margins: 10 * pgst.scalef
         }
 
-        color: '#aaa'
+        color: Constants.colors.secondaryHighlight
     }
 }
 

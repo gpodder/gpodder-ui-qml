@@ -20,13 +20,15 @@
 
 import QtQuick 2.0
 
-Rectangle {
+import 'common/constants.js' as Constants
+
+Item {
     id: slider
 
     property real value
     property real min: 0.0
     property real max: 1.0
-    property color fillColor: '#333333'
+    property color color: Constants.colors.highlight
 
     property real displayedValue: mouseArea.pressed ? temporaryValue : value
     property real temporaryValue
@@ -34,7 +36,6 @@ Rectangle {
     signal valueChangeRequested(real newValue)
 
     clip: true
-    color: '#000000'
 
     height: 50 * pgst.scalef
 
@@ -52,27 +53,19 @@ Rectangle {
     }
 
     Rectangle {
+        anchors.fill: parent
+        color: slider.color
+        opacity: .3
+    }
+
+    Rectangle {
         id: fillBackground
-        color: slider.fillColor
-        height: parent.height * 0.8
+        color: slider.color
+        height: parent.height
         width: parent.width * (parent.displayedValue - parent.min) / (parent.max - parent.min)
 
         anchors {
             verticalCenter: parent.verticalCenter
-        }
-    }
-
-    Rectangle {
-        height: parent.height * 0.9
-        width: height
-        radius: width / 2
-
-        color: Qt.lighter(slider.fillColor, 1.5)
-
-        anchors {
-            verticalCenter: parent.verticalCenter
-            left: fillBackground.right
-            leftMargin: -(width / 2)
         }
     }
 }

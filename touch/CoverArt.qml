@@ -21,6 +21,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Item {
     id: coverArt
 
@@ -42,15 +44,15 @@ Item {
     }
 
     Rectangle {
-        opacity: 1 - cover.opacity
+        opacity: 0.3 * (1 - cover.opacity)
         anchors.fill: cover
         clip: true
 
-        color: '#11ffffff'
+        color: Constants.colors.background
 
         PLabel {
             text: coverArt.text[0]
-            color: '#55ffffff'
+            color: Constants.colors.highlight
             anchors.centerIn: parent
             font.pixelSize: parent.height * .8
         }

@@ -1,4 +1,5 @@
 
+
 /**
  *
  * gPodder QML UI Reference Implementation
@@ -21,13 +22,15 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
-IconMenuItem {
-    id: pullMenuItem
-    alwaysShowText: true
+PLabel {
+    id: picon
 
-    width: parent.width
-    height: width
+    property int size: 48 * pgst.scalef
+    property string icon
 
-    anchors.horizontalCenter: parent.horizontalCenter
+    text: icon
+    font.pixelSize: picon.size
+    font.family: Icons.font
 }

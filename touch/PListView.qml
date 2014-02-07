@@ -26,7 +26,9 @@ ListView {
     anchors.fill: parent
 
     property string title
+    property real pushPhase: 0
 
+    boundsBehavior: Flickable.StopAtBounds
     header: SlidePageHeader { title: pListView.title }
 
     PScrollDecorator { flickable: pListView }

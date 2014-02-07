@@ -20,32 +20,34 @@
 
 import QtQuick 2.0
 
-Rectangle {
+import 'common/constants.js' as Constants
+
+Item {
     id: textField
 
     property alias text: textInput.text
     property string placeholderText: ''
 
-    radius: 10 * pgst.scalef
     height: 50 * pgst.scalef
-    color: 'white'
 
     TextInput {
         anchors {
             fill: parent
             margins: 5 * pgst.scalef
         }
-        color: 'black'
+        color: Constants.colors.text
+        selectionColor: Constants.colors.background
         id: textInput
         font.pixelSize: height
+        font.family: placeholder.font.family
     }
 
-    Text {
+    PLabel {
+        id: placeholder
         anchors.fill: textInput
         visible: !textInput.focus && (textInput.text == '')
         text: textField.placeholderText
-        color: '#aaa'
+        color: Constants.colors.placeholder
         font.pixelSize: textInput.font.pixelSize
     }
 }
-

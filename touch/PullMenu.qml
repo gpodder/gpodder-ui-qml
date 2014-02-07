@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 MouseArea {
     id: pullMenu
     default property alias items: pullMenuColumn.children
@@ -31,10 +33,6 @@ MouseArea {
 
     Column {
         id: pullMenuColumn
-
         anchors.fill: parent
-        spacing: (width - 72 * pgst.scalef) / 2
-
-        Item { width: 1; height: 1 }
     }
 }

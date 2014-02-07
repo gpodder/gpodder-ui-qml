@@ -22,7 +22,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: page
-    color: '#88000000'
+    color: 'white'
 
     default property alias children: dragging.children
     property alias hasPull: dragging.hasPull
@@ -52,10 +52,10 @@ Rectangle {
     }
 
     Rectangle {
-        color: 'black'
+        color: '#ffffff'
         anchors.fill: parent
 
-        opacity: page.pullPhase * 0.8
+        opacity: page.pullPhase * 0.9
 
         MouseArea {
             enabled: parent.opacity > 0
@@ -72,19 +72,6 @@ Rectangle {
         }
         width: 10 * pgst.scalef
         source: 'images/pageshadow.png'
-        opacity: .2
-    }
-
-    Image {
-        anchors {
-            left: parent.right
-            top: parent.top
-            bottom: parent.bottom
-        }
-        mirror: true
-        width: 10 * pgst.scalef
-        source: 'images/pageshadow.png'
-        opacity: .2
+        opacity: .1
     }
 }
-

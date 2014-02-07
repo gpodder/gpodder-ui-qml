@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'icons/icons.js' as Icons
+
 SlidePage {
     id: startPage
     canClose: false
@@ -44,6 +46,7 @@ SlidePage {
 
     Flickable {
         id: flickable
+        boundsBehavior: Flickable.StopAtBounds
 
         Connections {
             target: py
@@ -96,9 +99,9 @@ SlidePage {
                     width: subscriptions.width + 2*subscriptions.anchors.margins
                     height: subscriptions.height + 2*subscriptions.anchors.margins
 
-                    Image {
+                    PIcon {
                         id: subscriptions
-                        source: 'icons/plus_32x32.png'
+                        icon: Icons.plus
 
                         anchors {
                             bottom: parent.bottom
@@ -158,9 +161,9 @@ SlidePage {
                     width: refresher.width + 2*refresher.anchors.margins
                     height: refresher.height + 2*refresher.anchors.margins
 
-                    Image {
+                    PIcon {
                         id: refresher
-                        source: 'icons/reload_24x28.png'
+                        icon: Icons.reload
 
                         anchors {
                             bottom: parent.bottom

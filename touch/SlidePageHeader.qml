@@ -24,24 +24,14 @@ import 'common/constants.js' as Constants
 
 Item {
     id: slidePageHeader
-    property string title
+    property alias title: label.text
+    property alias color: label.color
 
     width: parent.width
     height: Constants.layout.header.height * pgst.scalef
 
-    Rectangle {
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-            topMargin: slidePageHeader.height * 0.15
-        }
-
-        height: slidePageHeader.height * 0.7
-        color: '#33000000'
-    }
-
-    Text {
+    PLabel {
+        id: label
         anchors {
             left: parent.left
             right: parent.right
@@ -50,11 +40,10 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-        color: 'white'
+        color: Constants.colors.highlight
         horizontalAlignment: Text.AlignRight
         font.pixelSize: parent.height * .4
         elide: Text.ElideRight
-        text: parent.title
     }
 }
 

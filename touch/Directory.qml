@@ -27,6 +27,8 @@ SlidePage {
 
     ListView {
         anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
+        PScrollDecorator {}
 
         model: GPodderDirectorySearchModel { id: directorySearchModel }
 

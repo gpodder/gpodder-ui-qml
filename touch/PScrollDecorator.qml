@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Rectangle {
     property var flickable
 
@@ -28,7 +30,7 @@ Rectangle {
     width: 5 * pgst.scalef
     height: flickable.visibleArea.heightRatio * flickable.height
     visible: flickable.visibleArea.heightRatio < 1
-    color: '#ffffff'
-    opacity: flickable.moving ? .2 : 0
+    color: Constants.colors.background
+    opacity: flickable.moving ? 1 : 0
     Behavior on opacity { PropertyAnimation { duration: 100 } }
 }

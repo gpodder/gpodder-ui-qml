@@ -36,6 +36,7 @@ SlidePage {
     Flickable {
         id: flickable
         anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
 
         contentWidth: detailColumn.width
         contentHeight: detailColumn.height + detailColumn.spacing

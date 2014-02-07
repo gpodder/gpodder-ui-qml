@@ -22,6 +22,7 @@ import QtQuick 2.0
 
 import 'common/util.js' as Util
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
 SlidePage {
     id: playerPage
@@ -29,6 +30,7 @@ SlidePage {
     Flickable {
         id: flickable
         anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
 
         contentWidth: column.width
         contentHeight: column.height + column.spacing
@@ -41,6 +43,7 @@ SlidePage {
 
             SlidePageHeader {
                 title: 'Now playing'
+                color: Constants.colors.playback
             }
 
             Column {
@@ -61,46 +64,6 @@ SlidePage {
                 }
             }
 
-            IconContextMenu {
-                width: parent.width
-
-                IconMenuItem {
-                    text: player.isPlaying ? 'Pause' : 'Play'
-                    iconSource: 'icons/' + (player.isPlaying ? 'pause_24x32.png' : 'play_24x32.png')
-                    onClicked: {
-                        if (player.isPlaying) {
-                            player.pause();
-                        } else {
-                            player.play();
-                        }
-                    }
-                }
-
-                IconMenuItem {
-                    text: '-1m'
-                    iconSource: 'icons/first_32x32.png'
-                    onClicked: player.seekAndSync(player.position - 60 * 1000);
-                }
-
-                IconMenuItem {
-                    text: '-10s'
-                    iconSource: 'icons/arrow_left_32x32.png'
-                    onClicked: player.seekAndSync(player.position - 10 * 1000);
-                }
-
-                IconMenuItem {
-                    text: '+10s'
-                    iconSource: 'icons/arrow_right_32x32.png'
-                    onClicked: player.seekAndSync(player.position + 10 * 1000);
-                }
-
-                IconMenuItem {
-                    text: '+1m'
-                    iconSource: 'icons/last_32x32.png'
-                    onClicked: player.seekAndSync(player.position + 60 * 1000);
-                }
-            }
-
             PLabel {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Util.formatPosition(slider.displayedValue/1000, player.duration/1000)
@@ -112,9 +75,54 @@ SlidePage {
                 value: player.position
                 min: 0
                 max: player.duration
-                fillColor: Constants.colors.playback
+                color: Constants.colors.playback
                 onValueChangeRequested: {
                     player.seekAndSync(newValue);
+                }
+            }
+
+            IconContextMenu {
+                width: parent.width
+
+                IconMenuItem {
+                    text: player.isPlaying ? 'Pause' : 'Play'
+                    color: Constants.colors.playback
+                    icon: player.isPlaying ? Icons.pause : Icons.play
+                    onClicked: {
+                        if (player.isPlaying) {
+                            player.pause();
+                        } else {
+                            player.play();
+                        }
+                    }
+                }
+
+                IconMenuItem {
+                    text: '-1m'
+                    color: Constants.colors.playback
+                    icon: Icons.first
+                    onClicked: player.seekAndSync(player.position - 60 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '-10s'
+                    color: Constants.colors.playback
+                    icon: Icons.arrow_left
+                    onClicked: player.seekAndSync(player.position - 10 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '+10s'
+                    color: Constants.colors.playback
+                    icon: Icons.arrow_right
+                    onClicked: player.seekAndSync(player.position + 10 * 1000);
+                }
+
+                IconMenuItem {
+                    text: '+1m'
+                    color: Constants.colors.playback
+                    icon: Icons.last
+                    onClicked: player.seekAndSync(player.position + 60 * 1000);
                 }
             }
         }

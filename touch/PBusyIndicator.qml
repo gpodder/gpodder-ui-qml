@@ -20,31 +20,23 @@
 
 import QtQuick 2.0
 
+import 'icons/icons.js' as Icons
+
 Item {
     height: 64 * pgst.scalef
     width: 64 * pgst.scalef
 
-    Image {
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
-            bottomMargin: 30*Math.abs(Math.sin(phase)) * pgst.scalef
-        }
-
-        transform: Scale {
-            origin.x: 32 * pgst.scalef
-            origin.y: 32 * pgst.scalef
-            xScale: 1.0 - 0.3 * (1.0 - Math.abs(Math.sin(phase)))
-        }
-
-        source: 'images/gpodder.png'
+    PIcon {
+        anchors.centerIn: parent
+        icon: Icons.aperture
+        rotation: 180 * parent.phase
     }
 
     property real phase: 0
 
     PropertyAnimation on phase {
         loops: Animation.Infinite
-        duration: 2000
+        duration: 5000
         running: parent.visible
         from: 0
         to: 2*Math.PI
