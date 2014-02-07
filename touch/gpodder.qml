@@ -19,8 +19,10 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Rectangle {
-    color: 'white'
+    color: Constants.colors.page
 
     width: 480
     height: 800

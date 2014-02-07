@@ -25,17 +25,27 @@ var layout = {
 };
 
 var colors = {
-    download: '#8ae234', /* download green */
+    download: '#7ac224', /* download green */
     select: '#7f5785', /* gpodder dark purple */
     fresh: '#815c86', /* gpodder purple */
     playback: '#729fcf', /* playback blue */
+    destructive: '#cf424f', /* destructive actions */
 
+    page: '#dddddd',
     text: '#333333', /* text color */
-    placeholder: '#666666',
     highlight: '#433b67',
     secondaryHighlight: '#605885',
-    background: '#948db3',
     area: '#cccccc',
+    placeholder: '#666666',
+
+    //page: '#000000',
+    //text: '#ffffff', /* text color */
+    //highlight: Qt.lighter('#433b67', 1.2),
+    //secondaryHighlight: Qt.lighter('#605885', 1.2),
+    //area: '#333333',
+    //placeholder: '#aaaaaa',
+
+    background: '#948db3',
     secondaryBackground: '#d0cce1',
 };
 

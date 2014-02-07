@@ -27,10 +27,10 @@ import 'icons/icons.js' as Icons
 PLabel {
     id: picon
 
-    property int size: 48 * pgst.scalef
+    property int size: 48
     property string icon
 
     text: icon
-    font.pixelSize: picon.size
+    font.pixelSize: picon.size * pgst.scalef
     font.family: Icons.font
 }

@@ -24,7 +24,7 @@ import 'common/constants.js' as Constants
 
 IconMenuItem {
     id: pullMenuItem
-    alwaysShowText: true
+    size: 80
 
     width: parent.width
     height: width

@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'icons/icons.js' as Icons
+import 'common/constants.js' as Constants
 
 SlidePage {
     id: startPage
@@ -102,6 +103,7 @@ SlidePage {
                     PIcon {
                         id: subscriptions
                         icon: Icons.plus
+                        color: Constants.colors.download
 
                         anchors {
                             bottom: parent.bottom
@@ -164,6 +166,7 @@ SlidePage {
                     PIcon {
                         id: refresher
                         icon: Icons.reload
+                        color: Constants.colors.highlight
 
                         anchors {
                             bottom: parent.bottom

@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'icons/icons.js' as Icons
+import 'common/constants.js' as Constants
 
 Item {
     height: 64 * pgst.scalef
@@ -30,6 +31,7 @@ Item {
         anchors.centerIn: parent
         icon: Icons.aperture
         rotation: 180 * parent.phase
+        color: Constants.colors.highlight
     }
 
     property real phase: 0

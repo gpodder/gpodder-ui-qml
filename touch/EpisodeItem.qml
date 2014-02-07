@@ -48,7 +48,7 @@ Item {
 
             IconMenuItem {
                 text: episodeItem.isPlaying ? 'Pause' : 'Play'
-                color: titleLabel.color
+                color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.playback
                 icon: episodeItem.isPlaying ? Icons.pause : Icons.play
                 onClicked: {
                     if (episodeItem.isPlaying) {
@@ -61,7 +61,7 @@ Item {
 
             IconMenuItem {
                 text: 'Download'
-                color: titleLabel.color
+                color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.download
                 icon: Icons.cloud_download
                 visible: downloadState != Constants.state.downloaded
                 onClicked: {
@@ -72,7 +72,7 @@ Item {
 
             IconMenuItem {
                 text: 'Delete'
-                color: titleLabel.color
+                color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.destructive
                 icon: Icons.trash
                 visible: downloadState != Constants.state.deleted
                 onClicked: py.call('main.delete_episode', [id]);
@@ -80,7 +80,7 @@ Item {
 
             IconMenuItem {
                 id: toggleNew
-                color: titleLabel.color
+                color: (episodeItem.isPlaying || isNew || progress > 0) ? titleLabel.color : Constants.colors.text
                 text: 'Toggle New'
                 icon: Icons.star
                 onClicked: Util.disableUntilReturn(toggleNew, py, 'main.toggle_new', [id]);
@@ -170,8 +170,8 @@ Item {
                     return Constants.colors.download;
                 } else if (episodeItem.opened) {
                     return Constants.colors.highlight;
-                } else if (isNew && downloadState != Constants.state.downloaded) {
-                    return Constants.colors.fresh;
+                } else if (isNew) {
+                    return Constants.colors.highlight;
                 } else {
                     return Constants.colors.text;
                 }

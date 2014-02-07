@@ -20,9 +20,11 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Rectangle {
     id: page
-    color: 'white'
+    color: Constants.colors.page
 
     default property alias children: dragging.children
     property alias hasPull: dragging.hasPull
@@ -52,7 +54,7 @@ Rectangle {
     }
 
     Rectangle {
-        color: '#ffffff'
+        color: Constants.colors.page
         anchors.fill: parent
 
         opacity: page.pullPhase * 0.9

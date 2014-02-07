@@ -28,6 +28,7 @@ ButtonArea {
     property alias text: label.text
     property color color: Constants.colors.secondaryHighlight
     property alias icon: icon.icon
+    property alias size: icon.size
     property bool alwaysShowText: false
 
     transparent: true

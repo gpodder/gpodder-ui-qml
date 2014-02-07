@@ -23,6 +23,7 @@ import QtQuick 2.0
 import 'common'
 import 'common/util.js' as Util
 import 'icons/icons.js' as Icons
+import 'common/constants.js' as Constants
 
 SlidePage {
     id: podcastsPage
@@ -31,6 +32,7 @@ SlidePage {
     PullMenu {
         PullMenuItem {
             text: 'Now Playing'
+            color: Constants.colors.playback
             icon: Icons.play
             onClicked: {
                 pgst.loadPage('PlayerPage.qml');
@@ -50,6 +52,7 @@ SlidePage {
         PullMenuItem {
             text: 'Subscribe'
             icon: Icons.plus
+            color: Constants.colors.download
             onClicked: {
                 pgst.loadPage('Subscribe.qml');
                 podcastsPage.unPull();

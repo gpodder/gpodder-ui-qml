@@ -20,10 +20,15 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 SlidePage {
     id: subscribe
 
-    SlidePageHeader { title: 'Add subscription' }
+    SlidePageHeader {
+        title: 'Add subscription'
+        color: Constants.colors.download
+    }
 
     Column {
         anchors.centerIn: parent
