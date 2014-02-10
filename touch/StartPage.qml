@@ -116,35 +116,35 @@ SlidePage {
 
             StartPageButton {
                 id: freshEpisodesPage
+                enabled: freshEpisodesRepeater.count > 0
 
                 title: py.refreshing ? 'Refreshing feeds' : 'Fresh episodes'
                 onClicked: pgst.loadPage('FreshEpisodes.qml');
 
                 Row {
+                    id: freshEpisodesRow
+
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 50 * pgst.scalef
+                    anchors.bottomMargin: 20 * pgst.scalef
                     anchors.leftMargin: 20 * pgst.scalef
                     anchors.left: parent.left
                     spacing: 10 * pgst.scalef
 
+                    PLabel {
+                        color: Constants.colors.placeholder
+                        text: 'No fresh episodes'
+                        visible: freshEpisodesRepeater.count == 0
+                    }
+
                     Repeater {
                         id: freshEpisodesRepeater
 
-                        Image { 
+                        CoverArt {
                             source: modelData.coverart
-                            sourceSize { width: 80 * pgst.scalef; height: 80 * pgst.scalef }
+                            text: modelData.title
+
                             width: 80 * pgst.scalef
                             height: 80 * pgst.scalef
-
-                            PLabel {
-                                anchors {
-                                    horizontalCenter: parent.horizontalCenter
-                                    top: parent.bottom
-                                    margins: 5 * pgst.scalef
-                                }
-
-                                text: modelData.newEpisodes
-                            }
                         }
                     }
                 }
@@ -165,7 +165,7 @@ SlidePage {
 
                     PIcon {
                         id: refresher
-                        icon: Icons.reload
+                        icon: Icons.loop_alt2
                         color: Constants.colors.highlight
 
                         anchors {

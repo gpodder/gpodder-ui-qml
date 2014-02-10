@@ -27,6 +27,7 @@ ButtonArea {
 
     property alias text: label.text
     property color color: Constants.colors.secondaryHighlight
+    property color _real_color: enabled ? color : Constants.colors.placeholder
     property alias icon: icon.icon
     property alias size: icon.size
     property bool alwaysShowText: false
@@ -48,7 +49,7 @@ ButtonArea {
         id: label
         font.pixelSize: 15 * pgst.scalef
         visible: parent.pressed || parent.alwaysShowText
-        color: parent.pressed ? Qt.darker(iconMenuItem.color, 1.1) : iconMenuItem.color
+        color: parent.pressed ? Qt.darker(iconMenuItem._real_color, 1.1) : iconMenuItem._real_color
 
         anchors {
             bottom: icon.top

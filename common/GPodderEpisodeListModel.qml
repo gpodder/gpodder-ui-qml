@@ -26,7 +26,22 @@ import 'constants.js' as Constants
 ListModel {
     id: episodeListModel
 
+    property var podcast_id
+
     function loadEpisodes(podcast_id) {
+        episodeListModel.podcast_id = podcast_id;
+        reload();
+    }
+
+    function loadFreshEpisodes(callback) {
+        episodeListModel.podcast_id = -1;
+        py.call('main.get_fresh_episodes', [], function (episodes) {
+            Util.updateModelFrom(episodeListModel, episodes);
+            callback();
+        });
+    }
+
+    function reload() {
         py.call('main.load_episodes', [podcast_id], function (episodes) {
             Util.updateModelFrom(episodeListModel, episodes);
         });
@@ -43,21 +58,18 @@ ListModel {
             Util.updateModelWith(episodeListModel, 'id', episode_id,
                 {'playbackProgress': progress});
         }
-        onDownloaded: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'progress': 0, 'downloadState': Constants.state.downloaded});
+        onUpdatedEpisode: {
+            for (var i=0; i<episodeListModel.count; i++) {
+                if (episodeListModel.get(i).id == episode.id) {
+                    episodeListModel.set(i, episode);
+                    break;
+                }
+            }
         }
-        onDeleted: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'downloadState': Constants.state.deleted, 'isNew': false});
-        }
-        onIsNewChanged: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'isNew': is_new});
-        }
-        onStateChanged: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'downloadState': state});
+        onEpisodeListChanged: {
+            if (episodeListModel.podcast_id == podcast_id) {
+                episodeListModel.reload();
+            }
         }
     }
 }

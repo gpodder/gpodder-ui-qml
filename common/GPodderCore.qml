@@ -28,16 +28,13 @@ Python {
     property string progname: 'gpodder'
     property bool ready: false
     property bool refreshing: false
-    signal downloading(int episode_id)
     signal downloadProgress(int episode_id, real progress)
     signal playbackProgress(int episode_id, real progress)
-    signal downloaded(int episode_id)
-    signal deleted(int episode_id)
-    signal isNewChanged(int episode_id, bool is_new)
-    signal stateChanged(int episode_id, int state)
     signal podcastListChanged()
     signal updatingPodcast(int podcast_id)
     signal updatedPodcast(var podcast)
+    signal episodeListChanged(int podcast_id)
+    signal updatedEpisode(var episode)
 
     Component.onCompleted: {
         setHandler('hello', function (coreversion, uiversion) {
@@ -47,17 +44,14 @@ Python {
             console.log('Python ' + py.pythonVersion());
         });
 
-        setHandler('downloading', py.downloading);
         setHandler('download-progress', py.downloadProgress);
         setHandler('playback-progress', py.playbackProgress);
-        setHandler('downloaded', py.downloaded);
-        setHandler('deleted', py.deleted);
-        setHandler('is-new-changed', py.isNewChanged);
-        setHandler('state-changed', py.stateChanged);
         setHandler('podcast-list-changed', py.podcastListChanged);
         setHandler('updating-podcast', py.updatingPodcast);
         setHandler('updated-podcast', py.updatedPodcast);
         setHandler('refreshing', function(v) { py.refreshing = v; });
+        setHandler('episode-list-changed', py.episodeListChanged);
+        setHandler('updated-episode', py.updatedEpisode);
 
         addImportPath(Qt.resolvedUrl('../..'));
 

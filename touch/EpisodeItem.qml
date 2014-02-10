@@ -63,7 +63,7 @@ Item {
                 text: 'Download'
                 color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.download
                 icon: Icons.cloud_download
-                visible: downloadState != Constants.state.downloaded
+                enabled: downloadState != Constants.state.downloaded
                 onClicked: {
                     episodeList.selectedIndex = -1;
                     py.call('main.download_episode', [id]);
@@ -74,7 +74,7 @@ Item {
                 text: 'Delete'
                 color: (episodeItem.isPlaying || progress > 0) ? titleLabel.color : Constants.colors.destructive
                 icon: Icons.trash
-                visible: downloadState != Constants.state.deleted
+                enabled: downloadState != Constants.state.deleted
                 onClicked: {
                     var ctx = { py: py, id: id };
                     pgst.showConfirmation('Delete episode', Icons.trash, function () {
@@ -96,6 +96,7 @@ Item {
                 color: titleLabel.color
                 icon: Icons.article
                 onClicked: pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
+                enabled: hasShownotes
             }
         }
     }
@@ -175,8 +176,10 @@ Item {
                     return Constants.colors.download;
                 } else if (episodeItem.opened) {
                     return Constants.colors.highlight;
-                } else if (isNew) {
+                } else if (isNew && downloadState == Constants.state.downloaded) {
                     return Constants.colors.highlight;
+                } else if (isNew) {
+                    return Constants.colors.fresh;
                 } else {
                     return Constants.colors.text;
                 }
@@ -202,7 +205,7 @@ Item {
             }
 
             visible: downloadState == Constants.state.downloaded
-            icon: Icons.cd
+            icon: Icons.folder
         }
     }
 }

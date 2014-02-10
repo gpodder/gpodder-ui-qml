@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 ButtonArea {
     id: podcastItem
 
@@ -58,12 +60,24 @@ ButtonArea {
             left: cover.right
             leftMargin: 10 * pgst.scalef
             rightMargin: 10 * pgst.scalef
-            right: parent.right
+            right: downloadsLabel.left
             verticalCenter: parent.verticalCenter
         }
 
         elide: Text.ElideRight
         text: title
+        color: newEpisodes ? Constants.colors.fresh : Constants.colors.text
+    }
+
+    PLabel {
+        id: downloadsLabel
+        anchors {
+            right: parent.right
+            rightMargin: 10 * pgst.scalef
+            verticalCenter: parent.verticalCenter
+        }
+
+        text: downloaded ? downloaded : ''
+        color: Constants.colors.text
     }
 }
-

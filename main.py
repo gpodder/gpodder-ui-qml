@@ -79,6 +79,11 @@ class gPotherSide:
             if podcast.id == podcast_id:
                 return podcast
 
+    def _episode_state_changed(self, episode):
+        pyotherside.send('updated-episode', self.convert_episode(episode))
+        pyotherside.send('updated-podcast', self.convert_podcast(episode.parent))
+        pyotherside.send('update-stats')
+
     def get_stats(self):
         podcasts = self.core.model.get_podcasts()
 
@@ -139,6 +144,8 @@ class gPotherSide:
             'downloadState': episode.state,
             'isNew': episode.is_new,
             'playbackProgress': self._get_playback_progress(episode),
+            'published': util.format_date(episode.published),
+            'hasShownotes': episode.description != '',
         }
 
     def load_episodes(self, id):
@@ -151,22 +158,13 @@ class gPotherSide:
             _, _, new, _, _ = podcast.get_statistics()
             if new:
                 summary.append({
+                    'title': podcast.title,
                     'coverart': self._get_cover(podcast),
                     'newEpisodes': new,
                 })
 
         summary.sort(key=lambda e: e['newEpisodes'], reverse=True)
         return summary[:int(count)]
-
-    def convert_fresh_episode(self, episode):
-        return {
-            'id': episode.id,
-            'title': episode.title,
-            'podcast': episode.channel.title,
-            'published': util.format_date(episode.published),
-            'progress': episode.download_progress(),
-            'downloadState': episode.state,
-        }
 
     def get_fresh_episodes(self):
         fresh_episodes = []
@@ -176,7 +174,7 @@ class gPotherSide:
                     fresh_episodes.append(episode)
 
         fresh_episodes.sort(key=lambda e: e.published, reverse=True)
-        return [self.convert_fresh_episode(e) for e in fresh_episodes]
+        return [self.convert_episode(e) for e in fresh_episodes]
 
     @run_in_background_thread
     def subscribe(self, url):
@@ -210,26 +208,23 @@ class gPotherSide:
 
     @run_in_background_thread
     def download_episode(self, episode_id):
-        def progress_callback(progress):
-            pyotherside.send('download-progress', episode_id, progress)
         episode = self._get_episode_by_id(episode_id)
         if episode.state == gpodder.STATE_DOWNLOADED:
             return
 
-        pyotherside.send('downloading', episode_id)
-        if episode.download(progress_callback):
-            pyotherside.send('downloaded', episode_id)
-        else:
-            pyotherside.send('download-failed', episode_id)
+        def progress_callback(progress):
+            self._episode_state_changed(episode)
+
+        # TODO: Handle the case where there is already a DownloadTask
+        episode.download(progress_callback)
         self.core.save()
-        pyotherside.send('update-stats')
+        self._episode_state_changed(episode)
 
     def delete_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         episode.delete()
         self.core.save()
-        pyotherside.send('deleted', episode_id)
-        pyotherside.send('update-stats')
+        self._episode_state_changed(episode)
 
     def toggle_new(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
@@ -238,8 +233,25 @@ class gPotherSide:
             episode.state = gpodder.STATE_NORMAL
         episode.save()
         self.core.save()
-        pyotherside.send('is-new-changed', episode_id, episode.is_new)
-        pyotherside.send('state-changed', episode_id, episode.state)
+        self._episode_state_changed(episode)
+
+    def mark_episodes_as_old(self, podcast_id):
+        podcast = self._get_podcast_by_id(podcast_id)
+
+        any_changed = False
+        for episode in podcast.episodes:
+            if episode.is_new and episode.state == gpodder.STATE_NORMAL:
+                any_changed = True
+                episode.is_new = False
+                episode.save()
+
+        if any_changed:
+            pyotherside.send('episode-list-changed', podcast_id)
+            pyotherside.send('updated-podcast', self.convert_podcast(podcast))
+            pyotherside.send('update-stats')
+
+        self.core.save()
+
 
     @run_in_background_thread
     def check_for_episodes(self):
@@ -268,7 +280,7 @@ class gPotherSide:
         episode = self._get_episode_by_id(episode_id)
         episode.playback_mark()
         self.core.save()
-        pyotherside.send('is-new-changed', episode_id, episode.is_new)
+        self._episode_state_changed(episode)
         return {
             'title': episode.title,
             'podcast_title': episode.parent.title,
@@ -319,3 +331,4 @@ toggle_new = gpotherside.toggle_new
 rename_podcast = gpotherside.rename_podcast
 change_section = gpotherside.change_section
 report_playback_event = gpotherside.report_playback_event
+mark_episodes_as_old = gpotherside.mark_episodes_as_old

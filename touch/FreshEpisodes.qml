@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 
+import 'common'
 import 'common/util.js' as Util
 
 SlidePage {
@@ -27,8 +28,7 @@ SlidePage {
     property bool ready: false
 
     Component.onCompleted: {
-        py.call('main.get_fresh_episodes', [], function (episodes) {
-            Util.updateModelFrom(freshEpisodesListModel, episodes);
+        freshEpisodesListModel.loadFreshEpisodes(function () {
             freshEpisodes.ready = true;
         });
     }
@@ -39,33 +39,16 @@ SlidePage {
     }
 
     PListView {
-        id: freshEpisodesList
+        id: episodeList
+        property int selectedIndex: -1
         title: 'Fresh episodes'
 
-        model: ListModel { id: freshEpisodesListModel }
+        model: GPodderEpisodeListModel { id: freshEpisodesListModel }
 
         section.property: 'published'
         section.delegate: SectionHeader { text: section }
 
-        delegate: EpisodeItem {
-            onClicked: py.call('main.download_episode', [id]);
-
-            Connections {
-                target: py
-                onDownloadProgress: {
-                    if (episode_id == id) {
-                        freshEpisodesListModel.setProperty(index, 'progress', progress);
-                    }
-                }
-                onDownloaded: {
-                    if (id == episode_id) {
-                        freshEpisodesListModel.remove(index);
-                    }
-                }
-            }
-
-            //pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
-        }
+        delegate: EpisodeItem { }
     }
 }
 

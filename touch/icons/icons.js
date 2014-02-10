@@ -13,3 +13,6 @@ var arrow_left = '\u2190';
 var arrow_right = '\u2192';
 var last = '\ue04d';
 var aperture = '\ue026';
+var eye = '\ue025';
+var loop_alt2 = '\ue033';
+var folder = '\ue065';

@@ -50,6 +50,16 @@ SlidePage {
         }
 
         PullMenuItem {
+            text: 'Mark all as old'
+            icon: Icons.eye
+            color: Constants.colors.text
+            onClicked: {
+                py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
+                episodesPage.unPull();
+            }
+        }
+
+        PullMenuItem {
             text: 'Unsubscribe'
             icon: Icons.trash
             color: Constants.colors.destructive

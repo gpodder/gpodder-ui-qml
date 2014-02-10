@@ -42,7 +42,7 @@ SlidePage {
 
         PullMenuItem {
             text: 'Refresh feeds'
-            icon: Icons.reload
+            icon: Icons.loop_alt2
             onClicked: {
                 podcastsPage.unPull();
                 py.call('main.check_for_episodes');
