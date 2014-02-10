@@ -35,6 +35,7 @@ Python {
     signal updatedPodcast(var podcast)
     signal episodeListChanged(int podcast_id)
     signal updatedEpisode(var episode)
+    signal updateStats()
 
     Component.onCompleted: {
         setHandler('hello', function (coreversion, uiversion) {
@@ -52,6 +53,7 @@ Python {
         setHandler('refreshing', function(v) { py.refreshing = v; });
         setHandler('episode-list-changed', py.episodeListChanged);
         setHandler('updated-episode', py.updatedEpisode);
+        setHandler('update-stats', py.updateStats);
 
         addImportPath(Qt.resolvedUrl('../..'));
 

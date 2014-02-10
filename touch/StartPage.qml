@@ -22,6 +22,7 @@ import QtQuick 2.0
 
 import 'icons/icons.js' as Icons
 import 'common/constants.js' as Constants
+import 'common/util.js' as Util
 
 SlidePage {
     id: startPage
@@ -29,7 +30,12 @@ SlidePage {
 
     function update_stats() {
         py.call('main.get_stats', [], function (result) {
-            stats.text = result;
+            stats.text = Util.format(
+                '{podcasts} podcasts\n' +
+                '{episodes} episodes\n' +
+                '{newEpisodes} new episodes\n' +
+                '{downloaded} downloaded',
+                result);
         });
 
         py.call('main.get_fresh_episodes_summary', [3], function (episodes) {
@@ -37,12 +43,11 @@ SlidePage {
         });
     }
 
-    Component.onCompleted: {
-        py.setHandler('update-stats', startPage.update_stats);
-    }
-
-    Component.onDestruction: {
-        py.setHandler('update-stats', undefined);
+    Item {
+        Connections {
+            target: py
+            onUpdateStats: startPage.update_stats();
+        }
     }
 
     Flickable {

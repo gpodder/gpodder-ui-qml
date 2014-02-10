@@ -96,12 +96,12 @@ class gPotherSide:
             downloaded += do
             unplayed += un
 
-        return '\n'.join([
-            '%d podcasts' % len(podcasts),
-            '%d episodes' % total,
-            '%d new episodes' % new,
-            '%d downloads' % downloaded,
-        ])
+        return {
+            'podcasts': len(podcasts),
+            'episodes': total,
+            'newEpisodes': new,
+            'downloaded': downloaded,
+        }
 
     def _get_cover(self, podcast):
         filename = self.core.cover_downloader.get_cover(podcast)

@@ -69,3 +69,9 @@ function disableUntilReturn(item, py, func, args) {
         item.enabled = true;
     });
 }
+
+function format(s, d) {
+    return s.replace(/{([^}]*)}/g, function (m, k) {
+        return (k in d) ? d[k] : m;
+    });
+}
