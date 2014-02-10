@@ -129,8 +129,9 @@ class gPotherSide:
         }
 
     def _get_podcasts_sorted(self):
+        sort_key = self.core.model.podcast_sort_key
         return sorted(self.core.model.get_podcasts(),
-                key=lambda podcast: (podcast.section, podcast.title))
+                key=lambda podcast: (podcast.section, sort_key(podcast)))
 
     def load_podcasts(self):
         podcasts = self._get_podcasts_sorted()
