@@ -27,6 +27,19 @@ import 'common/util.js' as Util
 SlidePage {
     id: startPage
     canClose: false
+    hasPull: true
+
+    PullMenu {
+        PullMenuItem {
+            text: 'Now Playing'
+            color: Constants.colors.playback
+            icon: Icons.play
+            onClicked: {
+                pgst.loadPage('PlayerPage.qml');
+                startPage.unPull();
+            }
+        }
+    }
 
     function update_stats() {
         py.call('main.get_stats', [], function (result) {
@@ -182,35 +195,26 @@ SlidePage {
                 }
             }
 
-            ButtonArea {
-                onClicked: pgst.loadPage('PlayerPage.qml');
-
-                anchors {
-                    left: freshEpisodes.left
-                    right: freshEpisodes.right
+            Repeater {
+                model: ListModel {
+                    ListElement { caption: 'gpodder.net'; target: 'Directory.qml' }
+                    ListElement { caption: 'Help'; target: 'AboutPage.qml' }
                 }
 
-                height: 100 * pgst.scalef
+                delegate: ButtonArea {
+                    onClicked: pgst.loadPage(target)
 
-                PLabel {
-                    anchors.centerIn: parent
-                    text: 'Now playing'
-                }
-            }
+                    anchors {
+                        left: freshEpisodes.left
+                        right: freshEpisodes.right
+                    }
 
-            ButtonArea {
-                onClicked: pgst.loadPage('Directory.qml');
+                    height: 80 * pgst.scalef
 
-                anchors {
-                    left: freshEpisodes.left
-                    right: freshEpisodes.right
-                }
-
-                height: 100 * pgst.scalef
-
-                PLabel {
-                    anchors.centerIn: parent
-                    text: 'gpodder.net'
+                    PLabel {
+                        anchors.centerIn: parent
+                        text: caption
+                    }
                 }
             }
         }

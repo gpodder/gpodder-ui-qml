@@ -28,6 +28,10 @@ Python {
     property string progname: 'gpodder'
     property bool ready: false
     property bool refreshing: false
+
+    property string coreversion
+    property string uiversion
+
     signal downloadProgress(int episode_id, real progress)
     signal playbackProgress(int episode_id, real progress)
     signal podcastListChanged()
@@ -39,8 +43,11 @@ Python {
 
     Component.onCompleted: {
         setHandler('hello', function (coreversion, uiversion) {
-            console.log('gPodder Core ' + coreversion);
-            console.log('gPodder QML UI ' + uiversion);
+            py.coreversion = coreversion;
+            py.uiversion = uiversion;
+
+            console.log('gPodder Core ' + py.coreversion);
+            console.log('gPodder QML UI ' + py.uiversion);
             console.log('PyOtherSide ' + py.pluginVersion());
             console.log('Python ' + py.pythonVersion());
         });
