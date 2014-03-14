@@ -1,7 +1,9 @@
 gPodder 4 QML UI Reference Implementation
 -----------------------------------------
 
-Nothing (much) to see here (yet), move along.
+This is the reference implementation of the QML UI for gPodder 4. It contains a
+(work in progress) Desktop UI and a minimal Touch UI for mobile devices. The
+Desktop UI requires Qt Quick Controls, included in Qt 5.2 and newer.
 
 Usage:
 
