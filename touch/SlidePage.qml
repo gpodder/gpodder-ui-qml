@@ -49,8 +49,6 @@ Rectangle {
     Dragging {
         id: dragging
         stacking: stacking
-
-        onPulled: console.log('have pulled it!')
     }
 
     Rectangle {

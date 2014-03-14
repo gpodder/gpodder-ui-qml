@@ -67,6 +67,11 @@ SlidePage {
         section.property: 'section'
         section.delegate: SectionHeader { text: section }
 
+        PPlaceholder {
+            text: 'No podcasts'
+            visible: podcastList.count === 0
+        }
+
         model: podcastListModel
 
         delegate: PodcastItem {

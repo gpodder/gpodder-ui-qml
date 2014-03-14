@@ -81,6 +81,11 @@ SlidePage {
         title: episodesPage.title
         model: GPodderEpisodeListModel { id: episodeListModel }
 
+        PPlaceholder {
+            text: 'No episodes'
+            visible: episodeList.count === 0
+        }
+
         delegate: EpisodeItem { }
     }
 }

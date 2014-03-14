@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,12 +20,11 @@
 
 import QtQuick 2.0
 
-SlidePage {
-    SlidePageHeader { title: 'Settings' }
+import 'common/constants.js' as Constants
 
-    PLabel {
-        anchors.centerIn: parent
-        text: 'TODO'
-    }
+
+PLabel {
+    anchors.centerIn: parent
+    font.pixelSize: 40 * pgst.scalef
+    color: Constants.colors.text
 }
-

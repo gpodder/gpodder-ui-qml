@@ -120,7 +120,7 @@ SlidePage {
             }
 
             StartPageButton {
-                id: freshEpisodesPage
+                id: freshEpisodes
                 enabled: freshEpisodesRepeater.count > 0
 
                 title: py.refreshing ? 'Refreshing feeds' : 'Fresh episodes'
@@ -186,8 +186,8 @@ SlidePage {
                 onClicked: pgst.loadPage('PlayerPage.qml');
 
                 anchors {
-                    left: recommendationsPane.left
-                    right: recommendationsPane.right
+                    left: freshEpisodes.left
+                    right: freshEpisodes.right
                 }
 
                 height: 100 * pgst.scalef
@@ -199,51 +199,18 @@ SlidePage {
             }
 
             ButtonArea {
-                onClicked: pgst.loadPage('Settings.qml');
+                onClicked: pgst.loadPage('Directory.qml');
 
                 anchors {
-                    left: recommendationsPane.left
-                    right: recommendationsPane.right
+                    left: freshEpisodes.left
+                    right: freshEpisodes.right
                 }
 
                 height: 100 * pgst.scalef
 
                 PLabel {
                     anchors.centerIn: parent
-                    text: 'Settings'
-                }
-            }
-
-            StartPageButton {
-                id: recommendationsPane
-
-                title: 'gpodder.net'
-                onClicked: pgst.loadPage('Directory.qml');
-
-                Row {
-                    anchors {
-                        horizontalCenter: parent.horizontalCenter
-                        bottom: parent.bottom
-                        margins: 40 * pgst.scalef
-                    }
-
-                    spacing: 20 * pgst.scalef
-
-                    Connections {
-                        target: py
-                        onReadyChanged: {
-                            if (py.ready) {
-                                py.call('main.load_podcasts', [], function (podcasts) {
-                                    recommendationsRepeater.model = podcasts.splice(0, 4);
-                                });
-                            }
-                        }
-                    }
-
-                    Repeater {
-                        id: recommendationsRepeater
-                        Image { source: modelData.coverart; sourceSize { width: 80 * pgst.scalef; height: 80 * pgst.scalef } }
-                    }
+                    text: 'gpodder.net'
                 }
             }
         }

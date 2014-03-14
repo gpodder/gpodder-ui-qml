@@ -60,19 +60,6 @@ SlidePage {
             }
         }
 
-        ButtonArea {
-            id: directory
-            width: input.width
-            height: input.height
-
-            PLabel {
-                anchors.centerIn: parent
-                text: 'gpodder.net'
-            }
-
-            onClicked: pgst.loadPage('Directory.qml');
-        }
-
         PBusyIndicator {
             id: loading
             visible: false
