@@ -25,6 +25,7 @@ Item {
 
     property var model
     property string title
+    property string currentFilter: model.filters[model.currentFilterIndex].label
 
     function showSelectionDialog() {
         pgst.loadPage('SelectionDialog.qml', {

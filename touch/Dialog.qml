@@ -26,9 +26,13 @@ Rectangle {
     id: page
     color: Constants.colors.dialogBackground
 
+    Component.onCompleted: pgst.dialogsVisible = pgst.dialogsVisible + 1;
+    Component.onDestruction: pgst.dialogsVisible = pgst.dialogsVisible - 1;
+
     default property alias children: contents.children
     property bool isDialog: true
     property int contentHeight: -1
+    property bool fullWidth: false
 
     function closePage() {
         stacking.startFadeOut();
@@ -49,7 +53,7 @@ Rectangle {
     Rectangle {
         id: contents
         property int border: parent.width * 0.1
-        width: parent.width - 2 * border
+        width: parent.fullWidth ? parent.width : (parent.width - 2 * border)
         property int maxHeight: parent.height - 4 * border
         height: ((page.contentHeight > 0 && page.contentHeight < maxHeight) ? page.contentHeight : maxHeight) * parent.opacity
         anchors.centerIn: parent

@@ -27,7 +27,7 @@ ListView {
 
     property string title
     property real pushPhase: 0
-    property bool headerHasIcon: false
+    property string headerIcon
     property string headerIconText
 
     signal headerIconClicked()
@@ -35,8 +35,9 @@ ListView {
     boundsBehavior: Flickable.StopAtBounds
 
     header: SlidePageHeader {
+        id: header
         title: pListView.title
-        hasIcon: pListView.headerHasIcon
+        icon: pListView.headerIcon
         iconText: pListView.headerIconText
         onIconClicked: pListView.headerIconClicked()
     }

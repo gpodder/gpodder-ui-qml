@@ -22,15 +22,14 @@ import QtQuick 2.0
 
 import 'common/constants.js' as Constants
 
-SlidePage {
+Dialog {
     id: subscribe
 
-    SlidePageHeader {
-        title: 'Add subscription'
-        color: Constants.colors.download
-    }
+    contentHeight: contentColumn.height
 
     Column {
+        id: contentColumn
+
         anchors.centerIn: parent
         spacing: 30 * pgst.scalef
 

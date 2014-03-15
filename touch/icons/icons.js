@@ -17,3 +17,4 @@ var eye = '\ue025';
 var loop_alt2 = '\ue033';
 var folder = '\ue065';
 var magnifying_glass = '\ue074';
+var cog = '\u2699';

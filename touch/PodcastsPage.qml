@@ -27,38 +27,6 @@ import 'common/constants.js' as Constants
 
 SlidePage {
     id: podcastsPage
-    hasPull: true
-
-    PullMenu {
-        PullMenuItem {
-            text: 'Now Playing'
-            color: Constants.colors.playback
-            icon: Icons.play
-            onClicked: {
-                pgst.loadPage('PlayerPage.qml');
-                podcastsPage.unPull();
-            }
-        }
-
-        PullMenuItem {
-            text: 'Refresh feeds'
-            icon: Icons.loop_alt2
-            onClicked: {
-                podcastsPage.unPull();
-                py.call('main.check_for_episodes');
-            }
-        }
-
-        PullMenuItem {
-            text: 'Subscribe'
-            icon: Icons.plus
-            color: Constants.colors.download
-            onClicked: {
-                pgst.loadPage('Subscribe.qml');
-                podcastsPage.unPull();
-            }
-        }
-    }
 
     PListView {
         id: podcastList
@@ -66,6 +34,25 @@ SlidePage {
 
         section.property: 'section'
         section.delegate: SectionHeader { text: section }
+
+        headerIcon: Icons.cog
+        headerIconText: 'Settings'
+        onHeaderIconClicked: {
+            pgst.showSelection([
+                {
+                    label: 'Check for new episodes',
+                    callback: function () {
+                        py.call('main.check_for_episodes');
+                    }
+                },
+                {
+                    label: 'Add new podcast',
+                    callback: function () {
+                        pgst.loadPage('Subscribe.qml');
+                    },
+                },
+            ]);
+        }
 
         PPlaceholder {
             text: 'No podcasts'

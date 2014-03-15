@@ -26,7 +26,7 @@ import 'icons/icons.js' as Icons
 Dialog {
     id: selectionDialog
 
-    property string title: 'Dialog'
+    property string title: ''
     property var callback: undefined
     property var items: ([])
     property var selectedIndex: -1
@@ -45,6 +45,7 @@ Dialog {
 
             SlidePageHeader {
                 id: header
+                visible: title != ''
                 color: Constants.colors.highlight
                 title: selectionDialog.title
             }

@@ -21,6 +21,9 @@
 import QtQuick 2.0
 import 'common'
 
+import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
+
 Item {
     id: pgst
 
@@ -30,6 +33,7 @@ Item {
     GPodderPodcastListModel { id: podcastListModel }
 
     property real scalef: width / 480
+    property int dialogsVisible: 0
 
     anchors.fill: parent
 
@@ -60,6 +64,23 @@ Item {
         });
     }
 
+    function showSelection(items, title, selectedIndex) {
+        loadPage('SelectionDialog.qml', {
+            title: title,
+            callback: function (index, item) {
+                items[index].callback();
+            },
+            items: function() {
+                var result = [];
+                for (var i in items) {
+                    result.push(items[i].label);
+                }
+                return result;
+            }(),
+            selectedIndex: selectedIndex,
+        });
+    }
+
     function loadPage(filename, properties) {
         if (pgst.loadPageInProgress) {
             console.log('ignoring loadPage request while load in progress');
@@ -83,6 +104,30 @@ Item {
     PBusyIndicator {
         anchors.centerIn: parent
         visible: !py.ready
+    }
+
+    IconMenuItem {
+        id: throbber
+
+        z: 100
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            bottomMargin: 30 * pgst.scalef
+        }
+
+        text: 'Now Playing'
+        color: Constants.colors.playback
+        icon: Icons.play
+
+        transparent: false
+        enabled: opacity
+
+        opacity: player.episode != 0 && !pgst.dialogsVisible
+        Behavior on opacity { PropertyAnimation { duration: 200 } }
+
+        onClicked: loadPage('PlayerPage.qml');
     }
 
     StartPage {

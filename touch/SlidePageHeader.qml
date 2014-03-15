@@ -28,8 +28,8 @@ Item {
     property alias title: label.text
     property alias color: label.color
 
-    property alias hasIcon: icon.visible
     property alias iconText: icon.text
+    property alias icon: icon.icon
     signal iconClicked()
 
     width: parent.width
@@ -38,11 +38,11 @@ Item {
     IconMenuItem {
         id: icon
 
-        visible: false
+        visible: icon != '' && icon != undefined
         enabled: visible
 
         text: 'Search'
-        icon: Icons.magnifying_glass
+        icon: ''
         color: label.color
 
         anchors {
@@ -56,7 +56,7 @@ Item {
     PLabel {
         id: label
         anchors {
-            left: icon.right
+            left: icon.visible ? icon.right : parent.left
             right: parent.right
             rightMargin: 20 * pgst.scalef
             leftMargin: 20 * pgst.scalef

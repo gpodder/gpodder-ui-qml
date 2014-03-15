@@ -27,14 +27,8 @@ Rectangle {
     color: Constants.colors.page
 
     default property alias children: dragging.children
-    property alias hasPull: dragging.hasPull
     property alias canClose: dragging.canClose
-    property real pullPhase: (x >= 0) ? 0 : (-x / (width / 4))
     property bool isDialog: false
-
-    function unPull() {
-        stacking.fadeInAgain();
-    }
 
     function closePage() {
         stacking.startFadeOut();
@@ -50,19 +44,6 @@ Rectangle {
     Dragging {
         id: dragging
         stacking: stacking
-    }
-
-    Rectangle {
-        color: Constants.colors.page
-        anchors.fill: parent
-
-        opacity: page.pullPhase * 0.9
-
-        MouseArea {
-            enabled: parent.opacity > 0
-            anchors.fill: parent
-            onClicked: page.unPull();
-        }
     }
 
     Image {

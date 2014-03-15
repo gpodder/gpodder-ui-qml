@@ -48,7 +48,7 @@ SlidePage {
         id: episodeList
         property int selectedIndex: -1
         title: 'Episodes'
-        headerHasIcon: true
+        headerIcon: Icons.magnifying_glass
         headerIconText: 'Filter'
         onHeaderIconClicked: queryControl.showSelectionDialog();
 

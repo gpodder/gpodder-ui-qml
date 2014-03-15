@@ -28,8 +28,6 @@ import 'icons/icons.js' as Icons
 SlidePage {
     id: episodesPage
 
-    hasPull: true
-
     property int podcast_id
     property string title
 
@@ -48,52 +46,40 @@ SlidePage {
         title: 'Select filter'
     }
 
-    PullMenu {
-        PullMenuItem {
-            text: 'Now Playing'
-            icon: Icons.play
-            color: Constants.colors.playback
-            onClicked: {
-                pgst.loadPage('PlayerPage.qml');
-                episodesPage.unPull();
-            }
-        }
-
-        PullMenuItem {
-            text: 'Mark all as old'
-            icon: Icons.eye
-            color: Constants.colors.text
-            onClicked: {
-                py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
-                episodesPage.unPull();
-            }
-        }
-
-        PullMenuItem {
-            text: 'Unsubscribe'
-            icon: Icons.trash
-            color: Constants.colors.destructive
-            onClicked: {
-                episodesPage.unPull();
-
-                var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
-                pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
-                    ctx.py.call('main.unsubscribe', [ctx.id]);
-                    ctx.page.closePage();
-                });
-            }
-        }
-    }
-
     PListView {
         id: episodeList
         property int selectedIndex: -1
         title: episodesPage.title
         model: GPodderEpisodeListModel { id: episodeListModel }
 
-        headerHasIcon: true
-        headerIconText: 'Filter'
-        onHeaderIconClicked: queryControl.showSelectionDialog();
+        headerIcon: Icons.cog
+        headerIconText: 'Settings'
+        onHeaderIconClicked: {
+            pgst.showSelection([
+                {
+                    label: 'Filter list (' + queryControl.currentFilter + ')',
+                    callback: function () {
+                        queryControl.showSelectionDialog();
+                    }
+                },
+                {
+                    label: 'Mark episodes as old',
+                    callback: function () {
+                        py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
+                    },
+                },
+                {
+                    label: 'Unsubscribe',
+                    callback: function () {
+                        var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
+                        pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
+                            ctx.py.call('main.unsubscribe', [ctx.id]);
+                            ctx.page.closePage();
+                        });
+                    },
+                },
+            ]);
+        }
 
         PPlaceholder {
             text: 'No episodes'

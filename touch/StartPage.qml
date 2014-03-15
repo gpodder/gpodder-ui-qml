@@ -27,19 +27,6 @@ import 'common/util.js' as Util
 SlidePage {
     id: startPage
     canClose: false
-    hasPull: true
-
-    PullMenu {
-        PullMenuItem {
-            text: 'Now Playing'
-            color: Constants.colors.playback
-            icon: Icons.play
-            onClicked: {
-                pgst.loadPage('PlayerPage.qml');
-                startPage.unPull();
-            }
-        }
-    }
 
     function update_stats() {
         py.call('main.get_stats', [], function (result) {

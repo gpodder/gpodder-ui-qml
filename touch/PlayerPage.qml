@@ -24,8 +24,11 @@ import 'common/util.js' as Util
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
-SlidePage {
+Dialog {
     id: playerPage
+
+    contentHeight: flickable.contentHeight
+    fullWidth: true
 
     Flickable {
         id: flickable
@@ -38,7 +41,7 @@ SlidePage {
         Column {
             id: column
 
-            width: playerPage.width
+            width: flickable.width
             spacing: 10 * pgst.scalef
 
             SlidePageHeader {
@@ -79,7 +82,7 @@ SlidePage {
 
             PSlider {
                 id: slider
-                width: playerPage.width
+                width: flickable.width
                 value: player.position
                 min: 0
                 max: player.duration

@@ -24,16 +24,14 @@ MouseArea {
     id: dragging
 
     property Item stacking
-    property bool hasPull: false
     property bool canClose: true
-    signal pulled
 
     anchors.fill: parent
 
     drag {
         target: parent
         axis: Drag.XAxis
-        minimumX: dragging.hasPull ? (-parent.width/4) : 0
+        minimumX: 0
         maximumX: canClose ? parent.width : 0
         filterChildren: true
     }
@@ -46,10 +44,7 @@ MouseArea {
         if (pressed) {
             dragging.stacking.stopAllAnimations();
         } else {
-            if (hasPull && parent.x < -parent.width / 4 + 10) {
-                pulled();
-                parent.x = -parent.width / 4;
-            } else if (parent.x > parent.width / 3) {
+            if (parent.x > parent.width / 3) {
                 dragging.stacking.startFadeOut();
             } else {
                 dragging.stacking.fadeInAgain();
