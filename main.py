@@ -31,6 +31,7 @@ import gpodder
 
 from gpodder.api import core
 from gpodder.api import util
+from gpodder.api import query
 
 import logging
 import functools
@@ -55,6 +56,8 @@ def run_in_background_thread(f):
 
 
 class gPotherSide:
+    ALL_PODCASTS = -1
+
     def __init__(self):
         self.core = None
         self._checking_for_new_episodes = False
@@ -149,9 +152,26 @@ class gPotherSide:
             'hasShownotes': episode.description != '',
         }
 
-    def load_episodes(self, id):
-        podcast = self._get_podcast_by_id(id)
-        return [self.convert_episode(episode) for episode in podcast.episodes]
+    def load_episodes(self, id=ALL_PODCASTS, eql=None):
+        if id is not None and id != self.ALL_PODCASTS:
+            podcasts = [self._get_podcast_by_id(id)]
+        else:
+            podcasts = self.core.model.get_podcasts()
+
+        if eql:
+            filter_func = query.EQL(eql).filter
+        else:
+            filter_func = lambda episodes: episodes
+
+        result = []
+
+        for podcast in podcasts:
+            result.extend(filter_func(podcast.episodes))
+
+        if id == self.ALL_PODCASTS:
+            result.sort(key=lambda e: e.published, reverse=True)
+
+        return [self.convert_episode(episode) for episode in result]
 
     def get_fresh_episodes_summary(self, count):
         summary = []
@@ -167,19 +187,9 @@ class gPotherSide:
         summary.sort(key=lambda e: e['newEpisodes'], reverse=True)
         return summary[:int(count)]
 
-    def get_fresh_episodes(self):
-        fresh_episodes = []
-        for podcast in self.core.model.get_podcasts():
-            for episode in podcast.episodes:
-                if episode.is_fresh():
-                    fresh_episodes.append(episode)
-
-        fresh_episodes.sort(key=lambda e: e.published, reverse=True)
-        return [self.convert_episode(e) for e in fresh_episodes]
-
     @run_in_background_thread
     def subscribe(self, url):
-        url = util.normalize_feed_url(url)
+        url = self.core.model.normalize_feed_url(url)
         # TODO: Check if subscription already exists
         self.core.model.load_podcast(url, create=True)
         self.core.save()
@@ -324,7 +334,6 @@ subscribe = gpotherside.subscribe
 unsubscribe = gpotherside.unsubscribe
 check_for_episodes = gpotherside.check_for_episodes
 get_stats = gpotherside.get_stats
-get_fresh_episodes = gpotherside.get_fresh_episodes
 get_fresh_episodes_summary = gpotherside.get_fresh_episodes_summary
 download_episode = gpotherside.download_episode
 delete_episode = gpotherside.delete_episode

@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,27 +20,27 @@
 
 import QtQuick 2.0
 
-ListView {
-    id: pListView
+Item {
+    id: episodeQueryControl
 
-    anchors.fill: parent
-
+    property var model
     property string title
-    property real pushPhase: 0
-    property bool headerHasIcon: false
-    property string headerIconText
 
-    signal headerIconClicked()
-
-    boundsBehavior: Flickable.StopAtBounds
-
-    header: SlidePageHeader {
-        title: pListView.title
-        hasIcon: pListView.headerHasIcon
-        iconText: pListView.headerIconText
-        onIconClicked: pListView.headerIconClicked()
+    function showSelectionDialog() {
+        pgst.loadPage('SelectionDialog.qml', {
+            title: episodeQueryControl.title,
+            callback: function (index, result) {
+                episodeQueryControl.model.currentFilterIndex = index;
+                episodeQueryControl.model.reload();
+            },
+            items: function () {
+                var labels = [];
+                for (var i in episodeQueryControl.model.filters) {
+                    labels.push(episodeQueryControl.model.filters[i].label);
+                }
+                return labels;
+            }(),
+            selectedIndex: episodeQueryControl.model.currentFilterIndex,
+        });
     }
-
-    PScrollDecorator { flickable: pListView }
 }
-

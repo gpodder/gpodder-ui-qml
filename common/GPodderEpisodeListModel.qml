@@ -26,24 +26,66 @@ import 'constants.js' as Constants
 ListModel {
     id: episodeListModel
 
-    property var podcast_id
+    property var podcast_id: -1
 
-    function loadEpisodes(podcast_id) {
-        episodeListModel.podcast_id = podcast_id;
-        reload();
+    property var queries: ({
+        All: '',
+        Fresh: 'new or downloading',
+        Downloaded: 'downloaded or downloading',
+        HideDeleted: 'not deleted',
+        Deleted: 'deleted',
+    })
+
+    property var filters: ([
+        { label: 'All', query: episodeListModel.queries.All },
+        { label: 'Fresh', query: episodeListModel.queries.Fresh },
+        { label: 'Downloaded', query: episodeListModel.queries.Downloaded },
+        { label: 'Hide deleted', query: episodeListModel.queries.HideDeleted },
+        { label: 'Deleted', query: episodeListModel.queries.Deleted },
+    ])
+
+    property bool ready: false
+    property int currentFilterIndex: -1
+    property string currentCustomQuery: queries.All
+
+    function setQuery(query) {
+        for (var i=0; i<filters.length; i++) {
+            if (filters[i].query === query) {
+                currentFilterIndex = i;
+                return;
+            }
+        }
+
+        currentFilterIndex = -1;
+        currentCustomQuery = query;
     }
 
-    function loadFreshEpisodes(callback) {
+    function loadAllEpisodes(callback) {
         episodeListModel.podcast_id = -1;
-        py.call('main.get_fresh_episodes', [], function (episodes) {
-            Util.updateModelFrom(episodeListModel, episodes);
-            callback();
-        });
+        reload(callback);
     }
 
-    function reload() {
-        py.call('main.load_episodes', [podcast_id], function (episodes) {
+    function loadEpisodes(podcast_id, callback) {
+        episodeListModel.podcast_id = podcast_id;
+        reload(callback);
+    }
+
+    function reload(callback) {
+        var query;
+
+        if (currentFilterIndex !== -1) {
+            query = filters[currentFilterIndex].query;
+        } else {
+            query = currentCustomQuery;
+        }
+
+        ready = false;
+        py.call('main.load_episodes', [podcast_id, query], function (episodes) {
             Util.updateModelFrom(episodeListModel, episodes);
+            episodeListModel.ready = true;
+            if (callback !== undefined) {
+                callback();
+            }
         });
     }
 

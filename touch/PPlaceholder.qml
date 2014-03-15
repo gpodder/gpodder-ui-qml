@@ -26,5 +26,5 @@ import 'common/constants.js' as Constants
 PLabel {
     anchors.centerIn: parent
     font.pixelSize: 40 * pgst.scalef
-    color: Constants.colors.text
+    color: Constants.colors.placeholder
 }

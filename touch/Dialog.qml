@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,17 +24,11 @@ import 'common/constants.js' as Constants
 
 Rectangle {
     id: page
-    color: Constants.colors.page
+    color: Constants.colors.dialogBackground
 
-    default property alias children: dragging.children
-    property alias hasPull: dragging.hasPull
-    property alias canClose: dragging.canClose
-    property real pullPhase: (x >= 0) ? 0 : (-x / (width / 4))
-    property bool isDialog: false
-
-    function unPull() {
-        stacking.fadeInAgain();
-    }
+    default property alias children: contents.children
+    property bool isDialog: true
+    property int contentHeight: -1
 
     function closePage() {
         stacking.startFadeOut();
@@ -45,34 +39,21 @@ Rectangle {
     width: parent.width
     height: parent.height
 
-    Stacking { id: stacking }
+    DialogStacking { id: stacking }
 
-    Dragging {
-        id: dragging
-        stacking: stacking
+    MouseArea {
+        anchors.fill: parent
+        onClicked: page.closePage();
     }
 
     Rectangle {
+        id: contents
+        property int border: parent.width * 0.1
+        width: parent.width - 2 * border
+        property int maxHeight: parent.height - 4 * border
+        height: ((page.contentHeight > 0 && page.contentHeight < maxHeight) ? page.contentHeight : maxHeight) * parent.opacity
+        anchors.centerIn: parent
         color: Constants.colors.page
-        anchors.fill: parent
-
-        opacity: page.pullPhase * 0.9
-
-        MouseArea {
-            enabled: parent.opacity > 0
-            anchors.fill: parent
-            onClicked: page.unPull();
-        }
-    }
-
-    Image {
-        anchors {
-            right: parent.left
-            top: parent.top
-            bottom: parent.bottom
-        }
-        width: 10 * pgst.scalef
-        source: 'images/pageshadow.png'
-        opacity: .1
+        clip: true
     }
 }

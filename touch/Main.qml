@@ -42,7 +42,11 @@ Item {
             }
         }
 
-        children[index-1].opacity = x / width;
+        if (page.isDialog) {
+            children[index-1].opacity = 1;
+        } else {
+            children[index-1].opacity = x / width;
+        }
         //children[index-1].pushPhase = x / width;
     }
 

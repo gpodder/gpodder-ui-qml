@@ -134,10 +134,9 @@ SlidePage {
 
             StartPageButton {
                 id: freshEpisodes
-                enabled: freshEpisodesRepeater.count > 0
 
-                title: py.refreshing ? 'Refreshing feeds' : 'Fresh episodes'
-                onClicked: pgst.loadPage('FreshEpisodes.qml');
+                title: py.refreshing ? 'Refreshing feeds' : 'Episodes'
+                onClicked: pgst.loadPage('EpisodeQueryPage.qml');
 
                 Row {
                     id: freshEpisodesRow

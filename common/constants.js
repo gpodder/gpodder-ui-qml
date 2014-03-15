@@ -32,6 +32,7 @@ var colors = {
     destructive: '#cf424f', /* destructive actions */
 
     page: '#dddddd',
+    dialogBackground: '#aa000000',
     text: '#333333', /* text color */
     highlight: '#433b67',
     secondaryHighlight: '#605885',

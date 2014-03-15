@@ -21,22 +21,45 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
 Item {
     id: slidePageHeader
     property alias title: label.text
     property alias color: label.color
 
+    property alias hasIcon: icon.visible
+    property alias iconText: icon.text
+    signal iconClicked()
+
     width: parent.width
     height: Constants.layout.header.height * pgst.scalef
+
+    IconMenuItem {
+        id: icon
+
+        visible: false
+        enabled: visible
+
+        text: 'Search'
+        icon: Icons.magnifying_glass
+        color: label.color
+
+        anchors {
+            left: parent.left
+            verticalCenter: parent.verticalCenter
+        }
+
+        onClicked: slidePageHeader.iconClicked()
+    }
 
     PLabel {
         id: label
         anchors {
-            left: parent.left
+            left: icon.right
             right: parent.right
             rightMargin: 20 * pgst.scalef
-            leftMargin: 70 * pgst.scalef
+            leftMargin: 20 * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 

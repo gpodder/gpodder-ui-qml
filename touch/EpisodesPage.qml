@@ -36,7 +36,17 @@ SlidePage {
     width: parent.width
     height: parent.height
 
-    Component.onCompleted: episodeListModel.loadEpisodes(podcast_id);
+    Component.onCompleted: {
+        episodeListModel.podcast_id = podcast_id;
+        episodeListModel.setQuery(episodeListModel.queries.All);
+        episodeListModel.reload();
+    }
+
+    EpisodeQueryControl {
+        id: queryControl
+        model: episodeListModel
+        title: 'Select filter'
+    }
 
     PullMenu {
         PullMenuItem {
@@ -80,6 +90,10 @@ SlidePage {
         property int selectedIndex: -1
         title: episodesPage.title
         model: GPodderEpisodeListModel { id: episodeListModel }
+
+        headerHasIcon: true
+        headerIconText: 'Filter'
+        onHeaderIconClicked: queryControl.showSelectionDialog();
 
         PPlaceholder {
             text: 'No episodes'

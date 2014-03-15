@@ -13,7 +13,7 @@ dist/$(PROJECT)-$(VERSION).tar.gz:
 	git archive --format=tar --prefix=$(PROJECT)-$(VERSION)/ $(VERSION) | gzip >$@
 
 clean:
-	find . -name '__pycache__' -exec rm {} +
+	find . -name '__pycache__' -exec rm -rf {} +
 
 distclean: clean
 	rm -rf dist
