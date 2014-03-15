@@ -27,25 +27,30 @@ Item {
 
     property alias text: textInput.text
     property string placeholderText: ''
+    signal accepted
 
     height: 50 * pgst.scalef
 
     TextInput {
         anchors {
-            fill: parent
+            verticalCenter: parent.verticalCenter
+            left: parent.left
+            right: parent.right
             margins: 5 * pgst.scalef
         }
         color: Constants.colors.text
         selectionColor: Constants.colors.background
         id: textInput
-        font.pixelSize: height
+        font.pixelSize: parent.height * 0.7
         font.family: placeholder.font.family
+        focus: true
+        onAccepted: textField.accepted()
     }
 
     PLabel {
         id: placeholder
         anchors.fill: textInput
-        visible: !textInput.focus && (textInput.text == '')
+        visible: (textInput.text == '')
         text: textField.placeholderText
         color: Constants.colors.placeholder
         font.pixelSize: textInput.font.pixelSize

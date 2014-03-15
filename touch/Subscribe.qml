@@ -27,16 +27,26 @@ Dialog {
 
     contentHeight: contentColumn.height
 
+    function accepted() {
+        loading.visible = true;
+        button.visible = false;
+        input.visible = false;
+        py.call('main.subscribe', [input.text], function () {
+            subscribe.closePage();
+        });
+    }
+
     Column {
         id: contentColumn
 
         anchors.centerIn: parent
-        spacing: 30 * pgst.scalef
+        spacing: 20 * pgst.scalef
 
         PTextField {
             id: input
             width: subscribe.width *.8
             placeholderText: 'Feed URL'
+            onAccepted: subscribe.accepted();
         }
 
         ButtonArea {
@@ -49,14 +59,7 @@ Dialog {
                 text: 'Subscribe'
             }
 
-            onClicked: {
-                loading.visible = true;
-                button.visible = false;
-                input.visible = false;
-                py.call('main.subscribe', [input.text], function () {
-                    subscribe.closePage();
-                });
-            }
+            onClicked: subscribe.accepted();
         }
 
         PBusyIndicator {

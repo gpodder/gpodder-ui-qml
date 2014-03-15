@@ -25,10 +25,20 @@ import 'common'
 SlidePage {
     id: directory
 
+    function search(text) {
+        loading.visible = true;
+        directorySearchModel.search(text, function() {
+            loading.visible = false;
+        });
+    }
+
     ListView {
+        id: listView
+
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
-        PScrollDecorator {}
+
+        PScrollDecorator { flickable: listView }
 
         model: GPodderDirectorySearchModel { id: directorySearchModel }
 
@@ -53,6 +63,7 @@ SlidePage {
                     id: input
                     width: parent.width
                     placeholderText: 'Search term'
+                    onAccepted: directory.search(input.text);
                 }
 
                 ButtonArea {
@@ -65,12 +76,7 @@ SlidePage {
                         text: 'Search'
                     }
 
-                    onClicked: {
-                        loading.visible = true;
-                        directorySearchModel.search(input.text, function() {
-                            loading.visible = false;
-                        });
-                    }
+                    onClicked: directory.search(input.text);
                 }
             }
         }

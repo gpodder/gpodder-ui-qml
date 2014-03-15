@@ -54,6 +54,8 @@ Dialog {
                 model: selectionDialog.items
 
                 delegate: ButtonArea {
+                    id: buttonArea
+
                     width: parent.width
                     height: 60 * pgst.scalef
 
@@ -67,7 +69,7 @@ Dialog {
                         }
 
                         text: modelData
-                        color: (index == selectionDialog.selectedIndex) ? Constants.colors.highlight : Constants.colors.text
+                        color: (index == selectionDialog.selectedIndex || buttonArea.pressed) ? Constants.colors.highlight : Constants.colors.text
                     }
 
                     onClicked: {

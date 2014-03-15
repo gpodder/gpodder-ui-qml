@@ -27,6 +27,7 @@ import 'common/constants.js' as Constants
 
 SlidePage {
     id: podcastsPage
+    canClose: false
 
     PListView {
         id: podcastList
@@ -46,9 +47,27 @@ SlidePage {
                     }
                 },
                 {
+                    label: 'Filter episodes',
+                    callback: function () {
+                        pgst.loadPage('EpisodeQueryPage.qml');
+                    }
+                },
+                {
+                    label: 'About',
+                    callback: function () {
+                        pgst.loadPage('AboutPage.qml');
+                    },
+                },
+                {
                     label: 'Add new podcast',
                     callback: function () {
                         pgst.loadPage('Subscribe.qml');
+                    },
+                },
+                {
+                    label: 'Search gpodder.net',
+                    callback: function () {
+                        pgst.loadPage('Directory.qml');
                     },
                 },
             ]);

@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 SlidePage {
     id: aboutPage
 
@@ -35,33 +37,37 @@ SlidePage {
             id: detailColumn
 
             width: aboutPage.width
-            spacing: 5 * pgst.scalef
+            spacing: 15 * pgst.scalef
 
             SlidePageHeader {
                 title: 'About gPodder'
             }
 
-            SectionHeader {
-                text: 'How to use'
+            Column {
                 width: parent.width
+
+                PLabel {
+                    width: parent.width * .95
+                    font.pixelSize: 30 * pgst.scalef
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    text: 'gPodder ' + py.uiversion
+                    color: Constants.colors.highlight
+                }
+
+                PLabel {
+                    width: parent.width * .95
+                    font.pixelSize: 20 * pgst.scalef
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    text: 'http://gpodder.org/'
+                    color: Constants.colors.placeholder
+                }
             }
 
             PLabel {
-                width: parent.width * .9
+                width: parent.width * .95
                 font.pixelSize: 30 * pgst.scalef
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                text: 'Swipe left on a page to reveal the menu for that page. Go back by swiping pages to the right.\n\nAdd subscriptions via their feed URL or use gpodder.net to search for podcasts.'
-            }
-
-            SectionHeader {
-                text: 'More information'
-                width: parent.width
-            }
-
-            PLabel {
-                width: parent.width * .9
-                font.pixelSize: 20 * pgst.scalef
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
                 text: [

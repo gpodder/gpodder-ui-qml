@@ -130,8 +130,7 @@ Item {
         onClicked: loadPage('PlayerPage.qml');
     }
 
-    StartPage {
-        id: startPage
+    PodcastsPage {
         visible: py.ready
     }
 }
