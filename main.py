@@ -35,6 +35,8 @@ from gpodder.api import query
 
 import logging
 import functools
+import time
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -141,6 +143,8 @@ class gPotherSide:
         return [self.convert_podcast(podcast) for podcast in podcasts]
 
     def convert_episode(self, episode):
+        now = datetime.datetime.now()
+        tnow = time.time()
         return {
             'id': episode.id,
             'title': episode.trimmed_title,
@@ -149,8 +153,21 @@ class gPotherSide:
             'isNew': episode.is_new,
             'playbackProgress': self._get_playback_progress(episode),
             'published': util.format_date(episode.published),
+            'section': self._format_published_section(now, tnow, episode.published),
             'hasShownotes': episode.description != '',
         }
+
+    def _format_published_section(self, now, tnow, published):
+        diff = (tnow - published)
+
+        if diff < 60 * 60 * 24 * 7:
+            return util.format_date(published)
+
+        dt = datetime.datetime.fromtimestamp(published)
+        if dt.year == now.year:
+            return dt.strftime('%B %Y')
+
+        return dt.strftime('%Y')
 
     def load_episodes(self, id=ALL_PODCASTS, eql=None):
         if id is not None and id != self.ALL_PODCASTS:

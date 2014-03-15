@@ -32,16 +32,22 @@ ListModel {
         All: '',
         Fresh: 'new or downloading',
         Downloaded: 'downloaded or downloading',
+        UnplayedDownloads: 'downloaded and not played',
+        FinishedDownloads: 'downloaded and finished',
         HideDeleted: 'not deleted',
         Deleted: 'deleted',
+        ShortDownloads: 'downloaded and min > 0 and min < 10',
     })
 
     property var filters: ([
         { label: 'All', query: episodeListModel.queries.All },
         { label: 'Fresh', query: episodeListModel.queries.Fresh },
         { label: 'Downloaded', query: episodeListModel.queries.Downloaded },
+        { label: 'Unplayed downloads', query: episodeListModel.queries.UnplayedDownloads },
+        { label: 'Finished downloads', query: episodeListModel.queries.FinishedDownloads },
         { label: 'Hide deleted', query: episodeListModel.queries.HideDeleted },
-        { label: 'Deleted', query: episodeListModel.queries.Deleted },
+        { label: 'Deleted episodes', query: episodeListModel.queries.Deleted },
+        { label: 'Short downloads (< 10 min)', query: episodeListModel.queries.ShortDownloads },
     ])
 
     property bool ready: false
