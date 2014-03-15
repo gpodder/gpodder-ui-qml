@@ -23,13 +23,15 @@ import QtQuick 2.0
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
-SlidePage {
+Dialog {
     id: confirmation
 
     property alias title: header.title
     property alias icon: icon.icon
     property alias color: header.color
     property var callback: undefined
+
+    contentHeight: icon.height + header.height + confirmLabel.height + 50 * pgst.scalef
 
     SlidePageHeader {
         id: header
@@ -39,7 +41,7 @@ SlidePage {
 
     PIcon {
         id: icon
-        size: 300
+        size: 200
         anchors.centerIn: parent
         color: header.color
 
@@ -55,6 +57,8 @@ SlidePage {
     }
 
     PLabel {
+        id: confirmLabel
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: icon.bottom
@@ -63,25 +67,5 @@ SlidePage {
 
         text: 'Tap to confirm'
         color: header.color
-    }
-
-    Row {
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
-            margins: 60 * pgst.scalef
-        }
-
-        spacing: 30 * pgst.scalef
-
-        PLabel {
-            text: 'Swipe right to cancel'
-            color: Constants.colors.text
-        }
-
-        PIcon {
-            color: Constants.colors.text
-            icon: Icons.arrow_right
-        }
     }
 }
