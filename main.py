@@ -334,7 +334,18 @@ class gPotherSide:
         return {
             'title': episode.trimmed_title,
             'description': util.remove_html_tags(episode.description),
+            'metadata': ' | '.join(self._format_metadata(episode)),
         }
+
+    def _format_metadata(self, episode):
+        if episode.published:
+            yield datetime.datetime.fromtimestamp(episode.published).strftime('%Y-%m-%d')
+
+        if episode.file_size > 0:
+            yield '%.2f MiB' % (episode.file_size / (1024 * 1024))
+
+        if episode.total_time > 0:
+            yield '%02d:%02d:%02d' % (episode.total_time / (60 * 60), (episode.total_time / 60) % 60, episode.total_time % 60)
 
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)

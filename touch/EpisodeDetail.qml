@@ -20,16 +20,25 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 SlidePage {
     id: detailPage
 
     property int episode_id
     property string title
+    property bool ready: false
+
+    PBusyIndicator {
+        anchors.centerIn: parent
+        visible: !detailPage.ready
+    }
 
     Component.onCompleted: {
-        label.text = 'Loading...';
         py.call('main.show_episode', [episode_id], function (episode) {
-            label.text = episode.description;
+            descriptionLabel.text = episode.description;
+            metadataLabel.text = episode.metadata;
+            detailPage.ready = true;
         });
     }
 
@@ -48,16 +57,37 @@ SlidePage {
             spacing: 10 * pgst.scalef
 
             SlidePageHeader {
-                title: detailPage.title
+                title: 'Shownotes'
             }
 
-            PLabel {
-                id: label
-                width: parent.width * .8
-                font.pixelSize: 30 * pgst.scalef
+            Column {
+                width: parent.width - 2 * 30 * pgst.scalef
                 anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-            }
+                spacing: 10 * pgst.scalef
+
+                PLabel {
+                    text: detailPage.title
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: 35 * pgst.scalef
+                    color: Constants.colors.highlight
+                }
+
+                PLabel {
+                    id: metadataLabel
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: 20 * pgst.scalef
+                    color: Constants.colors.placeholder
+                }
+
+                PLabel {
+                    id: descriptionLabel
+                    width: parent.width
+                    font.pixelSize: 30 * pgst.scalef
+                    wrapMode: Text.WordWrap
+                }
+        }
         }
     }
 
