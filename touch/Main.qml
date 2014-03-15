@@ -113,8 +113,9 @@ Item {
 
         anchors {
             right: parent.right
-            bottom: parent.bottom
-            bottomMargin: 30 * pgst.scalef
+            rightMargin: (opacity-1) * width
+            top: parent.top
+            topMargin: (Constants.layout.header.height * pgst.scalef - height) / 2
         }
 
         text: 'Now Playing'

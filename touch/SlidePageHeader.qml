@@ -58,7 +58,7 @@ Item {
         anchors {
             left: icon.visible ? icon.right : parent.left
             right: parent.right
-            rightMargin: 20 * pgst.scalef
+            rightMargin: 20 * pgst.scalef + (throbber.width * throbber.opacity)
             leftMargin: 20 * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
