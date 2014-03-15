@@ -21,12 +21,14 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
 SlidePage {
     id: detailPage
 
     property int episode_id
     property string title
+    property string link
     property bool ready: false
 
     PBusyIndicator {
@@ -38,6 +40,7 @@ SlidePage {
         py.call('main.show_episode', [episode_id], function (episode) {
             descriptionLabel.text = episode.description;
             metadataLabel.text = episode.metadata;
+            detailPage.link = episode.link;
             detailPage.ready = true;
         });
     }
@@ -58,6 +61,9 @@ SlidePage {
 
             SlidePageHeader {
                 title: 'Shownotes'
+                icon: (detailPage.link != '') ? Icons.link : ''
+                iconText: 'Website'
+                onIconClicked: Qt.openUrlExternally(detailPage.link);
             }
 
             Column {

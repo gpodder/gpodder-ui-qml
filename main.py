@@ -335,6 +335,7 @@ class gPotherSide:
             'title': episode.trimmed_title,
             'description': util.remove_html_tags(episode.description),
             'metadata': ' | '.join(self._format_metadata(episode)),
+            'link': episode.link if episode.link != episode.url else '',
         }
 
     def _format_metadata(self, episode):
