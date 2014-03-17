@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -23,17 +23,18 @@ import QtQuick 2.0
 import 'common/constants.js' as Constants
 
 Dialog {
-    id: subscribe
+    id: textInputDialog
+
+    property string buttonText
+    property string placeholderText
+    property string text
+    property var callback
 
     contentHeight: contentColumn.height
 
-    function accepted() {
-        loading.visible = true;
-        button.visible = false;
-        input.visible = false;
-        py.call('main.subscribe', [input.text], function () {
-            subscribe.closePage();
-        });
+    function accept() {
+        textInputDialog.callback(input.text);
+        textInputDialog.closePage();
     }
 
     Column {
@@ -44,9 +45,10 @@ Dialog {
 
         PTextField {
             id: input
-            width: subscribe.width *.8
-            placeholderText: 'Feed URL'
-            onAccepted: subscribe.accepted();
+            width: textInputDialog.width *.8
+            placeholderText: textInputDialog.placeholderText
+            text: textInputDialog.text
+            onAccepted: textInputDialog.accept();
         }
 
         ButtonArea {
@@ -56,16 +58,10 @@ Dialog {
 
             PLabel {
                 anchors.centerIn: parent
-                text: 'Subscribe'
+                text: textInputDialog.buttonText
             }
 
-            onClicked: subscribe.accepted();
-        }
-
-        PBusyIndicator {
-            id: loading
-            visible: false
-            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: textInputDialog.accept();
         }
     }
 }

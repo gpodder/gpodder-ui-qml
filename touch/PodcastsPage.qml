@@ -54,7 +54,14 @@ SlidePage {
             {
                 label: 'Add new podcast',
                 callback: function () {
-                    pgst.loadPage('Subscribe.qml');
+                    var ctx = { py: py };
+                    pgst.loadPage('TextInputDialog.qml', {
+                        buttonText: 'Subscribe',
+                        placeholderText: 'Feed URL',
+                        callback: function (url) {
+                            ctx.py.call('main.subscribe', [url]);
+                        }
+                    });
                 },
             },
             {
@@ -82,6 +89,46 @@ SlidePage {
 
         delegate: PodcastItem {
             onClicked: pgst.loadPage('EpisodesPage.qml', {'podcast_id': id, 'title': title});
+            onPressAndHold: {
+                pgst.showSelection([
+                    {
+                        label: 'Unsubscribe',
+                        callback: function () {
+                            var ctx = { py: py, id: id };
+                            pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
+                                ctx.py.call('main.unsubscribe', [ctx.id]);
+                            });
+                        } },
+                    {
+                        label: 'Rename',
+                        callback: function () {
+                            var ctx = { py: py, id: id };
+                            pgst.loadPage('TextInputDialog.qml', {
+                                buttonText: 'Rename',
+                                placeholderText: 'New name',
+                                text: title,
+                                callback: function (new_title) {
+                                    ctx.py.call('main.rename_podcast', [ctx.id, new_title]);
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: 'Change section',
+                        callback: function () {
+                            var ctx = { py: py, id: id };
+                            pgst.loadPage('TextInputDialog.qml', {
+                                buttonText: 'Change section',
+                                placeholderText: 'New section',
+                                text: section,
+                                callback: function (new_section) {
+                                    ctx.py.call('main.change_section', [ctx.id, new_section]);
+                                }
+                            });
+                        }
+                    },
+                ], title);
+            }
         }
     }
 }
