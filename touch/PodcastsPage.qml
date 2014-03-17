@@ -29,49 +29,49 @@ SlidePage {
     id: podcastsPage
     canClose: false
 
+    hasMenuButton: true
+    menuButtonLabel: 'Settings'
+    onMenuButtonClicked: {
+        pgst.showSelection([
+            {
+                label: 'Check for new episodes',
+                callback: function () {
+                    py.call('main.check_for_episodes');
+                }
+            },
+            {
+                label: 'Filter episodes',
+                callback: function () {
+                    pgst.loadPage('EpisodeQueryPage.qml');
+                }
+            },
+            {
+                label: 'About',
+                callback: function () {
+                    pgst.loadPage('AboutPage.qml');
+                },
+            },
+            {
+                label: 'Add new podcast',
+                callback: function () {
+                    pgst.loadPage('Subscribe.qml');
+                },
+            },
+            {
+                label: 'Search gpodder.net',
+                callback: function () {
+                    pgst.loadPage('Directory.qml');
+                },
+            },
+        ]);
+    }
+
     PListView {
         id: podcastList
         title: 'Subscriptions'
 
         section.property: 'section'
         section.delegate: SectionHeader { text: section }
-
-        headerIcon: Icons.cog
-        headerIconText: 'Settings'
-        onHeaderIconClicked: {
-            pgst.showSelection([
-                {
-                    label: 'Check for new episodes',
-                    callback: function () {
-                        py.call('main.check_for_episodes');
-                    }
-                },
-                {
-                    label: 'Filter episodes',
-                    callback: function () {
-                        pgst.loadPage('EpisodeQueryPage.qml');
-                    }
-                },
-                {
-                    label: 'About',
-                    callback: function () {
-                        pgst.loadPage('AboutPage.qml');
-                    },
-                },
-                {
-                    label: 'Add new podcast',
-                    callback: function () {
-                        pgst.loadPage('Subscribe.qml');
-                    },
-                },
-                {
-                    label: 'Search gpodder.net',
-                    callback: function () {
-                        pgst.loadPage('Directory.qml');
-                    },
-                },
-            ]);
-        }
 
         PPlaceholder {
             text: 'No podcasts'

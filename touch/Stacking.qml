@@ -48,6 +48,7 @@ Item {
 
     function startFadeOut() {
         fadeOut.start();
+        pgst.topOfStackChanged(-1);
         page.destroy(500);
     }
 

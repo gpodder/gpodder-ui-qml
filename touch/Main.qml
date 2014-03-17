@@ -51,10 +51,36 @@ Item {
         } else {
             children[index-1].opacity = x / width;
         }
+
         //children[index-1].pushPhase = x / width;
     }
 
     property bool loadPageInProgress: false
+    property bool hasBackButton: false
+    property int bottomSpacing: toolbar.showing ? toolbar.height+toolbar.anchors.bottomMargin : 0
+
+    property bool hasMenuButton: false
+    property string menuButtonLabel: ''
+    property string menuButtonIcon: ''
+
+    function topOfStackChanged(offset) {
+        if (offset === undefined) {
+            offset = 0;
+        }
+
+        var page = children[children.length+offset-1];
+
+        // TODO: Maybe make these property bindings instead
+        pgst.hasBackButton = (!page.isDialog && page.canClose);
+        pgst.hasMenuButton = page.hasMenuButton;
+        if (pgst.hasMenuButton) {
+            pgst.menuButtonLabel = page.menuButtonLabel;
+            pgst.menuButtonIcon = page.menuButtonIcon;
+        } else {
+            pgst.menuButtonLabel = 'Menu';
+            pgst.menuButtonIcon = Icons.vellipsis;
+        }
+    }
 
     function showConfirmation(title, icon, callback) {
         loadPage('Confirmation.qml', {
@@ -106,29 +132,67 @@ Item {
         visible: !py.ready
     }
 
-    IconMenuItem {
-        id: throbber
-
-        z: 100
-
+    Image {
+        z: 101
         anchors {
+            left: parent.left
             right: parent.right
-            rightMargin: (opacity-1) * width
-            top: parent.top
-            topMargin: (Constants.layout.header.height * pgst.scalef - height) / 2
+            bottom: toolbar.top
         }
 
-        text: 'Now Playing'
-        color: Constants.colors.playback
-        icon: Icons.play
+        source: 'images/toolbarshadow.png'
+        opacity: .1
+        height: 10 * pgst.scalef
+        visible: toolbar.showing
+    }
 
-        transparent: false
-        enabled: opacity
+    PToolbar {
+        id: toolbar
+        z: 102
 
-        opacity: player.episode != 0 && !pgst.dialogsVisible
-        Behavior on opacity { PropertyAnimation { duration: 200 } }
+        Row {
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+            }
 
-        onClicked: loadPage('PlayerPage.qml');
+            PToolbarButton {
+                id: backButton
+
+                text: 'Back'
+                icon: Icons.arrow_left
+
+                enabled: pgst.hasBackButton
+                onClicked: pgst.children[pgst.children.length-1].closePage();
+            }
+        }
+
+        Row {
+            anchors {
+                verticalCenter: parent.verticalCenter
+                right: parent.right
+            }
+
+            PToolbarButton {
+                id: throbber
+
+                text: 'Now Playing'
+                icon: Icons.play
+
+                enabled: player.episode != 0
+                onClicked: loadPage('PlayerPage.qml');
+            }
+
+            PToolbarButton {
+                id: menuButton
+
+                text: pgst.menuButtonLabel
+                icon: pgst.menuButtonIcon
+
+                enabled: pgst.hasMenuButton
+                onClicked: pgst.children[pgst.children.length-1].menuButtonClicked()
+            }
+        }
     }
 
     PodcastsPage {

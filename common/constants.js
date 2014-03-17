@@ -32,11 +32,17 @@ var colors = {
     destructive: '#cf424f', /* destructive actions */
 
     page: '#dddddd',
+    toolbar: '#d0d0d0',
+    dialog: '#dddddd',
     dialogBackground: '#aa000000',
     text: '#333333', /* text color */
+    dialogText: '#333333',
     highlight: '#433b67',
+    dialogHighlight: '#433b67',
     secondaryHighlight: '#605885',
     area: '#cccccc',
+    dialogArea: '#d0d0d0',
+    toolbarArea: '#bbbbbb',
     placeholder: '#666666',
 
     //page: '#000000',

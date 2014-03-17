@@ -28,6 +28,11 @@ import 'icons/icons.js' as Icons
 SlidePage {
     id: allEpisodesPage
 
+    hasMenuButton: true
+    menuButtonIcon: Icons.magnifying_glass
+    menuButtonLabel: 'Filter'
+    onMenuButtonClicked: queryControl.showSelectionDialog()
+
     EpisodeQueryControl {
         id: queryControl
         model: episodesListModel
@@ -48,9 +53,6 @@ SlidePage {
         id: episodeList
         property int selectedIndex: -1
         title: 'Episodes'
-        headerIcon: Icons.magnifying_glass
-        headerIconText: 'Filter'
-        onHeaderIconClicked: queryControl.showSelectionDialog();
 
         PPlaceholder {
             text: 'No episodes found'

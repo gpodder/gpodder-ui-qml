@@ -27,19 +27,12 @@ ListView {
 
     property string title
     property real pushPhase: 0
-    property string headerIcon
-    property string headerIconText
-
-    signal headerIconClicked()
 
     boundsBehavior: Flickable.StopAtBounds
 
     header: SlidePageHeader {
         id: header
         title: pListView.title
-        icon: pListView.headerIcon
-        iconText: pListView.headerIconText
-        onIconClicked: pListView.headerIconClicked()
     }
 
     PScrollDecorator { flickable: pListView }

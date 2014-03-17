@@ -63,6 +63,7 @@ Dialog {
                     }
                     text: player.episode_title
                     elide: Text.ElideRight
+                    color: Constants.colors.dialogText
                 }
 
                 PLabel {
@@ -72,12 +73,14 @@ Dialog {
                     }
                     text: player.podcast_title
                     elide: Text.ElideRight
+                    color: Constants.colors.dialogText
                 }
             }
 
             PLabel {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Util.formatPosition(slider.displayedValue/1000, player.duration/1000)
+                color: Constants.colors.dialogText
             }
 
             PSlider {

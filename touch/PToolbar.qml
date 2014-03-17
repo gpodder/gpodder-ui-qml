@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,20 +19,30 @@
  */
 
 import QtQuick 2.0
+import 'common'
 
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
-MouseArea {
-    id: mouseArea
-    property bool transparent: false
-    property bool canHighlight: true
-    property alias color: background.color
+Rectangle {
+    id: toolbar
+    property bool showing: true
 
-    Rectangle {
-        id: background
+    color: Constants.colors.toolbar
+
+    height: 80 * pgst.scalef
+
+    MouseArea {
+        // Capture all touch events
         anchors.fill: parent
-        color: Constants.colors.area
-        opacity: (mouseArea.pressed && mouseArea.canHighlight) ? 1 : .5
-        visible: parent.enabled && ((mouseArea.canHighlight && mouseArea.pressed) || !mouseArea.transparent)
     }
+
+    anchors {
+        left: parent.left
+        right: parent.right
+        bottom: parent.bottom
+        bottomMargin: toolbar.showing ? 0 : -height
+    }
+
+    Behavior on anchors.bottomMargin { PropertyAnimation { duration: 100 } }
 }

@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,49 +19,41 @@
  */
 
 import QtQuick 2.0
+import 'common'
 
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
 Rectangle {
-    id: page
-    color: Constants.colors.page
+    id: toolbarButton
 
-    Component.onCompleted: pgst.topOfStackChanged();
+    //property alias color: iconMenuItem.color
+    //property alias text: iconMenuItem.text
+    property string text: ''
+    property alias icon: iconMenuItem.icon
 
-    default property alias children: dragging.children
-    property alias canClose: dragging.canClose
-    property bool isDialog: false
+    signal clicked()
 
-    property bool hasMenuButton: false
-    property string menuButtonLabel: 'Menu'
-    property string menuButtonIcon: Icons.vellipsis
-    signal menuButtonClicked()
+    width: iconMenuItem.width
+    height: iconMenuItem.height
+    color: iconMenuItem.pressed ? Constants.colors.toolbarArea : 'transparent'
 
-    function closePage() {
-        stacking.startFadeOut();
-    }
+    Rectangle {
+        height: 5 * pgst.scalef
+        color: iconMenuItem.pressed ? Constants.colors.secondaryHighlight : 'transparent'
 
-    onXChanged: pgst.update(page, x)
-
-    width: parent.width
-    height: parent.height - parent.bottomSpacing
-
-    Stacking { id: stacking }
-
-    Dragging {
-        id: dragging
-        stacking: stacking
-    }
-
-    Image {
         anchors {
-            right: parent.left
+            left: parent.left
+            right: parent.right
             top: parent.top
-            bottom: parent.bottom
         }
-        width: 10 * pgst.scalef
-        source: 'images/pageshadow.png'
-        opacity: .1
+    }
+
+    IconMenuItem {
+        id: iconMenuItem
+        color: Constants.colors.text
+        transparent: true
+        enabled: parent.enabled
+        onClicked: toolbarButton.clicked()
     }
 }

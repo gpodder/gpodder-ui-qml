@@ -24,6 +24,8 @@ import 'common/constants.js' as Constants
 
 Rectangle {
     id: page
+    z: 200
+
     color: Constants.colors.dialogBackground
 
     Component.onCompleted: pgst.dialogsVisible = pgst.dialogsVisible + 1;
@@ -57,7 +59,7 @@ Rectangle {
         property int maxHeight: parent.height - 4 * border
         height: ((page.contentHeight > 0 && page.contentHeight < maxHeight) ? page.contentHeight : maxHeight) * parent.opacity
         anchors.centerIn: parent
-        color: Constants.colors.page
+        color: Constants.colors.dialog
         clip: true
     }
 }

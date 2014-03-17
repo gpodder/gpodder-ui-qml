@@ -31,6 +31,11 @@ SlidePage {
     property string link
     property bool ready: false
 
+    hasMenuButton: detailPage.link != ''
+    menuButtonIcon: Icons.link
+    menuButtonLabel: 'Website'
+    onMenuButtonClicked: Qt.openUrlExternally(detailPage.link)
+
     PBusyIndicator {
         anchors.centerIn: parent
         visible: !detailPage.ready
@@ -59,12 +64,7 @@ SlidePage {
             width: detailPage.width
             spacing: 10 * pgst.scalef
 
-            SlidePageHeader {
-                title: 'Shownotes'
-                icon: (detailPage.link != '') ? Icons.link : ''
-                iconText: 'Website'
-                onIconClicked: Qt.openUrlExternally(detailPage.link);
-            }
+            Item { height: 20 * pgst.scalef; width: parent.width }
 
             Column {
                 width: parent.width - 2 * 30 * pgst.scalef

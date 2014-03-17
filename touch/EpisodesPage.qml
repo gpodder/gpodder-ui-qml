@@ -34,6 +34,36 @@ SlidePage {
     width: parent.width
     height: parent.height
 
+    hasMenuButton: true
+    menuButtonLabel: 'Settings'
+    onMenuButtonClicked: {
+        pgst.showSelection([
+            {
+                label: 'Filter list (' + queryControl.currentFilter + ')',
+                callback: function () {
+                    queryControl.showSelectionDialog();
+                }
+            },
+            {
+                label: 'Mark episodes as old',
+                callback: function () {
+                    py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
+                },
+            },
+            {
+                label: 'Unsubscribe',
+                callback: function () {
+                    var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
+                    pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
+                        ctx.py.call('main.unsubscribe', [ctx.id]);
+                        ctx.page.closePage();
+                    });
+                },
+            },
+        ]);
+    }
+
+
     Component.onCompleted: {
         episodeListModel.podcast_id = podcast_id;
         episodeListModel.setQuery(episodeListModel.queries.All);
@@ -51,35 +81,6 @@ SlidePage {
         property int selectedIndex: -1
         title: episodesPage.title
         model: GPodderEpisodeListModel { id: episodeListModel }
-
-        headerIcon: Icons.cog
-        headerIconText: 'Settings'
-        onHeaderIconClicked: {
-            pgst.showSelection([
-                {
-                    label: 'Filter list (' + queryControl.currentFilter + ')',
-                    callback: function () {
-                        queryControl.showSelectionDialog();
-                    }
-                },
-                {
-                    label: 'Mark episodes as old',
-                    callback: function () {
-                        py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
-                    },
-                },
-                {
-                    label: 'Unsubscribe',
-                    callback: function () {
-                        var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
-                        pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
-                            ctx.py.call('main.unsubscribe', [ctx.id]);
-                            ctx.page.closePage();
-                        });
-                    },
-                },
-            ]);
-        }
 
         PPlaceholder {
             text: 'No episodes'

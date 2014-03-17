@@ -46,7 +46,7 @@ Dialog {
             SlidePageHeader {
                 id: header
                 visible: title != ''
-                color: Constants.colors.highlight
+                color: Constants.colors.dialogHighlight
                 title: selectionDialog.title
             }
 
@@ -56,8 +56,9 @@ Dialog {
                 delegate: ButtonArea {
                     id: buttonArea
 
+                    color: Constants.colors.dialogArea
                     width: parent.width
-                    height: 60 * pgst.scalef
+                    height: 70 * pgst.scalef
 
                     transparent: (index != selectionDialog.selectedIndex)
 
@@ -69,7 +70,8 @@ Dialog {
                         }
 
                         text: modelData
-                        color: (index == selectionDialog.selectedIndex || buttonArea.pressed) ? Constants.colors.highlight : Constants.colors.text
+                        color: (index == selectionDialog.selectedIndex || buttonArea.pressed) ? Constants.colors.dialogHighlight : Constants.colors.dialogText
+                        font.pixelSize: 30 * pgst.scalef
                     }
 
                     onClicked: {

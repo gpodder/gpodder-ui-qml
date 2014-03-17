@@ -32,6 +32,8 @@ ButtonArea {
     property alias size: icon.size
     property bool alwaysShowText: false
 
+    Behavior on _real_color { ColorAnimation { duration: 100 } }
+
     transparent: true
     canHighlight: false
 

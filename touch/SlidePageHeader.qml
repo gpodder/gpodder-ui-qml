@@ -28,45 +28,21 @@ Item {
     property alias title: label.text
     property alias color: label.color
 
-    property alias iconText: icon.text
-    property alias icon: icon.icon
-    signal iconClicked()
-
     width: parent.width
     height: Constants.layout.header.height * pgst.scalef
-
-    IconMenuItem {
-        id: icon
-
-        visible: icon != '' && icon != undefined
-        enabled: visible
-
-        text: 'Search'
-        icon: ''
-        color: label.color
-
-        anchors {
-            left: parent.left
-            verticalCenter: parent.verticalCenter
-        }
-
-        onClicked: slidePageHeader.iconClicked()
-    }
 
     PLabel {
         id: label
         anchors {
-            left: icon.visible ? icon.right : parent.left
+            left: parent.left
             right: parent.right
-            rightMargin: 20 * pgst.scalef + (throbber.width * throbber.opacity)
+            rightMargin: 20 * pgst.scalef
             leftMargin: 20 * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 
         color: Constants.colors.highlight
-        horizontalAlignment: Text.AlignRight
         font.pixelSize: parent.height * .4
         elide: Text.ElideRight
     }
 }
-
