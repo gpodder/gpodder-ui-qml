@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,35 +20,35 @@
 
 import QtQuick 2.0
 
-import 'common'
-import 'common/util.js' as Util
 import 'common/constants.js' as Constants
-import 'icons/icons.js' as Icons
 
-SlidePage {
-    id: allEpisodesPage
 
-    hasMenuButton: true
-    menuButtonIcon: Icons.magnifying_glass
-    menuButtonLabel: 'Filter'
-    onMenuButtonClicked: queryControl.showSelectionDialog()
+Timer {
+    id: scrollTimer
+    interval: 10
+    repeat: true
 
-    EpisodeQueryControl {
-        id: queryControl
-        model: episodeList.model
-        title: 'Select filter'
+    function begin(flickable_) {
+        flickable = flickable_;
+        lastHeight = flickable.contentHeight;
+        repeatLimit = defaultRepeatLimit;
+        scrollTimer.start();
     }
 
-    Component.onCompleted: {
-        episodeList.model.setQuery(episodeList.model.queries.Fresh);
-        episodeList.model.reload();
-    }
+    property var flickable
+    property int defaultRepeatLimit: 10
+    property int repeatLimit: defaultRepeatLimit
+    property real lastHeight: 0
 
-    EpisodeListView {
-        id: episodeList
-        title: 'Episodes'
+    onTriggered: {
+        flickable.contentY = flickable.contentHeight - flickable.height;
+        flickable.returnToBounds();
 
-        section.property: 'section'
-        section.delegate: SectionHeader { text: section }
+        repeatLimit = repeatLimit - 1;
+        lastHeight = flickable.contentHeight;
+
+        if (repeatLimit <= 0 && lastHeight === flickable.contentHeight) {
+            stop();
+        }
     }
 }

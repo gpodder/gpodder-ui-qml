@@ -31,9 +31,6 @@ SlidePage {
     property int podcast_id
     property string title
 
-    width: parent.width
-    height: parent.height
-
     hasMenuButton: true
     menuButtonLabel: 'Settings'
     onMenuButtonClicked: {
@@ -65,29 +62,19 @@ SlidePage {
 
 
     Component.onCompleted: {
-        episodeListModel.podcast_id = podcast_id;
-        episodeListModel.setQuery(episodeListModel.queries.All);
-        episodeListModel.reload();
+        episodeList.model.podcast_id = podcast_id;
+        episodeList.model.setQuery(episodeList.model.queries.All);
+        episodeList.model.reload();
     }
 
     EpisodeQueryControl {
         id: queryControl
-        model: episodeListModel
+        model: episodeList.model
         title: 'Select filter'
     }
 
-    PListView {
+    EpisodeListView {
         id: episodeList
-        property int selectedIndex: -1
         title: episodesPage.title
-        model: GPodderEpisodeListModel { id: episodeListModel }
-
-        PPlaceholder {
-            text: 'No episodes'
-            visible: episodeList.count === 0
-        }
-
-        delegate: EpisodeItem { }
     }
 }
-

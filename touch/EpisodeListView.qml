@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2013, 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,34 +21,33 @@
 import QtQuick 2.0
 
 import 'common'
-import 'common/util.js' as Util
-import 'common/constants.js' as Constants
-import 'icons/icons.js' as Icons
 
-SlidePage {
-    id: allEpisodesPage
 
-    hasMenuButton: true
-    menuButtonIcon: Icons.magnifying_glass
-    menuButtonLabel: 'Filter'
-    onMenuButtonClicked: queryControl.showSelectionDialog()
+PListView {
+    id: episodeList
 
-    EpisodeQueryControl {
-        id: queryControl
-        model: episodeList.model
-        title: 'Select filter'
+    property int selectedIndex: -1
+
+    PScrollIntoView { id: scrollIntoView }
+
+    onSelectedIndexChanged: {
+        if (selectedIndex === count - 1) {
+            scrollIntoView.begin(episodeList);
+        }
     }
 
-    Component.onCompleted: {
-        episodeList.model.setQuery(episodeList.model.queries.Fresh);
-        episodeList.model.reload();
+    model: GPodderEpisodeListModel { id: episodeListModel }
+
+    PBusyIndicator {
+        visible: !episodeListModel.ready
+        anchors.centerIn: parent
     }
 
-    EpisodeListView {
-        id: episodeList
-        title: 'Episodes'
-
-        section.property: 'section'
-        section.delegate: SectionHeader { text: section }
+    PPlaceholder {
+        // TODO: If filter is "all", say "No episodes"
+        text: 'No episodes found'
+        visible: episodeList.count === 0 && episodeListModel.ready
     }
+
+    delegate: EpisodeItem { }
 }
