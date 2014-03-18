@@ -36,6 +36,8 @@ Dialog {
     Flickable {
         id: selectionDialogFlickable
 
+        boundsBehavior: Flickable.StopAtBounds
+
         anchors.fill: parent
         contentHeight: contentColumn.height
 
