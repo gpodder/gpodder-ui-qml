@@ -77,7 +77,7 @@ Item {
                 enabled: downloadState != Constants.state.deleted
                 onClicked: {
                     var ctx = { py: py, id: id };
-                    pgst.showConfirmation('Delete episode', 'Delete', 'Cancel', 'Delete this episode?', Icons.trash, function () {
+                    pgst.showConfirmation(title, 'Delete', 'Cancel', 'Delete this episode?', Icons.trash, function () {
                         ctx.py.call('main.delete_episode', [ctx.id]);
                     });
                 }
