@@ -56,9 +56,12 @@ Rectangle {
         id: contents
         property int border: parent.width * 0.1
         width: parent.fullWidth ? parent.width : (parent.width - 2 * border)
-        property int maxHeight: parent.height - 4 * border
+        property int maxHeight: parent.height - toolbar.height
         height: ((page.contentHeight > 0 && page.contentHeight < maxHeight) ? page.contentHeight : maxHeight) * parent.opacity
-        anchors.centerIn: parent
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: parent.top
+        }
         color: Constants.colors.dialog
         clip: true
     }

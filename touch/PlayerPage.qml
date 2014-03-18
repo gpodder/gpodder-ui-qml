@@ -44,17 +44,14 @@ Dialog {
             width: flickable.width
             spacing: 10 * pgst.scalef
 
-            SlidePageHeader {
-                title: 'Now playing'
-                color: Constants.colors.playback
-            }
-
             Column {
                 anchors {
                     left: parent.left
                     right: parent.right
                     margins: 30 * pgst.scalef
                 }
+
+                Item { width: parent.width; height: 20 * pgst.scalef }
 
                 PLabel {
                     anchors {

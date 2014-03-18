@@ -32,7 +32,8 @@ Item {
 
     GPodderPodcastListModel { id: podcastListModel }
 
-    property real scalef: width / 480
+    property real scalef: (width < height) ? (width / 480) : (height / 480)
+    property int shorterSide: (width < height) ? width : height
     property int dialogsVisible: 0
 
     anchors.fill: parent
