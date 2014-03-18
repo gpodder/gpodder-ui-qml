@@ -208,6 +208,15 @@ class gPotherSide:
     def subscribe(self, url):
         url = self.core.model.normalize_feed_url(url)
         # TODO: Check if subscription already exists
+
+        # Kludge: After one second, update the podcast list,
+        # so that we see the podcast that is being updated
+        @run_in_background_thread
+        def show_loading():
+            time.sleep(1)
+            pyotherside.send('podcast-list-changed')
+        show_loading()
+
         self.core.model.load_podcast(url, create=True)
         self.core.save()
         pyotherside.send('podcast-list-changed')
