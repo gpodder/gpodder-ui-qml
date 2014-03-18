@@ -52,6 +52,11 @@ Rectangle {
         onClicked: page.closePage();
     }
 
+    MouseArea {
+        // Tapping on the dialog contents should do nothing
+        anchors.fill: contents
+    }
+
     Rectangle {
         id: contents
         property int border: parent.width * 0.1

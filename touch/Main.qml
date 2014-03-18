@@ -83,9 +83,12 @@ Item {
         }
     }
 
-    function showConfirmation(title, icon, callback) {
+    function showConfirmation(title, affirmative, negative, description, icon, callback) {
         loadPage('Confirmation.qml', {
             title: title,
+            affirmativeAction: affirmative,
+            negativeAction: negative,
+            description: description,
             icon: icon,
             callback: callback,
         });

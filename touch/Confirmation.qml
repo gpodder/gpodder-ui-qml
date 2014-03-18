@@ -27,45 +27,77 @@ Dialog {
     id: confirmation
 
     property alias title: header.title
-    property alias icon: icon.icon
+    property alias description: description.text
+    property alias affirmativeAction: affirmativeButton.text
+    property alias negativeAction: negativeButton.text
+
+    property string icon
     property alias color: header.color
     property var callback: undefined
 
-    contentHeight: icon.height + header.height + confirmLabel.height + 50 * pgst.scalef
+    contentHeight: contentColumn.height
 
-    SlidePageHeader {
-        id: header
-        color: Constants.colors.destructive
-        title: 'Confirmation'
-    }
+    Column {
+        id: contentColumn
+        width: parent.width
 
-    PIcon {
-        id: icon
-        size: 200
-        anchors.centerIn: parent
-        color: header.color
+        SlidePageHeader {
+            id: header
+            color: Constants.colors.destructive
+            title: 'Confirmation'
+        }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (confirmation.callback !== undefined) {
-                    confirmation.callback();
+        PLabel {
+            id: description
+
+            width: parent.width - 30 * pgst.scalef
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.WordWrap
+
+            visible: text
+        }
+
+        Item { width: parent.width; height: 10 * pgst.scalef }
+
+        Row {
+            width: parent.width - 30 * pgst.scalef
+            height: 80 * pgst.scalef
+            spacing: 30 * pgst.scalef
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            ConfirmationButton {
+                id: affirmativeButton
+
+                width: (parent.width - parent.spacing) * 2 / 3
+                height: parent.height
+
+                text: 'Yes'
+                icon: confirmation.icon
+                contentColor: header.color
+
+                onClicked: {
+                    if (confirmation.callback !== undefined) {
+                        confirmation.callback();
+                        confirmation.closePage();
+                    }
+                }
+            }
+
+            ConfirmationButton {
+                id: negativeButton
+
+                width: (parent.width - parent.spacing) * 1 / 3
+                height: parent.height
+
+                text: 'Cancel'
+                contentColor: Constants.colors.placeholder
+
+                onClicked: {
                     confirmation.closePage();
                 }
             }
         }
-    }
 
-    PLabel {
-        id: confirmLabel
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: icon.bottom
-            margins: 30 * pgst.scalef
-        }
-
-        text: 'Tap to confirm'
-        color: header.color
+        Item { width: parent.width; height: 30 * pgst.scalef }
     }
 }

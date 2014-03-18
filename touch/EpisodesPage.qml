@@ -51,7 +51,7 @@ SlidePage {
                 label: 'Unsubscribe',
                 callback: function () {
                     var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
-                    pgst.showConfirmation('Unsubscribe', Icons.trash, function () {
+                    pgst.showConfirmation('Unsubscribe', 'Unsubscribe', 'Cancel', 'Remove this podcast and all downloaded episodes?', Icons.trash, function () {
                         ctx.py.call('main.unsubscribe', [ctx.id]);
                         ctx.page.closePage();
                     });
