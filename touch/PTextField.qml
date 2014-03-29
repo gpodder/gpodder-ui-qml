@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'icons/icons.js' as Icons
 
 Item {
     id: textField
@@ -36,15 +37,15 @@ Item {
     height: 50 * pgst.scalef
 
     TextInput {
+        id: textInput
         anchors {
             verticalCenter: parent.verticalCenter
             left: parent.left
-            right: parent.right
+            right: clipboardIcon.left
             margins: 5 * pgst.scalef
         }
         color: Constants.colors.text
         selectionColor: Constants.colors.background
-        id: textInput
         font.pixelSize: parent.height * 0.7
         font.family: placeholder.font.family
         focus: true
@@ -58,5 +59,51 @@ Item {
         text: textField.placeholderText
         color: Constants.colors.placeholder
         font.pixelSize: textInput.font.pixelSize
+    }
+
+    IconMenuItem {
+        id: clipboardIcon
+
+        anchors {
+            right: parent.right
+            margins: 5 * pgst.scalef
+            verticalCenter: parent.verticalCenter
+        }
+
+        icon: Icons.paperclip
+        onClicked: {
+            pgst.showSelection([
+                {
+                    label: 'Copy',
+                    callback: function () {
+                        textInput.copy();
+                    }
+                },
+                {
+                    label: 'Paste',
+                    callback: function() {
+                        textInput.paste();
+                    }
+                },
+                {
+                    label: 'Cut',
+                    callback: function() {
+                        textInput.cut();
+                    }
+                },
+                {
+                    label: 'Clear',
+                    callback: function() {
+                        textInput.text = '';
+                    }
+                },
+                {
+                    label: 'Select all',
+                    callback: function() {
+                        textInput.selectAll();
+                    }
+                }
+            ]);
+        }
     }
 }

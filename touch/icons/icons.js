@@ -20,3 +20,4 @@ var magnifying_glass = '\ue074';
 var cog = '\u2699';
 var link = '\ue077';
 var vellipsis = '\u22ee';
+var paperclip = '\ue08a';
