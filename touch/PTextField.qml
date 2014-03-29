@@ -29,6 +29,10 @@ Item {
     property string placeholderText: ''
     signal accepted
 
+    function paste() {
+        textInput.paste();
+    }
+
     height: 50 * pgst.scalef
 
     TextInput {

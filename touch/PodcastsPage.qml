@@ -58,6 +58,7 @@ SlidePage {
                     pgst.loadPage('TextInputDialog.qml', {
                         buttonText: 'Subscribe',
                         placeholderText: 'Feed URL',
+                        pasteOnLoad: true,
                         callback: function (url) {
                             ctx.py.call('main.subscribe', [url]);
                         }

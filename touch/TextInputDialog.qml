@@ -28,9 +28,16 @@ Dialog {
     property string buttonText
     property string placeholderText
     property string text
+    property bool pasteOnLoad: false
     property var callback
 
     contentHeight: contentColumn.height
+
+    Component.onCompleted: {
+        if (pasteOnLoad) {
+            input.paste();
+        }
+    }
 
     function accept() {
         textInputDialog.callback(input.text);
