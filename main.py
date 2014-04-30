@@ -327,6 +327,7 @@ class gPotherSide:
             'position': episode.current_position,
             'total': episode.total_time,
             'video': episode.file_type() == 'video',
+            'chapters': getattr(episode, 'chapters', []),
         }
 
     def report_playback_event(self, episode_id, position_from, position_to, duration):
@@ -345,6 +346,7 @@ class gPotherSide:
             'description': util.remove_html_tags(episode.description),
             'metadata': ' | '.join(self._format_metadata(episode)),
             'link': episode.link if episode.link != episode.url else '',
+            'chapters': getattr(episode, 'chapters', []),
         }
 
     def _format_metadata(self, episode):

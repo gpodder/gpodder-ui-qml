@@ -135,6 +135,29 @@ Dialog {
                     icon: Icons.last
                     onClicked: player.seekAndSync(player.position + 60 * 1000);
                 }
+
+                IconMenuItem {
+                    text: 'Chapters'
+                    color: Constants.colors.playback
+                    icon: Icons.tag_fill
+                    visible: player.episode_chapters.length > 0
+                    onClicked: {
+                        var items = [];
+
+                        for (var i in player.episode_chapters) {
+                            (function (items, chapter) {
+                                items.push({
+                                    label: chapter.title + ' (' + Util.formatDuration(chapter.start) + ')',
+                                    callback: function () {
+                                        player.seekAndSync(chapter.start * 1000);
+                                    }
+                                });
+                            })(items, player.episode_chapters[i]);
+                        }
+
+                        pgst.showSelection(items, 'Chapters');
+                    }
+                }
             }
         }
     }

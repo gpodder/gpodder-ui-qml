@@ -67,6 +67,7 @@ Dialog {
                     PLabel {
                         anchors {
                             left: parent.left
+                            right: parent.right
                             verticalCenter: parent.verticalCenter
                             margins: 20 * pgst.scalef
                         }
@@ -74,6 +75,7 @@ Dialog {
                         text: modelData
                         color: (index == selectionDialog.selectedIndex || buttonArea.pressed) ? Constants.colors.dialogHighlight : Constants.colors.dialogText
                         font.pixelSize: 30 * pgst.scalef
+                        elide: Text.ElideRight
                     }
 
                     onClicked: {

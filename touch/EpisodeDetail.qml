@@ -21,6 +21,7 @@
 import QtQuick 2.0
 
 import 'common/constants.js' as Constants
+import 'common/util.js' as Util
 import 'icons/icons.js' as Icons
 
 SlidePage {
@@ -30,6 +31,7 @@ SlidePage {
     property string title
     property string link
     property bool ready: false
+    property var chapters: ([])
 
     hasMenuButton: detailPage.link != ''
     menuButtonIcon: Icons.link
@@ -47,6 +49,7 @@ SlidePage {
             metadataLabel.text = episode.metadata;
             detailPage.link = episode.link;
             detailPage.ready = true;
+            detailPage.chapters = episode.chapters;
         });
     }
 
@@ -85,6 +88,45 @@ SlidePage {
                     wrapMode: Text.WordWrap
                     font.pixelSize: 20 * pgst.scalef
                     color: Constants.colors.placeholder
+                }
+
+                PExpander {
+                    visible: detailPage.chapters.length > 0
+
+                    width: parent.width
+                    expandedHeight: chaptersColumn.childrenRect.height
+
+                    Column {
+                        id: chaptersColumn
+                        width: parent.width
+
+                        PLabel {
+                            text: 'Chapters'
+                            color: Constants.colors.secondaryHighlight
+                        }
+
+                        Repeater {
+                            model: detailPage.chapters
+
+                            delegate: Column {
+                                width: parent.width
+
+                                PLabel {
+                                    width: parent.width
+                                    text: Util.formatDuration(modelData.start)
+                                    font.pixelSize: 20 * pgst.scalef
+                                    color: Constants.colors.secondaryHighlight
+                                }
+
+                                PLabel {
+                                    width: parent.width
+                                    text: modelData.title
+                                    font.pixelSize: 20 * pgst.scalef
+                                    color: Constants.colors.placeholder
+                                }
+                            }
+                        }
+                    }
                 }
 
                 PLabel {

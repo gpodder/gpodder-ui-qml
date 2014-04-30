@@ -26,6 +26,7 @@ MediaPlayer {
 
     property int episode: 0
     property string episode_title: ''
+    property var episode_chapters: ([])
     property string podcast_title: ''
     signal playerCreated()
 
@@ -62,6 +63,7 @@ MediaPlayer {
             var old_episode = player.episode;
             player.episode = episode_id;
             player.episode_title = episode.title;
+            player.episode_chapters = episode.chapters;
             player.podcast_title = episode.podcast_title;
             player.source = episode.source;
             player.seekTargetSeconds = episode.position;
