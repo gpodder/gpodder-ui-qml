@@ -86,17 +86,30 @@ MediaPlayer {
 
     onPlaybackStateChanged: {
         if (playbackState == MediaPlayer.PlayingState) {
-            if (seekAfterPlay) {
-                // A seek was scheduled, execute now that we're playing
-                player.inhibitPositionEvents = false;
-                player.seek(seekTargetSeconds * 1000);
-                player.playedFrom = seekTargetSeconds * 1000;
-                seekAfterPlay = false;
-            } else {
+            if (!seekAfterPlay) {
                 player.playedFrom = position;
             }
         } else {
             sendPositionToCore(lastPosition);
+        }
+    }
+
+    property var seekAfterPlayTimer: Timer {
+        interval: 100
+        repeat: true
+        running: player.isPlaying && player.seekAfterPlay
+
+        onTriggered: {
+            var targetPosition = player.seekTargetSeconds * 1000;
+            if (Math.abs(player.position - targetPosition) < 10 * interval) {
+                // We have seeked properly
+                player.inhibitPositionEvents = false;
+                player.seekAfterPlay = false;
+            } else {
+                // Try to seek to the target position
+                player.seek(targetPosition);
+                player.playedFrom = targetPosition;
+            }
         }
     }
 
