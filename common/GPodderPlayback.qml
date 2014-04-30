@@ -82,6 +82,7 @@ MediaPlayer {
         sendPositionToCore(lastPosition);
         seek(target_position);
         playedFrom = target_position;
+        savePlaybackAfterStopTimer.restart();
     }
 
     onPlaybackStateChanged: {
@@ -91,7 +92,27 @@ MediaPlayer {
             }
         } else {
             sendPositionToCore(lastPosition);
+            savePlaybackAfterStopTimer.restart();
         }
+    }
+
+    function flushToDisk() {
+        py.call('main.save_playback_state', []);
+    }
+
+    property var savePlaybackPositionTimer: Timer {
+        // Save position every minute during playback
+        interval: 60 * 1000
+        repeat: true
+        running: player.isPlaying
+        onTriggered: player.flushToDisk();
+    }
+
+    property var savePlaybackAfterStopTimer: Timer {
+        // Save position shortly after every seek and pause event
+        interval: 5 * 1000
+        repeat: false
+        onTriggered: player.flushToDisk();
     }
 
     property var seekAfterPlayTimer: Timer {

@@ -289,6 +289,8 @@ class gPotherSide:
 
         self.core.save()
 
+    def save_playback_state(self):
+        self.core.save()
 
     @run_in_background_thread
     def check_for_episodes(self):
@@ -382,3 +384,4 @@ rename_podcast = gpotherside.rename_podcast
 change_section = gpotherside.change_section
 report_playback_event = gpotherside.report_playback_event
 mark_episodes_as_old = gpotherside.mark_episodes_as_old
+save_playback_state = gpotherside.save_playback_state
