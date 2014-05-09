@@ -30,7 +30,7 @@ Item {
     property bool isPlaying: ((player.episode == id) && player.isPlaying)
 
     width: parent.width
-    height: (opened ? 160 : 80) * pgst.scalef
+    height: (opened ? 2 : 1) * Constants.layout.item.height * pgst.scalef
     Behavior on height { PropertyAnimation { duration: 100 } }
 
     Item {
@@ -127,33 +127,48 @@ Item {
         Rectangle {
             anchors {
                 top: parent.top
-                left: parent.left
+                left: downloadIndicator.right
             }
 
-            height: parent.height * .2
-            width: parent.width * progress
+            height: Constants.layout.padding
+            width: (parent.width - downloadIndicator.width) * progress
             color: Constants.colors.download
-            opacity: .4
         }
 
         Rectangle {
             anchors {
                 bottom: parent.bottom
-                left: parent.left
+                left: downloadIndicator.right
             }
 
-            height: parent.height * .2
-            width: parent.width * playbackProgress
+            height: Constants.layout.padding
+            width: (parent.width - downloadIndicator.width) * playbackProgress
             color: titleLabel.color
-            opacity: episodeItem.isPlaying ? .6 : .2
+            opacity: episodeItem.isPlaying ? 1 : .2
         }
 
         transparent: true
-        height: 80 * pgst.scalef
+        height: Constants.layout.item.height * pgst.scalef
 
         anchors {
             left: parent.left
             right: parent.right
+        }
+
+        Rectangle {
+            id: downloadIndicator
+
+            width: Constants.layout.padding * (downloadState == Constants.state.downloaded)
+
+            Behavior on width { PropertyAnimation { } }
+
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: parent.left
+            }
+
+            color: titleLabel.color
         }
 
         PLabel {
@@ -161,9 +176,10 @@ Item {
 
             anchors {
                 left: parent.left
-                right: downloadedIcon.visible ? downloadedIcon.left : parent.right
+                leftMargin: 2 * Constants.layout.padding * pgst.scalef
+                right: parent.right
+                rightMargin: Constants.layout.padding * pgst.scalef
                 verticalCenter: parent.verticalCenter
-                margins: 30 * pgst.scalef
             }
 
             elide: Text.ElideRight
@@ -192,20 +208,6 @@ Item {
                     return 1.0;
                 }
             }
-        }
-
-        PIcon {
-            id: downloadedIcon
-            color: titleLabel.color
-
-            anchors {
-                right: parent.right
-                margins: 30 * pgst.scalef
-                verticalCenter: parent.verticalCenter
-            }
-
-            visible: downloadState == Constants.state.downloaded
-            icon: Icons.folder
         }
     }
 }

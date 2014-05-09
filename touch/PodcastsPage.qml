@@ -115,6 +115,12 @@ SlidePage {
                         }
                     },
                     {
+                        label: 'Mark episodes as old',
+                        callback: function () {
+                            py.call('main.mark_episodes_as_old', [id]);
+                        },
+                    },
+                    {
                         label: 'Change section',
                         callback: function () {
                             var ctx = { py: py, id: id };

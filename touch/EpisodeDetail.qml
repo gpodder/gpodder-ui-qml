@@ -65,14 +65,14 @@ SlidePage {
             id: detailColumn
 
             width: detailPage.width
-            spacing: 10 * pgst.scalef
+            spacing: Constants.layout.padding * pgst.scalef
 
-            Item { height: 20 * pgst.scalef; width: parent.width }
+            Item { height: Constants.layout.padding * pgst.scalef; width: parent.width }
 
             Column {
-                width: parent.width - 2 * 30 * pgst.scalef
+                width: parent.width - 2 * Constants.layout.padding * pgst.scalef
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 10 * pgst.scalef
+                spacing: Constants.layout.padding * pgst.scalef
 
                 PLabel {
                     text: detailPage.title

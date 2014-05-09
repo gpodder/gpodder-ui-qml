@@ -27,10 +27,23 @@ ButtonArea {
 
     transparent: true
 
-    height: 100 * pgst.scalef
+    height: Constants.layout.item.height * pgst.scalef
     anchors {
         left: parent.left
         right: parent.right
+    }
+
+    Rectangle {
+        width: Constants.layout.padding * (newEpisodes > 0)
+        Behavior on width { PropertyAnimation { } }
+
+        anchors {
+            top: cover.top
+            bottom: cover.bottom
+            left: parent.left
+        }
+
+        color: Constants.colors.fresh
     }
 
     CoverArt {
@@ -39,12 +52,12 @@ ButtonArea {
 
         anchors {
             left: parent.left
-            leftMargin: 10 * pgst.scalef
+            leftMargin: Constants.layout.padding * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 
-        width: 80 * pgst.scalef
-        height: 80 * pgst.scalef
+        width: Constants.layout.coverart * pgst.scalef
+        height: Constants.layout.coverart * pgst.scalef
 
         source: coverart
         text: title
@@ -58,8 +71,8 @@ ButtonArea {
     PLabel {
         anchors {
             left: cover.right
-            leftMargin: 10 * pgst.scalef
-            rightMargin: 10 * pgst.scalef
+            leftMargin: Constants.layout.padding * pgst.scalef
+            rightMargin: Constants.layout.padding * pgst.scalef
             right: downloadsLabel.left
             verticalCenter: parent.verticalCenter
         }
@@ -73,7 +86,7 @@ ButtonArea {
         id: downloadsLabel
         anchors {
             right: parent.right
-            rightMargin: 10 * pgst.scalef
+            rightMargin: Constants.layout.padding * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 

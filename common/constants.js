@@ -22,6 +22,11 @@ var layout = {
     header: {
         height: 100, /* page header height */
     },
+    item: {
+        height: 80, /* podcast/episode item height */
+    },
+    coverart: 80, /* cover art size */
+    padding: 10, /* padding of items left/right */
 };
 
 var colors = {
