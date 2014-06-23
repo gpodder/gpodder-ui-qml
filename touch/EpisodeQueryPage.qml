@@ -39,11 +39,6 @@ SlidePage {
         title: 'Select filter'
     }
 
-    Component.onCompleted: {
-        episodeList.model.setQuery(episodeList.model.queries.Fresh);
-        episodeList.model.reload();
-    }
-
     EpisodeListView {
         id: episodeList
         title: 'Episodes'

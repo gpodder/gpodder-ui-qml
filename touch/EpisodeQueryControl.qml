@@ -31,7 +31,7 @@ Item {
         pgst.loadPage('SelectionDialog.qml', {
             title: episodeQueryControl.title,
             callback: function (index, result) {
-                episodeQueryControl.model.currentFilterIndex = index;
+                episodeQueryControl.model.setQueryIndex(index);
                 episodeQueryControl.model.reload();
             },
             items: function () {

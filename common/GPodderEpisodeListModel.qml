@@ -54,9 +54,23 @@ ListModel {
     property int currentFilterIndex: -1
     property string currentCustomQuery: queries.All
 
+    Component.onCompleted: {
+        // Request filter, then load episodes
+        py.call('main.get_config_value', ['ui.qml.episode_list.filter_eql'], function (result) {
+            setQuery(result);
+            reload();
+        });
+    }
+
+    function setQueryIndex(index) {
+        currentFilterIndex = index;
+        py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', filters[currentFilterIndex].query]);
+    }
+
     function setQuery(query) {
         for (var i=0; i<filters.length; i++) {
             if (filters[i].query === query) {
+                py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
                 currentFilterIndex = i;
                 return;
             }
@@ -64,6 +78,8 @@ ListModel {
 
         currentFilterIndex = -1;
         currentCustomQuery = query;
+
+        py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
     }
 
     function loadAllEpisodes(callback) {
@@ -117,6 +133,13 @@ ListModel {
         onEpisodeListChanged: {
             if (episodeListModel.podcast_id == podcast_id) {
                 episodeListModel.reload();
+            }
+        }
+
+        onConfigChanged: {
+            if (key === 'ui.qml.episode_list.filter_eql') {
+                setQuery(value);
+                reload();
             }
         }
     }

@@ -70,8 +70,14 @@ class gPotherSide:
         self.core = core.Core(progname=progname)
         pyotherside.send('podcast-list-changed')
 
+        self.core.config.add_observer(self._config_option_changed)
+
     def atexit(self):
         self.core.shutdown()
+
+    def _config_option_changed(self, name, old_value, new_value):
+        logger.warn('Config option changed: %s = %s -> %s', name, old_value, new_value)
+        pyotherside.send('config-changed', name, new_value)
 
     def _get_episode_by_id(self, episode_id):
         for podcast in self.core.model.get_podcasts():
@@ -361,6 +367,12 @@ class gPotherSide:
         if episode.total_time > 0:
             yield '%02d:%02d:%02d' % (episode.total_time / (60 * 60), (episode.total_time / 60) % 60, episode.total_time % 60)
 
+    def set_config_value(self, option, value):
+        self.core.config.update_field(option, value)
+
+    def get_config_value(self, option):
+        return self.core.config.get_field(option)
+
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
 
@@ -385,3 +397,5 @@ change_section = gpotherside.change_section
 report_playback_event = gpotherside.report_playback_event
 mark_episodes_as_old = gpotherside.mark_episodes_as_old
 save_playback_state = gpotherside.save_playback_state
+set_config_value = gpotherside.set_config_value
+get_config_value = gpotherside.get_config_value

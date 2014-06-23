@@ -63,8 +63,7 @@ SlidePage {
 
     Component.onCompleted: {
         episodeList.model.podcast_id = podcast_id;
-        episodeList.model.setQuery(episodeList.model.queries.All);
-        episodeList.model.reload();
+        // List model will be loaded automatically on load
     }
 
     EpisodeQueryControl {
