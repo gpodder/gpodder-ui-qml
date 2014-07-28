@@ -37,6 +37,7 @@ PListView {
     }
 
     model: GPodderEpisodeListModel { id: episodeListModel }
+    GPodderEpisodeListModelConnections {}
 
     PBusyIndicator {
         visible: !episodeListModel.ready

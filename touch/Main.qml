@@ -31,6 +31,7 @@ Item {
     GPodderPlayback { id: player }
 
     GPodderPodcastListModel { id: podcastListModel }
+    GPodderPodcastListModelConnections {}
 
     property real scalef: (width < height) ? (width / 480) : (height / 480)
     property int shorterSide: (width < height) ? width : height

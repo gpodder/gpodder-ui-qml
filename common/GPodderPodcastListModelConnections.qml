@@ -2,7 +2,7 @@
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, 2014, Thomas Perl <m@thp.io>
+ * Copyright (c) 2014, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,14 +20,29 @@
 
 import QtQuick 2.0
 
-import 'util.js' as Util
+Connections {
+    target: py
 
-ListModel {
-    id: podcastListModel
+    onPodcastListChanged: {
+        podcastListModel.reload();
+    }
 
-    function reload() {
-        py.call('main.load_podcasts', [], function (podcasts) {
-            Util.updateModelFrom(podcastListModel, podcasts);
-        });
+    onUpdatingPodcast: {
+        for (var i=0; i<podcastListModel.count; i++) {
+            var podcast = podcastListModel.get(i);
+            if (podcast.id == podcast_id) {
+                podcastListModel.setProperty(i, 'updating', true);
+                break;
+            }
+        }
+    }
+
+    onUpdatedPodcast: {
+        for (var i=0; i<podcastListModel.count; i++) {
+            if (podcastListModel.get(i).id == podcast.id) {
+                podcastListModel.set(i, podcast);
+                break;
+            }
+        }
     }
 }

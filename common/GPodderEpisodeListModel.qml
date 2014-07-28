@@ -110,37 +110,4 @@ ListModel {
             }
         });
     }
-
-    property var connections: Connections {
-        target: py
-
-        onDownloadProgress: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'progress': progress});
-        }
-        onPlaybackProgress: {
-            Util.updateModelWith(episodeListModel, 'id', episode_id,
-                {'playbackProgress': progress});
-        }
-        onUpdatedEpisode: {
-            for (var i=0; i<episodeListModel.count; i++) {
-                if (episodeListModel.get(i).id == episode.id) {
-                    episodeListModel.set(i, episode);
-                    break;
-                }
-            }
-        }
-        onEpisodeListChanged: {
-            if (episodeListModel.podcast_id == podcast_id) {
-                episodeListModel.reload();
-            }
-        }
-
-        onConfigChanged: {
-            if (key === 'ui.qml.episode_list.filter_eql') {
-                setQuery(value);
-                reload();
-            }
-        }
-    }
 }

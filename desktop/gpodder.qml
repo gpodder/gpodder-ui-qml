@@ -25,6 +25,7 @@ ApplicationWindow {
         TableView {
             width: 200
             model: GPodderPodcastListModel { id: podcastListModel }
+            GPodderPodcastListModelConnections {}
             headerVisible: false
             alternatingRowColors: false
 
@@ -71,6 +72,7 @@ ApplicationWindow {
         TableView {
             Layout.fillWidth: true
             model: GPodderEpisodeListModel { id: episodeListModel }
+            GPodderEpisodeListModelConnections {}
 
             TableViewColumn { role: 'title'; title: 'Title' }
         }
