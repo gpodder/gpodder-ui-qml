@@ -34,7 +34,7 @@ ButtonArea {
     }
 
     Rectangle {
-        width: Constants.layout.padding * (newEpisodes > 0)
+        width: Constants.layout.padding * pgst.scalef * (newEpisodes > 0)
         Behavior on width { PropertyAnimation { } }
 
         anchors {

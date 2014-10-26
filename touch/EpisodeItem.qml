@@ -130,7 +130,7 @@ Item {
                 left: downloadIndicator.right
             }
 
-            height: Constants.layout.padding
+            height: Constants.layout.padding * pgst.scalef
             width: (parent.width - downloadIndicator.width) * progress
             color: Constants.colors.download
         }
@@ -141,7 +141,7 @@ Item {
                 left: downloadIndicator.right
             }
 
-            height: Constants.layout.padding
+            height: Constants.layout.padding * pgst.scalef
             width: (parent.width - downloadIndicator.width) * playbackProgress
             color: titleLabel.color
             opacity: episodeItem.isPlaying ? 1 : .2
@@ -158,7 +158,7 @@ Item {
         Rectangle {
             id: downloadIndicator
 
-            width: Constants.layout.padding * (downloadState == Constants.state.downloaded)
+            width: Constants.layout.padding * pgst.scalef * (downloadState == Constants.state.downloaded)
 
             Behavior on width { PropertyAnimation { } }
 
