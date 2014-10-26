@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import 'common'
 
+import 'common/util.js' as Util
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 

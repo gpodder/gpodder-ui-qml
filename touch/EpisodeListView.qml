@@ -22,6 +22,8 @@ import QtQuick 2.0
 
 import 'common'
 
+import 'common/util.js' as Util
+
 
 PListView {
     id: episodeList
