@@ -66,9 +66,25 @@ SlidePage {
                 },
             },
             {
-                label: 'Search gpodder.net',
+                label: 'Discover new podcasts',
                 callback: function () {
-                    pgst.loadPage('Directory.qml');
+                    py.call('main.get_directory_providers', [], function (result) {
+                        var items = [];
+                        for (var i=0; i<result.length; i++) {
+                            (function (provider) {
+                                items.push({
+                                    label: provider.label,
+                                    callback: function () {
+                                        pgst.loadPage('Directory.qml', {
+                                            provider: provider.label,
+                                            can_search: provider.can_search,
+                                        });
+                                    },
+                                });
+                            })(result[i]);
+                        }
+                        pgst.showSelection(items, 'Select provider');
+                    });
                 },
             },
         ]);

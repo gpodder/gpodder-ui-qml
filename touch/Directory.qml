@@ -24,6 +24,15 @@ import 'common'
 
 SlidePage {
     id: directory
+    property string provider
+    property bool can_search
+
+    Component.onCompleted: {
+        if (!directory.can_search) {
+            // Load static data
+            search('');
+        }
+    }
 
     function search(text) {
         loading.visible = true;
@@ -40,7 +49,7 @@ SlidePage {
 
         PScrollDecorator { flickable: listView }
 
-        model: GPodderDirectorySearchModel { id: directorySearchModel }
+        model: GPodderDirectorySearchModel { id: directorySearchModel; provider: directory.provider }
 
         header: Column {
             anchors {
@@ -48,9 +57,11 @@ SlidePage {
                 right: parent.right
             }
 
-            SlidePageHeader { title: 'Search gpodder.net' }
+            SlidePageHeader { title: directory.provider }
 
             Column {
+                visible: directory.can_search
+
                 spacing: 0.5 * 30 * pgst.scalef
 
                 anchors {

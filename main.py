@@ -32,6 +32,7 @@ import gpodder
 from gpodder.api import core
 from gpodder.api import util
 from gpodder.api import query
+from gpodder.api import registry
 
 import logging
 import functools
@@ -373,6 +374,30 @@ class gPotherSide:
     def get_config_value(self, option):
         return self.core.config.get_field(option)
 
+    def get_directory_providers(self):
+        def select_provider(p):
+            return p.kind in (p.PROVIDER_SEARCH, p.PROVIDER_STATIC)
+
+        return [{
+            'label': provider.name,
+            'can_search': provider.kind == provider.PROVIDER_SEARCH
+        } for provider in registry.directory.select(select_provider)]
+
+    def get_directory_entries(self, provider, query):
+        def match_provider(p):
+            return p.name == provider
+
+        for provider in registry.directory.select(match_provider):
+            return [{
+                'title': e.title,
+                'url': e.url,
+                'image': e.image,
+                'subscribers': e.subscribers,
+                'description': e.description,
+            } for e in provider.on_string(query)]
+
+        return []
+
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
 
@@ -399,3 +424,5 @@ mark_episodes_as_old = gpotherside.mark_episodes_as_old
 save_playback_state = gpotherside.save_playback_state
 set_config_value = gpotherside.set_config_value
 get_config_value = gpotherside.get_config_value
+get_directory_providers = gpotherside.get_directory_providers
+get_directory_entries = gpotherside.get_directory_entries

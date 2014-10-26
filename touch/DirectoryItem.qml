@@ -46,7 +46,7 @@ ButtonArea {
         width: 80 * pgst.scalef
         height: 80 * pgst.scalef
 
-        source: scaled_logo_url
+        source: image
     }
 
     PLabel {
@@ -70,6 +70,6 @@ ButtonArea {
             verticalCenter: parent.verticalCenter
         }
 
-        text: subscribers
+        text: (subscribers > 0) ? subscribers : ''
     }
 }

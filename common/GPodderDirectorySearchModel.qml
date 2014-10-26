@@ -22,28 +22,19 @@ import QtQuick 2.0
 
 ListModel {
     id: directorySearchModel
+    property string provider
 
     function search(query, callback) {
         clear();
 
-        var result = new XMLHttpRequest();
-        result.onreadystatechange = function() {
-            if (result.readyState == XMLHttpRequest.DONE) {
-                var data = JSON.parse(result.responseText);
-                data.sort(function (a, b) {
-                    // Sort by subscriber count, descending
-                    return b.subscribers - a.subscribers;
-                });
-                for (var i=0; i<data.length; i++) {
-                    directorySearchModel.append(data[i]);
-                }
-                if (callback !== undefined) {
-                    callback();
-                }
+        py.call('main.get_directory_entries', [directorySearchModel.provider, query], function (result) {
+            for (var i=0; i<result.length; i++) {
+                directorySearchModel.append(result[i]);
             }
-        };
 
-        result.open('GET', 'http://gpodder.net/search.json?q=' + query);
-        result.send();
+            if (callback !== undefined) {
+                callback();
+            }
+        });
     }
 }
