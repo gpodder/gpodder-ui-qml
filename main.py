@@ -378,10 +378,14 @@ class gPotherSide:
         def select_provider(p):
             return p.kind in (p.PROVIDER_SEARCH, p.PROVIDER_STATIC)
 
+        def provider_sort_key(p):
+            return p.priority
+
         return [{
             'label': provider.name,
             'can_search': provider.kind == provider.PROVIDER_SEARCH
-        } for provider in registry.directory.select(select_provider)]
+        } for provider in sorted(registry.directory.select(select_provider),
+            key=provider_sort_key, reverse=True)]
 
     def get_directory_entries(self, provider, query):
         def match_provider(p):
