@@ -27,10 +27,29 @@ Rectangle {
 
     x: flickable.width - width
     y: flickable.visibleArea.yPosition * flickable.height
-    width: 5 * pgst.scalef
+    width: 10 * pgst.scalef
     height: flickable.visibleArea.heightRatio * flickable.height
     visible: flickable.visibleArea.heightRatio < 1
     color: Constants.colors.background
-    opacity: flickable.moving ? 1 : 0
+    opacity: (showMoreTimer.showTemporarily || flickable.moving) ? .5 : 0
     Behavior on opacity { PropertyAnimation { duration: 100 } }
+
+    Timer {
+        id: showMoreTimer
+        property bool showTemporarily: false
+        interval: 500
+        onTriggered: {
+            if (parent.visible && !showTemporarily) {
+                showTemporarily = true;
+                showMoreTimer.interval = 2000;
+                showMoreTimer.start();
+            } else {
+                showTemporarily = false;
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        showMoreTimer.start();
+    }
 }
