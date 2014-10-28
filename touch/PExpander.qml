@@ -27,7 +27,7 @@ import 'common/util.js' as Util
 Item {
     id: expander
 
-    property bool expanded: false
+    property bool expanded: !canExpand
     property bool canExpand: expandedHeight > contractedHeight
 
     property real contractedHeight: 100 * pgst.scalef

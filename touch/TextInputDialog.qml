@@ -62,6 +62,7 @@ Dialog {
             id: button
             width: input.width
             height: input.height
+            visible: textInputDialog.buttonText !== ''
 
             PLabel {
                 anchors.centerIn: parent

@@ -48,6 +48,12 @@ SlidePage {
                 },
             },
             {
+                label: 'Podcast details',
+                callback: function () {
+                    pgst.loadPage('PodcastDetail.qml', {podcast_id: podcast_id, title: title});
+                }
+            },
+            {
                 label: 'Unsubscribe',
                 callback: function () {
                     var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };

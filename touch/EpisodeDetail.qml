@@ -45,6 +45,7 @@ SlidePage {
 
     Component.onCompleted: {
         py.call('main.show_episode', [episode_id], function (episode) {
+            detailPage.title = episode.title;
             descriptionLabel.text = episode.description;
             metadataLabel.text = episode.metadata;
             detailPage.link = episode.link;

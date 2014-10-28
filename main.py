@@ -368,6 +368,20 @@ class gPotherSide:
         if episode.total_time > 0:
             yield '%02d:%02d:%02d' % (episode.total_time / (60 * 60), (episode.total_time / 60) % 60, episode.total_time % 60)
 
+    def show_podcast(self, podcast_id):
+        podcast = self._get_podcast_by_id(podcast_id)
+        if podcast is None:
+            return {}
+
+        return {
+            'title': podcast.title,
+            'description': util.remove_html_tags(podcast.description),
+            'link': podcast.link,
+            'url': podcast.url,
+            'section': podcast.section,
+            'coverart': self._get_cover(podcast),
+        }
+
     def set_config_value(self, option, value):
         self.core.config.update_field(option, value)
 
@@ -430,3 +444,4 @@ set_config_value = gpotherside.set_config_value
 get_config_value = gpotherside.get_config_value
 get_directory_providers = gpotherside.get_directory_providers
 get_directory_entries = gpotherside.get_directory_entries
+show_podcast = gpotherside.show_podcast

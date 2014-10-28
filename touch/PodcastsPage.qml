@@ -137,17 +137,9 @@ SlidePage {
                         },
                     },
                     {
-                        label: 'Change section',
+                        label: 'Podcast details',
                         callback: function () {
-                            var ctx = { py: py, id: id };
-                            pgst.loadPage('TextInputDialog.qml', {
-                                buttonText: 'Change section',
-                                placeholderText: 'New section',
-                                text: section,
-                                callback: function (new_section) {
-                                    ctx.py.call('main.change_section', [ctx.id, new_section]);
-                                }
-                            });
+                            pgst.loadPage('PodcastDetail.qml', {podcast_id: id, title: title});
                         }
                     },
                 ], title);
