@@ -77,6 +77,7 @@ SlidePage {
                     '',
                     'gPodder Core ' + py.coreversion,
                     'gPodder QML UI ' + py.uiversion,
+                    'Podcastparser ' + py.parserversion,
                     'PyOtherSide ' + py.pluginVersion(),
                     'Python ' + py.pythonVersion()
                 ].join('\n')

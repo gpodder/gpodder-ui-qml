@@ -26,6 +26,7 @@ import os
 
 import pyotherside
 import gpodder
+import podcastparser
 
 from gpodder.api import core
 from gpodder.api import util
@@ -418,7 +419,7 @@ class gPotherSide:
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
 
-pyotherside.send('hello', gpodder.__version__, __version__)
+pyotherside.send('hello', gpodder.__version__, __version__, podcastparser.__version__)
 
 # Exposed API Endpoints for calls from QML
 initialize = gpotherside.initialize

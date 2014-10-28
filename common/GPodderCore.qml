@@ -31,6 +31,7 @@ Python {
 
     property string coreversion
     property string uiversion
+    property string parserversion
 
     signal downloadProgress(int episode_id, real progress)
     signal playbackProgress(int episode_id, real progress)
@@ -43,12 +44,14 @@ Python {
     signal configChanged(string key, var value)
 
     Component.onCompleted: {
-        setHandler('hello', function (coreversion, uiversion) {
+        setHandler('hello', function (coreversion, uiversion, parserversion) {
             py.coreversion = coreversion;
             py.uiversion = uiversion;
+            py.parserversion = parserversion;
 
             console.log('gPodder Core ' + py.coreversion);
             console.log('gPodder QML UI ' + py.uiversion);
+            console.log('Podcastparser ' + py.parserversion);
             console.log('PyOtherSide ' + py.pluginVersion());
             console.log('Python ' + py.pythonVersion());
         });
