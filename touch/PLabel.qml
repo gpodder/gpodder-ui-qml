@@ -26,5 +26,6 @@ Text {
     font.pixelSize: 30 * pgst.scalef
     font.family: Constants.font
     color: Constants.colors.text
+    onLinkActivated: Qt.openUrlExternally(link)
 }
 

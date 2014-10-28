@@ -136,7 +136,7 @@ SlidePage {
                     font.pixelSize: 30 * pgst.scalef
                     wrapMode: Text.WordWrap
                 }
-        }
+            }
         }
     }
 

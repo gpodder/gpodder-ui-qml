@@ -171,9 +171,7 @@ Item {
             color: titleLabel.color
         }
 
-        PLabel {
-            id: titleLabel
-
+        Column {
             anchors {
                 left: parent.left
                 leftMargin: 2 * Constants.layout.padding * pgst.scalef
@@ -182,29 +180,54 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
 
-            elide: Text.ElideRight
-            text: title
+            PLabel {
+                id: titleLabel
 
-            color: {
-                if (episodeItem.isPlaying) {
-                    return Constants.colors.playback;
-                } else if (progress > 0) {
-                    return Constants.colors.download;
-                } else if (episodeItem.opened) {
-                    return Constants.colors.highlight;
-                } else if (isNew) {
-                    return Constants.colors.fresh;
-                } else {
-                    return Constants.colors.text;
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                elide: Text.ElideRight
+                text: title
+
+                color: {
+                    if (episodeItem.isPlaying) {
+                        return Constants.colors.playback;
+                    } else if (progress > 0) {
+                        return Constants.colors.download;
+                    } else if (episodeItem.opened) {
+                        return Constants.colors.highlight;
+                    } else if (isNew) {
+                        return Constants.colors.fresh;
+                    } else {
+                        return Constants.colors.text;
+                    }
+                }
+
+                opacity: {
+                    if (downloadState == Constants.state.deleted && !isNew && progress <= 0) {
+                        return 0.3;
+                    } else {
+                        return 1.0;
+                    }
                 }
             }
 
-            opacity: {
-                if (downloadState == Constants.state.deleted && !isNew && progress <= 0) {
-                    return 0.3;
-                } else {
-                    return 1.0;
+            PLabel {
+                id: subtitleLabel
+
+                anchors {
+                    left: titleLabel.left
+                    right: titleLabel.right
                 }
+
+                text: subtitle
+                font.pixelSize: 20 * pgst.scalef
+
+                visible: subtitle !== ''
+                elide: Text.ElideRight
+                opacity: titleLabel.opacity
             }
         }
     }

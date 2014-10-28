@@ -155,6 +155,7 @@ class gPotherSide:
         return {
             'id': episode.id,
             'title': episode.trimmed_title,
+            'subtitle': episode.subtitle,
             'progress': episode.download_progress(),
             'downloadState': episode.state,
             'isNew': episode.is_new,
@@ -352,7 +353,7 @@ class gPotherSide:
 
         return {
             'title': episode.trimmed_title,
-            'description': util.remove_html_tags(episode.description),
+            'description': episode.description_html or episode.description,
             'metadata': ' | '.join(self._format_metadata(episode)),
             'link': episode.link if episode.link != episode.url else '',
             'chapters': getattr(episode, 'chapters', []),
