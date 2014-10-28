@@ -234,6 +234,36 @@ Item {
         }
     }
 
+    Rectangle {
+        z: 103
+        color: 'transparent'
+        height: 20 * pgst.scalef
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+
+        MouseArea {
+            property real pressedY
+
+            anchors.fill: parent
+            onPressed: {
+                mouse.accepted = true;
+                pressedY = mouse.y;
+            }
+
+            onReleased: {
+                var yDiff = (mouse.y - pressedY) / pgst.scalef
+                if (yDiff > 50) {
+                    if (throbber.enabled) {
+                        throbber.clicked();
+                    }
+                }
+            }
+        }
+    }
+
     PodcastsPage {
         visible: py.ready
     }
