@@ -57,7 +57,7 @@ ListModel {
     Component.onCompleted: {
         // Request filter, then load episodes
         py.call('main.get_config_value', ['ui.qml.episode_list.filter_eql'], function (result) {
-            setQuery(result);
+            setQueryFromUpdate(result);
             reload();
         });
     }
@@ -67,10 +67,20 @@ ListModel {
         py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', filters[currentFilterIndex].query]);
     }
 
+    function setQueryFromUpdate(query) {
+        setQueryEx(query, false);
+    }
+
     function setQuery(query) {
+        setQueryEx(query, true);
+    }
+
+    function setQueryEx(query, update) {
         for (var i=0; i<filters.length; i++) {
             if (filters[i].query === query) {
-                py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
+                if (update) {
+                    py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
+                }
                 currentFilterIndex = i;
                 return;
             }
@@ -79,7 +89,9 @@ ListModel {
         currentFilterIndex = -1;
         currentCustomQuery = query;
 
-        py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
+        if (update) {
+            py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', query]);
+        }
     }
 
     function loadAllEpisodes(callback) {

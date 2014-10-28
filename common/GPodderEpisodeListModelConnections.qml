@@ -49,7 +49,7 @@ Connections {
 
     onConfigChanged: {
         if (key === 'ui.qml.episode_list.filter_eql') {
-            episodeListModel.setQuery(value);
+            episodeListModel.setQueryFromUpdate(value);
             episodeListModel.reload();
         }
     }
