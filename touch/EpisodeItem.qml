@@ -192,8 +192,6 @@ Item {
                     return Constants.colors.download;
                 } else if (episodeItem.opened) {
                     return Constants.colors.highlight;
-                } else if (isNew && downloadState == Constants.state.downloaded) {
-                    return Constants.colors.highlight;
                 } else if (isNew) {
                     return Constants.colors.fresh;
                 } else {
