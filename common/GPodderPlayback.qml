@@ -40,6 +40,14 @@ MediaPlayer {
     property int lastDuration: 0
     property int playedFrom: 0
 
+    function togglePause() {
+        if (playbackState === MediaPlayer.PlayingState) {
+            pause();
+        } else if (playbackState === MediaPlayer.PausedState) {
+            play();
+        }
+    }
+
     function playbackEpisode(episode_id) {
         if (episode == episode_id) {
             // If the episode is already loaded, just start playing

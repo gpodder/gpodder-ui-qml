@@ -38,6 +38,12 @@ Item {
 
     TextInput {
         id: textInput
+
+        Component.onDestruction: {
+            // Return keyboard focus to pgst
+            pgst.focus = true;
+        }
+
         anchors {
             verticalCenter: parent.verticalCenter
             left: parent.left

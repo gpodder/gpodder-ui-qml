@@ -34,6 +34,35 @@ Item {
     GPodderPodcastListModel { id: podcastListModel }
     GPodderPodcastListModelConnections {}
 
+    Keys.onPressed: {
+        switch (event.key) {
+            case Qt.Key_Space:
+                player.togglePause();
+                break;
+            case Qt.Key_Q:
+                player.seekAndSync(player.position - 60 * 1000);
+                break;
+            case Qt.Key_W:
+                player.seekAndSync(player.position - 10 * 1000);
+                break;
+            case Qt.Key_O:
+                player.seekAndSync(player.position + 10 * 1000);
+                break;
+            case Qt.Key_P:
+                player.seekAndSync(player.position + 60 * 1000);
+                break;
+            case Qt.Key_Escape:
+            case Qt.Key_Backspace:
+                backButton.clicked();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Initial focus
+    focus: true
+
     property real scalef: (width < height) ? (width / 480) : (height / 480)
     property int shorterSide: (width < height) ? width : height
     property int dialogsVisible: 0
@@ -169,7 +198,11 @@ Item {
                 icon: Icons.arrow_left
 
                 enabled: pgst.hasBackButton
-                onClicked: pgst.children[pgst.children.length-1].closePage();
+                onClicked: {
+                    if (enabled) {
+                        pgst.children[pgst.children.length-1].closePage();
+                    }
+                }
             }
         }
 
