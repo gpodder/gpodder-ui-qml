@@ -102,16 +102,10 @@ Item {
 
         var page = children[children.length+offset-1];
 
-        // TODO: Maybe make these property bindings instead
-        pgst.hasBackButton = (!page.isDialog && page.canClose);
-        pgst.hasMenuButton = page.hasMenuButton;
-        if (pgst.hasMenuButton) {
-            pgst.menuButtonLabel = page.menuButtonLabel;
-            pgst.menuButtonIcon = page.menuButtonIcon;
-        } else {
-            pgst.menuButtonLabel = 'Menu';
-            pgst.menuButtonIcon = Icons.vellipsis;
-        }
+        pgst.hasBackButton = Qt.binding(function () { return (!page.isDialog && page.canClose); });
+        pgst.hasMenuButton = Qt.binding(function () { return page.hasMenuButton; });
+        pgst.menuButtonLabel = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonLabel : 'Menu'; });
+        pgst.menuButtonIcon = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonIcon : Icons.vellipsis; });
     }
 
     function showConfirmation(title, affirmative, negative, description, icon, callback) {
