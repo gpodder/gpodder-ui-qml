@@ -27,5 +27,6 @@ Text {
     font.family: Constants.font
     color: Constants.colors.text
     onLinkActivated: Qt.openUrlExternally(link)
+    linkColor: Constants.colors.highlight
 }
 
