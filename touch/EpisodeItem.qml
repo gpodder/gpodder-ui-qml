@@ -96,7 +96,6 @@ Item {
                 color: titleLabel.color
                 icon: Icons.article
                 onClicked: pgst.loadPage('EpisodeDetail.qml', {episode_id: id, title: title});
-                enabled: hasShownotes
             }
         }
     }
