@@ -73,7 +73,12 @@ MediaPlayer {
             player.episode_title = episode.title;
             player.episode_chapters = episode.chapters;
             player.podcast_title = episode.podcast_title;
-            player.source = episode.source;
+            var source = episode.source;
+            if (source.indexOf('/') === 0) {
+                player.source = 'file://' + source;
+            } else {
+                player.source = source;
+            }
             player.seekTargetSeconds = episode.position;
             seekAfterPlay = true;
 
