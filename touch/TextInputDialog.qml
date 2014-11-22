@@ -24,6 +24,7 @@ import 'common/constants.js' as Constants
 
 Dialog {
     id: textInputDialog
+    moveToTop: true
 
     property string buttonText
     property string placeholderText
@@ -31,7 +32,7 @@ Dialog {
     property bool pasteOnLoad: false
     property var callback
 
-    contentHeight: contentColumn.height
+    contentHeight: contentColumn.height + 20 * pgst.scalef
 
     Component.onCompleted: {
         if (pasteOnLoad) {

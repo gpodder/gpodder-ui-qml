@@ -92,6 +92,7 @@ Item {
         //children[index-1].pushPhase = x / width;
     }
 
+    property bool havePlayer: false
     property bool loadPageInProgress: false
     property bool hasBackButton: false
     property int bottomSpacing: toolbar.showing ? toolbar.height+toolbar.anchors.bottomMargin : 0
@@ -246,7 +247,7 @@ Item {
 
                 text: 'Now Playing'
                 icon: Icons.play
-                visible: !platform.floatingPlayButton
+                visible: !platform.floatingPlayButton && !pgst.havePlayer
 
                 enabled: player.episode != 0
                 onClicked: loadPage('PlayerPage.qml');
@@ -298,7 +299,7 @@ Item {
     Rectangle {
         z: 190
         color: Constants.colors.playback
-        visible: platform.floatingPlayButton
+        visible: platform.floatingPlayButton && !pgst.havePlayer
 
         Behavior on opacity { NumberAnimation { } }
         opacity: (player.episode != 0) ? (player.isPlaying ? 1 : .5) : 0

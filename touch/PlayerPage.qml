@@ -27,6 +27,9 @@ import 'icons/icons.js' as Icons
 SlidePage {
     id: page
 
+    Component.onCompleted: pgst.havePlayer = true;
+    Component.onDestruction: pgst.havePlayer = false;
+
     Flickable {
         id: flickable
         anchors.fill: parent

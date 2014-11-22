@@ -36,11 +36,12 @@ Rectangle {
 
     width: iconMenuItem.width
     height: iconMenuItem.height
-    color: iconMenuItem.pressed ? (platform.invertedToolbar ? Constants.colors.toolbarArea : Constants.colors.inverted.toolbarArea) : 'transparent'
+    color: iconMenuItem.pressed ? (platform.invertedToolbar ? Constants.colors.inverted.toolbarArea : Constants.colors.toolbarArea) : 'transparent'
 
     Rectangle {
+        visible: iconMenuItem.pressed && !platform.invertedToolbar
         height: 5 * pgst.scalef
-        color: iconMenuItem.pressed ? Constants.colors.secondaryHighlight : 'transparent'
+        color: Constants.colors.secondaryHighlight
 
         anchors {
             left: parent.left

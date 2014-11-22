@@ -50,6 +50,9 @@ Item {
             right: clipboardIcon.left
             margins: 5 * pgst.scalef
         }
+
+        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+
         color: Constants.colors.text
         selectionColor: Constants.colors.background
         font.pixelSize: parent.height * 0.7
