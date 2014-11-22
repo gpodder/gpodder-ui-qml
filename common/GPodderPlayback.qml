@@ -40,6 +40,16 @@ MediaPlayer {
     property int lastDuration: 0
     property int playedFrom: 0
 
+    property var androidConnections: Connections {
+        target: (typeof(gpodderAndroid) === 'undefined') ? null : gpodderAndroid
+
+        onAudioBecomingNoisy: {
+            if (playbackState === MediaPlayer.PlayingState) {
+                pause();
+            }
+        }
+    }
+
     function togglePause() {
         if (playbackState === MediaPlayer.PlayingState) {
             pause();
