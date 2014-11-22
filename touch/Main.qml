@@ -129,7 +129,7 @@ Item {
         });
     }
 
-    function showSelection(items, title, selectedIndex) {
+    function showSelection(items, title, selectedIndex, activatedFromMenu) {
         loadPage('SelectionDialog.qml', {
             title: title,
             callback: function (index, item) {
@@ -143,6 +143,7 @@ Item {
                 return result;
             }(),
             selectedIndex: selectedIndex,
+            activatedFromMenu: activatedFromMenu ? activatedFromMenu : false
         });
     }
 
@@ -256,6 +257,7 @@ Item {
 
                 text: pgst.menuButtonLabel
                 icon: pgst.menuButtonIcon
+                visible: enabled || !platform.hideDisabledMenu
 
                 enabled: pgst.hasMenuButton
                 onClicked: pgst.children[pgst.children.length-1].menuButtonClicked()

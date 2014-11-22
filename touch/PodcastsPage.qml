@@ -88,7 +88,7 @@ SlidePage {
                     });
                 },
             },
-        ]);
+        ], undefined, undefined, true);
     }
 
     PListView {

@@ -69,7 +69,7 @@ SlidePage {
                     });
                 }
             },
-        ]);
+        ], undefined, undefined, true);
     }
 
     PBusyIndicator {

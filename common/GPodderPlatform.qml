@@ -30,4 +30,5 @@ Item {
     property bool invertedToolbar: toolbarOnTop
     property bool titleInToolbar: toolbarOnTop
     property bool floatingPlayButton: android
+    property bool hideDisabledMenu: android
 }

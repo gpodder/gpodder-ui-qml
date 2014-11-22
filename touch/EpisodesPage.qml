@@ -63,7 +63,7 @@ SlidePage {
                     });
                 },
             },
-        ]);
+        ], undefined, undefined, true);
     }
 
 

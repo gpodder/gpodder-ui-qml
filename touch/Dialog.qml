@@ -25,6 +25,8 @@ import 'common/constants.js' as Constants
 Rectangle {
     id: page
     z: 200
+    property bool activatedFromMenu: false
+    property bool attachToToolbar: platform.toolbarOnTop && activatedFromMenu
 
     color: Constants.colors.dialogBackground
 
@@ -68,8 +70,16 @@ Rectangle {
         property int maxHeight: parent.height - toolbar.height
         height: ((page.contentHeight > 0 && page.contentHeight < maxHeight) ? page.contentHeight : maxHeight) * parent.opacity
         anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: parent.top
+            horizontalCenter: activatedFromMenu ? undefined : parent.horizontalCenter
+            verticalCenter: activatedFromMenu ? undefined : parent.verticalCenter
+
+            right: activatedFromMenu ? parent.right : undefined
+
+            top: (activatedFromMenu && platform.toolbarOnTop) ? parent.top : undefined
+            topMargin: (activatedFromMenu && platform.toolbarOnTop) ? pgst.bottomSpacing : 0
+
+            bottom: (activatedFromMenu && !platform.toolbarOnTop) ? parent.bottom : undefined
+            bottomMargin: (activatedFromMenu && !platform.toolbarOnTop) ? pgst.bottomSpacing : 0
         }
         color: Constants.colors.dialog
         clip: true
