@@ -53,7 +53,11 @@ Item {
                 break;
             case Qt.Key_Escape:
             case Qt.Key_Backspace:
-                backButton.clicked();
+            case Qt.Key_Back:
+                if (backButton.enabled) {
+                    backButton.clicked();
+                    event.accepted = true;
+                }
                 break;
             default:
                 break;
@@ -102,7 +106,7 @@ Item {
 
         var page = children[children.length+offset-1];
 
-        pgst.hasBackButton = Qt.binding(function () { return (!page.isDialog && page.canClose); });
+        pgst.hasBackButton = Qt.binding(function () { return page.isDialog || page.canClose; });
         pgst.hasMenuButton = Qt.binding(function () { return page.hasMenuButton; });
         pgst.menuButtonLabel = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonLabel : 'Menu'; });
         pgst.menuButtonIcon = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonIcon : Icons.vellipsis; });
@@ -190,6 +194,9 @@ Item {
 
                 text: 'Back'
                 icon: Icons.arrow_left
+
+                // Don't show back button on Android (Android has its own)
+                visible: (typeof(gpodderAndroid) === 'undefined')
 
                 enabled: pgst.hasBackButton
                 onClicked: {

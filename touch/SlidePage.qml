@@ -39,7 +39,9 @@ Rectangle {
     signal menuButtonClicked()
 
     function closePage() {
-        stacking.startFadeOut();
+        if (canClose) {
+            stacking.startFadeOut();
+        }
     }
 
     onXChanged: pgst.update(page, x)
