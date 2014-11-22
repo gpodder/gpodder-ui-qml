@@ -28,7 +28,11 @@ Rectangle {
 
     color: Constants.colors.dialogBackground
 
-    Component.onCompleted: pgst.dialogsVisible = pgst.dialogsVisible + 1;
+    Component.onCompleted: {
+        pgst.dialogsVisible = pgst.dialogsVisible + 1;
+        pgst.topOfStackChanged();
+    }
+
     Component.onDestruction: pgst.dialogsVisible = pgst.dialogsVisible - 1;
 
     default property alias children: contents.children
