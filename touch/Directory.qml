@@ -23,12 +23,12 @@ import QtQuick 2.0
 import 'common'
 
 SlidePage {
-    id: directory
+    id: page
     property string provider
     property bool can_search
 
     Component.onCompleted: {
-        if (!directory.can_search) {
+        if (!page.can_search) {
             // Load static data
             search('');
         }
@@ -49,7 +49,7 @@ SlidePage {
 
         PScrollDecorator { flickable: listView }
 
-        model: GPodderDirectorySearchModel { id: directorySearchModel; provider: directory.provider }
+        model: GPodderDirectorySearchModel { id: directorySearchModel; provider: page.provider }
 
         header: Column {
             anchors {
@@ -57,10 +57,10 @@ SlidePage {
                 right: parent.right
             }
 
-            SlidePageHeader { title: directory.provider }
+            SlidePageHeader { title: page.provider }
 
             Column {
-                visible: directory.can_search
+                visible: page.can_search
 
                 spacing: 0.5 * 30 * pgst.scalef
 
@@ -74,7 +74,7 @@ SlidePage {
                     id: input
                     width: parent.width
                     placeholderText: 'Search term'
-                    onAccepted: directory.search(input.text);
+                    onAccepted: page.search(input.text);
                 }
 
                 ButtonArea {
@@ -87,7 +87,7 @@ SlidePage {
                         text: 'Search'
                     }
 
-                    onClicked: directory.search(input.text);
+                    onClicked: page.search(input.text);
                 }
             }
         }
@@ -95,7 +95,7 @@ SlidePage {
         delegate: DirectoryItem {
             onClicked: {
                 py.call('main.subscribe', [url], function () {
-                    directory.closePage();
+                    page.closePage();
                 });
             }
         }

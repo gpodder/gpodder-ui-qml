@@ -24,11 +24,8 @@ import 'common/util.js' as Util
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
-Dialog {
-    id: playerPage
-
-    contentHeight: flickable.contentHeight
-    fullWidth: true
+SlidePage {
+    id: page
 
     Flickable {
         id: flickable
@@ -49,6 +46,11 @@ Dialog {
                     left: parent.left
                     right: parent.right
                     margins: 30 * pgst.scalef
+                }
+
+                SlidePageHeader {
+                    title: 'Now playing'
+                    width: parent.width
                 }
 
                 Item { width: parent.width; height: 20 * pgst.scalef }
