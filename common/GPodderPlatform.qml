@@ -19,31 +19,15 @@
  */
 
 import QtQuick 2.0
-import 'common'
 
-import 'common/constants.js' as Constants
-import 'icons/icons.js' as Icons
+Item {
+    property bool emulatingAndroid: false
 
-Rectangle {
-    id: toolbar
-    property bool showing: true
+    property bool android: (typeof(gpodderAndroid) !== 'undefined') || emulatingAndroid
 
-    color: platform.invertedToolbar ? Constants.colors.inverted.toolbar : Constants.colors.toolbar
-
-    height: 80 * pgst.scalef
-
-    MouseArea {
-        // Capture all touch events
-        anchors.fill: parent
-    }
-
-    anchors {
-        left: parent.left
-        right: parent.right
-        topMargin: toolbar.showing ? 0 : -toolbar.height
-        bottomMargin: toolbar.showing ? 0 : -toolbar.height
-    }
-
-    Behavior on anchors.bottomMargin { PropertyAnimation { duration: 100 } }
-    Behavior on anchors.topMargin { PropertyAnimation { duration: 100 } }
+    property bool needsBackButton: !android
+    property bool toolbarOnTop: android
+    property bool invertedToolbar: toolbarOnTop
+    property bool titleInToolbar: toolbarOnTop
+    property bool floatingPlayButton: android
 }

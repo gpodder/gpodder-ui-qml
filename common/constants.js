@@ -36,8 +36,17 @@ var colors = {
     playback: '#729fcf', /* playback blue */
     destructive: '#cf424f', /* destructive actions */
 
-    page: '#dddddd',
     toolbar: '#d0d0d0',
+    toolbarText: '#333333',
+    toolbarDisabled: '#666666',
+
+    inverted: {
+        toolbar: '#815c86',
+        toolbarText: '#ffffff',
+        toolbarDisabled: '#aaffffff',
+    },
+
+    page: '#dddddd',
     dialog: '#dddddd',
     dialogBackground: '#aa000000',
     text: '#333333', /* text color */

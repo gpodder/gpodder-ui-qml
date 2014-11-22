@@ -27,7 +27,8 @@ ButtonArea {
 
     property alias text: label.text
     property color color: Constants.colors.secondaryHighlight
-    property color _real_color: enabled ? color : Constants.colors.placeholder
+    property color colorDisabled: Constants.colors.placeholder
+    property color _real_color: enabled ? color : colorDisabled
     property alias icon: icon.icon
     property alias size: icon.size
     property bool alwaysShowText: false

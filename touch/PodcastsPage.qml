@@ -26,7 +26,8 @@ import 'icons/icons.js' as Icons
 import 'common/constants.js' as Constants
 
 SlidePage {
-    id: podcastsPage
+    id: page
+
     canClose: false
 
     hasMenuButton: true

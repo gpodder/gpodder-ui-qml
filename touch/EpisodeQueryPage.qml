@@ -26,7 +26,7 @@ import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
 SlidePage {
-    id: allEpisodesPage
+    id: page
 
     hasMenuButton: true
     menuButtonIcon: Icons.magnifying_glass

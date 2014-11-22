@@ -33,6 +33,7 @@ Rectangle {
     property alias canClose: dragging.canClose
     property bool isDialog: false
 
+    property string title: ''
     property bool hasMenuButton: false
     property string menuButtonLabel: 'Menu'
     property string menuButtonIcon: Icons.vellipsis
@@ -48,6 +49,8 @@ Rectangle {
 
     width: parent.width
     height: parent.height - parent.bottomSpacing
+
+    y: platform.toolbarOnTop ? parent.bottomSpacing : 0
 
     Stacking { id: stacking }
 

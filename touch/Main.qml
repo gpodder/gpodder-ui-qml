@@ -30,6 +30,7 @@ Item {
 
     GPodderCore { id: py }
     GPodderPlayback { id: player }
+    GPodderPlatform { id: platform }
 
     GPodderPodcastListModel { id: podcastListModel }
     GPodderPodcastListModelConnections {}
@@ -98,6 +99,7 @@ Item {
     property bool hasMenuButton: false
     property string menuButtonLabel: ''
     property string menuButtonIcon: ''
+    property string windowTitle: 'gPodder'
 
     function topOfStackChanged(offset) {
         if (offset === undefined) {
@@ -107,9 +109,13 @@ Item {
         var page = children[children.length+offset-1];
 
         pgst.hasBackButton = Qt.binding(function () { return page.isDialog || page.canClose; });
-        pgst.hasMenuButton = Qt.binding(function () { return page.hasMenuButton; });
-        pgst.menuButtonLabel = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonLabel : 'Menu'; });
-        pgst.menuButtonIcon = Qt.binding(function () { return pgst.hasMenuButton ? page.menuButtonIcon : Icons.vellipsis; });
+        pgst.hasMenuButton = Qt.binding(function () { return !page.isDialog && page.hasMenuButton; });
+        pgst.menuButtonLabel = Qt.binding(function () { return (!page.isDialog && pgst.hasMenuButton) ? page.menuButtonLabel : 'Menu'; });
+        pgst.menuButtonIcon = Qt.binding(function () { return (!page.isDialog && pgst.hasMenuButton) ? page.menuButtonIcon : Icons.vellipsis; });
+
+        if (!page.isDialog) {
+            pgst.windowTitle = page.title || 'gPodder';
+        }
     }
 
     function showConfirmation(title, affirmative, negative, description, icon, callback) {
@@ -170,10 +176,11 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
-            bottom: toolbar.top
+            top: platform.toolbarOnTop ? toolbar.bottom : undefined
+            bottom: platform.toolbarOnTop ? undefined : toolbar.top
         }
 
-        source: 'images/toolbarshadow.png'
+        source: platform.toolbarOnTop ? 'images/toolbarshadow-top.png' : 'images/toolbarshadow.png'
         opacity: .1
         height: 10 * pgst.scalef
         visible: toolbar.showing
@@ -183,7 +190,14 @@ Item {
         id: toolbar
         z: 102
 
+        anchors {
+            top: platform.toolbarOnTop ? parent.top : undefined
+            bottom: platform.toolbarOnTop ? undefined : parent.bottom
+        }
+
         Row {
+            id: toolbarButtonsLeft
+
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
@@ -195,9 +209,7 @@ Item {
                 text: 'Back'
                 icon: Icons.arrow_left
 
-                // Don't show back button on Android (Android has its own)
-                visible: (typeof(gpodderAndroid) === 'undefined')
-
+                visible: platform.needsBackButton
                 enabled: pgst.hasBackButton
                 onClicked: {
                     if (enabled) {
@@ -207,7 +219,22 @@ Item {
             }
         }
 
+        PToolbarLabel {
+            visible: platform.titleInToolbar
+
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: toolbarButtonsLeft.right
+                right: toolbarButtonsRight.left
+                margins: Constants.layout.padding * pgst.scalef
+            }
+
+            text: pgst.windowTitle
+        }
+
         Row {
+            id: toolbarButtonsRight
+
             anchors {
                 verticalCenter: parent.verticalCenter
                 right: parent.right
@@ -218,6 +245,7 @@ Item {
 
                 text: 'Now Playing'
                 icon: Icons.play
+                visible: !platform.floatingPlayButton
 
                 enabled: player.episode != 0
                 onClicked: loadPage('PlayerPage.qml');
@@ -261,6 +289,45 @@ Item {
                         throbber.clicked();
                     }
                 }
+            }
+        }
+    }
+
+    Rectangle {
+        z: 190
+        color: Constants.colors.playback
+        visible: platform.floatingPlayButton
+
+        Behavior on opacity { NumberAnimation { } }
+        opacity: (player.episode != 0) ? (player.isPlaying ? 1 : .5) : 0
+
+        width: Constants.layout.item.height * 1.1 * pgst.scalef
+        height: width
+        radius: height / 2
+
+        anchors {
+            right: parent.right
+            margins: Constants.layout.padding * 2 * pgst.scalef
+        }
+
+        y: pgst.height - height - anchors.margins
+
+        PIcon {
+            id: icon
+            anchors.centerIn: parent
+            icon: Icons.headphones
+            size: 60
+            color: Constants.colors.inverted.toolbarText
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: loadPage('PlayerPage.qml');
+            drag {
+                target: parent
+                axis: Drag.YAxis
+                minimumY: pgst.bottomSpacing + parent.anchors.margins
+                maximumY: pgst.height - parent.height - parent.anchors.margins
             }
         }
     }

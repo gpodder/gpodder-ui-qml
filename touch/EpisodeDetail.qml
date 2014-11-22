@@ -75,11 +75,10 @@ SlidePage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: Constants.layout.padding * pgst.scalef
 
-                PLabel {
-                    text: detailPage.title
+                SlidePageHeader {
+                    title: detailPage.title
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    font.pixelSize: 35 * pgst.scalef
                     color: Constants.colors.highlight
                 }
 

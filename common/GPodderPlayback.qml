@@ -41,7 +41,7 @@ MediaPlayer {
     property int playedFrom: 0
 
     property var androidConnections: Connections {
-        target: (typeof(gpodderAndroid) === 'undefined') ? null : gpodderAndroid
+        target: platform.android ? gpodderAndroid : null
 
         onAudioBecomingNoisy: {
             if (playbackState === MediaPlayer.PlayingState) {

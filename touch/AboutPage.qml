@@ -23,7 +23,7 @@ import QtQuick 2.0
 import 'common/constants.js' as Constants
 
 SlidePage {
-    id: aboutPage
+    id: page
 
     Flickable {
         id: flickable
@@ -36,7 +36,7 @@ SlidePage {
         Column {
             id: detailColumn
 
-            width: aboutPage.width
+            width: page.width
             spacing: 15 * pgst.scalef
 
             SlidePageHeader {
@@ -45,6 +45,8 @@ SlidePage {
 
             Column {
                 width: parent.width
+
+                Item { height: 10 * pgst.scalef; width: 1 }
 
                 PLabel {
                     width: parent.width * .95

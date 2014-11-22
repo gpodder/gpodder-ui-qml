@@ -22,3 +22,4 @@ var link = '\ue077';
 var vellipsis = '\u22ee';
 var paperclip = '\ue08a';
 var tag_fill = '\ue02b';
+var headphones = '\ue061';

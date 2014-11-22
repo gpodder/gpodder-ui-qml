@@ -27,9 +27,20 @@ Item {
     id: slidePageHeader
     property alias title: label.text
     property alias color: label.color
+    property alias wrapMode: label.wrapMode
+    property bool isOnSlidePage: (typeof(page) !== 'undefined') ? page : null
 
     width: parent.width
-    height: Constants.layout.header.height * pgst.scalef
+
+    visible: !platform.titleInToolbar || !isOnSlidePage
+    height: visible ? (Constants.layout.header.height * pgst.scalef) : 0
+
+    Binding {
+        target: isOnSlidePage ? page : null
+        property: 'title'
+        value: slidePageHeader.title
+        when: platform.titleInToolbar
+    }
 
     PLabel {
         id: label

@@ -36,7 +36,7 @@ Rectangle {
 
     width: iconMenuItem.width
     height: iconMenuItem.height
-    color: iconMenuItem.pressed ? Constants.colors.toolbarArea : 'transparent'
+    color: iconMenuItem.pressed ? (platform.invertedToolbar ? Constants.colors.toolbarArea : Constants.colors.inverted.toolbarArea) : 'transparent'
 
     Rectangle {
         height: 5 * pgst.scalef
@@ -51,7 +51,8 @@ Rectangle {
 
     IconMenuItem {
         id: iconMenuItem
-        color: Constants.colors.text
+        color: platform.invertedToolbar ? Constants.colors.inverted.toolbarText : Constants.colors.toolbarText
+        colorDisabled: platform.invertedToolbar ? Constants.colors.inverted.toolbarDisabled : Constants.colors.toolbarDisabled
         transparent: true
         enabled: parent.enabled
         onClicked: toolbarButton.clicked()

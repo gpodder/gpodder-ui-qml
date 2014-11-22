@@ -26,7 +26,7 @@ import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
 
 SlidePage {
-    id: episodesPage
+    id: page
 
     property int podcast_id
     property string title
@@ -44,7 +44,7 @@ SlidePage {
             {
                 label: 'Mark episodes as old',
                 callback: function () {
-                    py.call('main.mark_episodes_as_old', [episodesPage.podcast_id]);
+                    py.call('main.mark_episodes_as_old', [page.podcast_id]);
                 },
             },
             {
@@ -56,7 +56,7 @@ SlidePage {
             {
                 label: 'Unsubscribe',
                 callback: function () {
-                    var ctx = { py: py, id: episodesPage.podcast_id, page: episodesPage };
+                    var ctx = { py: py, id: page.podcast_id, page: page };
                     pgst.showConfirmation(title, 'Unsubscribe', 'Cancel', 'Remove this podcast and all downloaded episodes?', Icons.trash, function () {
                         ctx.py.call('main.unsubscribe', [ctx.id]);
                         ctx.page.closePage();
@@ -80,6 +80,6 @@ SlidePage {
 
     EpisodeListView {
         id: episodeList
-        title: episodesPage.title
+        title: page.title
     }
 }

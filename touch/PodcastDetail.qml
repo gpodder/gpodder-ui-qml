@@ -25,7 +25,7 @@ import 'common/util.js' as Util
 import 'icons/icons.js' as Icons
 
 SlidePage {
-    id: podcastDetail
+    id: page
 
     property int podcast_id
     property string title
@@ -43,7 +43,7 @@ SlidePage {
             {
                 label: 'Visit website',
                 callback: function () {
-                    Qt.openUrlExternally(podcastDetail.link);
+                    Qt.openUrlExternally(page.link);
                 }
             },
             {
@@ -51,14 +51,14 @@ SlidePage {
                 callback: function () {
                     pgst.loadPage('TextInputDialog.qml', {
                         placeholderText: 'Feed URL',
-                        text: podcastDetail.url,
+                        text: page.url,
                     });
                 }
             },
             {
                 label: 'Change section',
                 callback: function () {
-                    var ctx = { py: py, id: podcastDetail.podcast_id };
+                    var ctx = { py: py, id: page.podcast_id };
                     pgst.loadPage('TextInputDialog.qml', {
                         buttonText: 'Change section',
                         placeholderText: 'New section',
@@ -74,18 +74,18 @@ SlidePage {
 
     PBusyIndicator {
         anchors.centerIn: parent
-        visible: !podcastDetail.ready
+        visible: !page.ready
     }
 
     Component.onCompleted: {
         py.call('main.show_podcast', [podcast_id], function (podcast) {
-            podcastDetail.title = podcast.title;
-            podcastDetail.description = podcast.description;
-            podcastDetail.link = podcast.link;
-            podcastDetail.section = podcast.section;
-            podcastDetail.coverart = podcast.coverart;
-            podcastDetail.url = podcast.url;
-            podcastDetail.ready = true;
+            page.title = podcast.title;
+            page.description = podcast.description;
+            page.link = podcast.link;
+            page.section = podcast.section;
+            page.coverart = podcast.coverart;
+            page.url = podcast.url;
+            page.ready = true;
         });
     }
 
@@ -100,7 +100,7 @@ SlidePage {
         Column {
             id: detailColumn
 
-            width: podcastDetail.width
+            width: page.width
             spacing: Constants.layout.padding * pgst.scalef
 
             Item { height: Constants.layout.padding * pgst.scalef; width: parent.width }
@@ -116,23 +116,22 @@ SlidePage {
 
                     Image {
                         id: coverImage
-                        source: podcastDetail.coverart
+                        source: page.coverart
                         fillMode: Image.PreserveAspectFit
                         width: parent.width
                     }
                 }
 
-                PLabel {
-                    text: podcastDetail.title
+                SlidePageHeader {
+                    title: page.title
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    font.pixelSize: 35 * pgst.scalef
                     color: Constants.colors.highlight
                 }
 
                 PLabel {
                     visible: text !== ''
-                    text: podcastDetail.link
+                    text: page.link
                     width: parent.width
                     wrapMode: Text.WordWrap
                     font.pixelSize: 20 * pgst.scalef
@@ -140,7 +139,7 @@ SlidePage {
                 }
 
                 PLabel {
-                    text: 'Section: ' + podcastDetail.section
+                    text: 'Section: ' + page.section
                     width: parent.width
                     wrapMode: Text.WordWrap
                     font.pixelSize: 20 * pgst.scalef
@@ -148,7 +147,7 @@ SlidePage {
                 }
 
                 PLabel {
-                    text: podcastDetail.description
+                    text: page.description
                     width: parent.width
                     font.pixelSize: 30 * pgst.scalef
                     wrapMode: Text.WordWrap
