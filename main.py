@@ -92,7 +92,7 @@ class gPotherSide:
 
     def _episode_state_changed(self, episode):
         pyotherside.send('updated-episode', self.convert_episode(episode))
-        pyotherside.send('updated-podcast', self.convert_podcast(episode.parent))
+        pyotherside.send('updated-podcast', self.convert_podcast(episode.podcast))
         pyotherside.send('update-stats')
 
     def get_stats(self):
@@ -266,7 +266,7 @@ class gPotherSide:
 
     def delete_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
-        episode.delete()
+        episode.delete_download()
         self.core.save()
         self._episode_state_changed(episode)
 
@@ -329,7 +329,7 @@ class gPotherSide:
         self._episode_state_changed(episode)
         return {
             'title': episode.title,
-            'podcast_title': episode.parent.title,
+            'podcast_title': episode.podcast.title,
             'source': episode.local_filename(False)
                 if episode.state == gpodder.STATE_DOWNLOADED
                 else episode.url,
