@@ -142,6 +142,32 @@ SlidePage {
                 }
 
                 IconMenuItem {
+                    text: player.sleepTimerRunning ? Util.formatDuration(player.sleepTimerRemaining) : 'Sleep'
+                    alwaysShowText: player.sleepTimerRunning
+                    color: Constants.colors.playback
+                    icon: Icons.sleep
+                    onClicked: {
+                        if (player.sleepTimerRunning) {
+                            player.stopSleepTimer();
+                        } else {
+                            var options = [];
+                            var durations_minutes = player.durationChoices;
+                            for (var i=0; i<durations_minutes.length; i++) {
+                                (function (minutes) {
+                                    options.push({
+                                        label: '' + minutes + ' minutes',
+                                        callback: function () {
+                                            player.startSleepTimer(60 * minutes);
+                                        }
+                                    });
+                                })(durations_minutes[i]);
+                            }
+                            pgst.showSelection(options, 'Sleep timer', undefined, true);
+                        }
+                    }
+                }
+
+                IconMenuItem {
                     text: 'Chapters'
                     color: Constants.colors.playback
                     icon: Icons.tag_fill

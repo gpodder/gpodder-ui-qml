@@ -116,11 +116,45 @@ MediaPlayer {
         } else {
             sendPositionToCore(lastPosition);
             savePlaybackAfterStopTimer.restart();
+            if (sleepTimerRunning) {
+                stopSleepTimer();
+            }
         }
     }
 
     function flushToDisk() {
         py.call('main.save_playback_state', []);
+    }
+
+    property var durationChoices: ([5, 15, 30, 45, 60])
+
+    function startSleepTimer(seconds) {
+        sleepTimer.running = false;
+        sleepTimer.secondsRemaining = seconds;
+        sleepTimer.running = true;
+    }
+
+    function stopSleepTimer() {
+        sleepTimer.running = false;
+        sleepTimer.secondsRemaining = 0;
+    }
+
+    property bool sleepTimerRunning: sleepTimer.running
+    property int sleepTimerRemaining: sleepTimer.secondsRemaining
+
+    property var sleepTimer: Timer {
+        property int secondsRemaining: 0
+
+        interval: 1000
+        repeat: true
+        onTriggered: {
+            secondsRemaining -= 1;
+
+            if (secondsRemaining <= 0) {
+                player.pause();
+                running = false;
+            }
+        }
     }
 
     property var savePlaybackPositionTimer: Timer {
