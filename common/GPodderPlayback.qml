@@ -135,9 +135,6 @@ MediaPlayer {
         } else {
             sendPositionToCore(lastPosition);
             savePlaybackAfterStopTimer.restart();
-            if (sleepTimerRunning) {
-                stopSleepTimer();
-            }
         }
     }
 
