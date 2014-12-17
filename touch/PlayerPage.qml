@@ -190,6 +190,67 @@ SlidePage {
                     }
                 }
             }
+
+            SectionHeader {
+                text: 'Play queue'
+                visible: playQueueRepeater.count > 0
+                width: parent.width
+            }
+
+            Repeater {
+                id: playQueueRepeater
+                model: player.queue
+
+                property var queueConnections: Connections {
+                    target: player
+
+                    onQueueUpdated: {
+                        playQueueRepeater.model = player.queue;
+                    }
+                }
+
+                ButtonArea {
+                    height: Constants.layout.item.height * pgst.scalef
+                    width: parent.width
+                    transparent: true
+
+                    PLabel {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            margins: Constants.layout.padding * pgst.scalef
+                            verticalCenter: parent.verticalCenter
+                        }
+
+                        text: modelData.title
+                        elide: Text.ElideRight
+                    }
+
+                    onClicked: {
+                        player.jumpToQueueIndex(index);
+                    }
+
+                    onPressAndHold: {
+                        pgst.showSelection([
+                            {
+                                label: 'Shownotes',
+                                callback: function () {
+                                    pgst.loadPage('EpisodeDetail.qml', {
+                                        episode_id: modelData.episode_id,
+                                        title: modelData.title
+                                    });
+                                },
+                            },
+                            {
+                                label: 'Remove from queue',
+                                callback: function () {
+                                    player.removeQueueIndex(index);
+                                },
+                            },
+                        ]);
+                    }
+                }
+            }
         }
     }
 

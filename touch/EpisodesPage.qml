@@ -48,6 +48,20 @@ SlidePage {
                 },
             },
             {
+                label: 'Enqueue episodes in player',
+                callback: function () {
+                    var startPlayback = Util.atMostOnce(function () {
+                        if (!player.isPlaying) {
+                            player.jumpToQueueIndex(0);
+                        }
+                    });
+
+                    episodeList.model.forEachEpisode(function (episode) {
+                        player.enqueueEpisode(episode.id, startPlayback);
+                    });
+                },
+            },
+            {
                 label: 'Podcast details',
                 callback: function () {
                     pgst.loadPage('PodcastDetail.qml', {podcast_id: podcast_id, title: title});

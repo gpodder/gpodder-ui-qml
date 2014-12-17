@@ -75,3 +75,13 @@ function format(s, d) {
         return (k in d) ? d[k] : m;
     });
 }
+
+function atMostOnce(callback) {
+    var called = false;
+    return function () {
+        if (!called) {
+            called = true;
+            callback();
+        }
+    };
+}

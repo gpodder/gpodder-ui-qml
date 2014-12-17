@@ -62,6 +62,13 @@ ListModel {
         });
     }
 
+    function forEachEpisode(callback) {
+        // Go from bottom up (= chronological order)
+        for (var i=count-1; i>=0; i--) {
+            callback(get(i));
+        }
+    }
+
     function setQueryIndex(index) {
         currentFilterIndex = index;
         py.call('main.set_config_value', ['ui.qml.episode_list.filter_eql', filters[currentFilterIndex].query]);

@@ -31,6 +31,7 @@ MediaPlayer {
     signal playerCreated()
 
     property var queue: ([])
+    signal queueUpdated()
     property bool isPlaying: playbackState == MediaPlayer.PlayingState
 
     property bool inhibitPositionEvents: false
@@ -56,6 +57,24 @@ MediaPlayer {
         } else if (playbackState === MediaPlayer.PausedState) {
             play();
         }
+    }
+
+    function enqueueEpisode(episode_id, callback) {
+        py.call('main.show_episode', [episode_id], function (episode) {
+            if (episode_id != player.episode && !queue.some(function (queued) {
+                return queued.episode_id === episode_id;
+            })) {
+                queue.push({
+                    episode_id: episode_id,
+                    title: episode.title,
+                });
+                queueUpdated();
+            }
+
+            if (callback !== undefined) {
+                callback();
+            }
+        });
     }
 
     function playbackEpisode(episode_id) {
@@ -154,6 +173,35 @@ MediaPlayer {
                 player.pause();
                 running = false;
             }
+        }
+    }
+
+    property var nextInQueueTimer: Timer {
+        interval: 500
+
+        repeat: false
+
+        onTriggered: {
+            if (queue.length > 0) {
+                playbackEpisode(queue.shift().episode_id);
+                player.queueUpdated();
+            }
+        }
+    }
+
+    function jumpToQueueIndex(index) {
+        playbackEpisode(removeQueueIndex(index).episode_id);
+    }
+
+    function removeQueueIndex(index) {
+        var result = queue.splice(index, 1)[0];
+        player.queueUpdated();
+        return result;
+    }
+
+    onStatusChanged: {
+        if (status === MediaPlayer.EndOfMedia) {
+            nextInQueueTimer.start();
         }
     }
 
