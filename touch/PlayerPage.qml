@@ -162,7 +162,7 @@ SlidePage {
                                     });
                                 })(durations_minutes[i]);
                             }
-                            pgst.showSelection(options, 'Sleep timer', undefined, true);
+                            pgst.showSelection(options, 'Sleep timer', undefined, false);
                         }
                     }
                 }
