@@ -77,6 +77,13 @@ MediaPlayer {
         });
     }
 
+    function clearQueue() {
+        while (queue.length) {
+            queue.shift()
+        }
+        queueUpdated()
+    }
+
     function playbackEpisode(episode_id) {
         if (episode == episode_id) {
             // If the episode is already loaded, just start playing
