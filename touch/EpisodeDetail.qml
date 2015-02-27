@@ -76,6 +76,7 @@ SlidePage {
                 spacing: Constants.layout.padding * pgst.scalef
 
                 SlidePageHeader {
+                    padding: 0
                     title: detailPage.title
                     width: parent.width
                     wrapMode: Text.WordWrap

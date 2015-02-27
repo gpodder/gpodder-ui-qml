@@ -29,11 +29,12 @@ Item {
     property alias color: label.color
     property alias wrapMode: label.wrapMode
     property bool isOnSlidePage: (typeof(page) !== 'undefined') ? page : null
+    property real padding: 20
 
     width: parent.width
 
     visible: !platform.titleInToolbar || !isOnSlidePage
-    height: visible ? (Constants.layout.header.height * pgst.scalef) : 0
+    height: visible ? (2 * padding * pgst.scalef + label.height) : 0
 
     Binding {
         target: isOnSlidePage ? page : null
@@ -47,13 +48,13 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
-            rightMargin: 20 * pgst.scalef
-            leftMargin: 20 * pgst.scalef
+            rightMargin: slidePageHeader.padding * pgst.scalef
+            leftMargin: slidePageHeader.padding * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 
         color: Constants.colors.highlight
-        font.pixelSize: parent.height * .4
+        font.pixelSize: Constants.layout.header.height * pgst.scalef * .4
         elide: Text.ElideRight
     }
 }
