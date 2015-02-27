@@ -148,13 +148,18 @@ class gPotherSide:
         podcasts = self._get_podcasts_sorted()
         return [self.convert_podcast(podcast) for podcast in podcasts]
 
+    def _get_subtitle(self, episode):
+        for line in util.remove_html_tags(episode.subtitle).strip().splitlines():
+            return line
+        return ''
+
     def convert_episode(self, episode):
         now = datetime.datetime.now()
         tnow = time.time()
         return {
             'id': episode.id,
             'title': episode.trimmed_title,
-            'subtitle': episode.subtitle,
+            'subtitle': self._get_subtitle(episode),
             'progress': episode.download_progress(),
             'downloadState': episode.state,
             'isNew': episode.is_new,

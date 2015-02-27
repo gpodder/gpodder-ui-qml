@@ -231,6 +231,7 @@ Item {
                 }
 
                 text: subtitle
+                textFormat: Text.PlainText
                 font.pixelSize: 20 * pgst.scalef
 
                 visible: subtitle !== ''
