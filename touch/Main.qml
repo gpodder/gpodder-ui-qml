@@ -102,6 +102,19 @@ Item {
     property string menuButtonIcon: ''
     property string windowTitle: 'gPodder'
 
+    function onDialogDismissed(dialog) {
+        for (var i=0; i<children.length; i++) {
+            // If the dismissed dialog is not on top of the stack, it was
+            // dismissed while another page was pushed, so we need to do
+            // another topOfStackChanged() to get the right top item
+            // (see https://github.com/gpodder/gpodder-bb10/issues/7)
+            if (children[i] === dialog && i < children.length - 1) {
+                topOfStackChanged();
+                break;
+            }
+        }
+    }
+
     function topOfStackChanged(offset) {
         if (offset === undefined) {
             offset = 0;

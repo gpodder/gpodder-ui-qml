@@ -36,7 +36,10 @@ Rectangle {
         pgst.topOfStackChanged();
     }
 
-    Component.onDestruction: pgst.dialogsVisible = pgst.dialogsVisible - 1;
+    Component.onDestruction: {
+        pgst.dialogsVisible = pgst.dialogsVisible - 1;
+        pgst.onDialogDismissed(page);
+    }
 
     default property alias children: contents.children
     property bool isDialog: true
