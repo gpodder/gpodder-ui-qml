@@ -110,13 +110,20 @@ SlidePage {
             onPressAndHold: {
                 pgst.showSelection([
                     {
+                        label: 'Refresh',
+                        callback: function () {
+                            py.call('main.check_for_episodes', [url]);
+                        },
+                    },
+                    {
                         label: 'Unsubscribe',
                         callback: function () {
                             var ctx = { py: py, id: id };
                             pgst.showConfirmation(title, 'Unsubscribe', 'Cancel', 'Remove this podcast and all downloaded episodes?', Icons.trash, function () {
                                 ctx.py.call('main.unsubscribe', [ctx.id]);
                             });
-                        } },
+                        },
+                    },
                     {
                         label: 'Rename',
                         callback: function () {
