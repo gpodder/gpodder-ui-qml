@@ -29,6 +29,7 @@ PListView {
     id: episodeList
 
     property int selectedIndex: -1
+    property alias podcast_id: episodeListModel.podcast_id
 
     PScrollIntoView { id: scrollIntoView }
 
@@ -42,14 +43,14 @@ PListView {
     GPodderEpisodeListModelConnections {}
 
     PBusyIndicator {
-        visible: !episodeListModel.ready
+        visible: !episodeListModel.ready && episodeListModel.podcast_id
         anchors.centerIn: parent
     }
 
     PPlaceholder {
         // TODO: If filter is "all", say "No episodes"
-        text: 'No episodes found'
-        visible: episodeList.count === 0 && episodeListModel.ready
+        text: episodeListModel.podcast_id ? 'No episodes found' : 'No podcast selected'
+        visible: (episodeList.count === 0 && episodeListModel.ready) || !episodeListModel.podcast_id
     }
 
     delegate: EpisodeItem { }

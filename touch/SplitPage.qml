@@ -1,7 +1,8 @@
+
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2015, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,11 +22,13 @@ import QtQuick 2.0
 
 import 'common/constants.js' as Constants
 
-Rectangle {
-    color: Constants.colors.page
+SlidePage {
+    id: splitPage
+    property real position: 0.5
 
-    width: 1280
-    height: 800
-
-    Main {}
+    Component.onCompleted: {
+        children[0].width = Qt.binding(function () { return splitPage.width * splitPage.position; });
+        children[1].width = Qt.binding(function () { return splitPage.width * (1.0 - splitPage.position); });
+        children[1].x = Qt.binding(function () { return children[0].width; });
+    }
 }

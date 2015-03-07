@@ -1,7 +1,9 @@
+
+
 /**
  *
  * gPodder QML UI Reference Implementation
- * Copyright (c) 2013, Thomas Perl <m@thp.io>
+ * Copyright (c) 2015, Thomas Perl <m@thp.io>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,13 +21,9 @@
 
 import QtQuick 2.0
 
-import 'common/constants.js' as Constants
-
-Rectangle {
-    color: Constants.colors.page
-
-    width: 1280
-    height: 800
-
-    Main {}
+Item {
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+    }
 }

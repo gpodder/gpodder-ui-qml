@@ -80,12 +80,6 @@ SlidePage {
         ], undefined, undefined, true);
     }
 
-
-    Component.onCompleted: {
-        episodeList.model.podcast_id = podcast_id;
-        // List model will be loaded automatically on load
-    }
-
     EpisodeQueryControl {
         id: queryControl
         model: episodeList.model
@@ -95,5 +89,6 @@ SlidePage {
     EpisodeListView {
         id: episodeList
         title: page.title
+        podcast_id: page.podcast_id
     }
 }

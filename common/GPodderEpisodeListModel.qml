@@ -62,6 +62,10 @@ ListModel {
         });
     }
 
+    onPodcast_idChanged: {
+        reload();
+    }
+
     property var worker: ModelWorkerScript {
         id: modelWorker
     }
