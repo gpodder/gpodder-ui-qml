@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 
+import 'common'
 import 'common/util.js' as Util
 import 'common/constants.js' as Constants
 import 'icons/icons.js' as Icons
@@ -117,28 +118,40 @@ SlidePage {
                     text: '-1m'
                     color: Constants.colors.playback
                     icon: Icons.first
-                    onClicked: player.seekAndSync(player.position - 60 * 1000);
+                    GPodderAutoFire {
+                        running: parent.pressed
+                        onFired: player.seekAndSync(player.position - 60 * 1000)
+                    }
                 }
 
                 IconMenuItem {
                     text: '-10s'
                     color: Constants.colors.playback
                     icon: Icons.arrow_left
-                    onClicked: player.seekAndSync(player.position - 10 * 1000);
+                    GPodderAutoFire {
+                        running: parent.pressed
+                        onFired: player.seekAndSync(player.position - 10 * 1000)
+                    }
                 }
 
                 IconMenuItem {
                     text: '+10s'
                     color: Constants.colors.playback
                     icon: Icons.arrow_right
-                    onClicked: player.seekAndSync(player.position + 10 * 1000);
+                    GPodderAutoFire {
+                        running: parent.pressed
+                        onFired: player.seekAndSync(player.position + 10 * 1000)
+                    }
                 }
 
                 IconMenuItem {
                     text: '+1m'
                     color: Constants.colors.playback
                     icon: Icons.last
-                    onClicked: player.seekAndSync(player.position + 60 * 1000);
+                    GPodderAutoFire {
+                        running: parent.pressed
+                        onFired: player.seekAndSync(player.position + 60 * 1000)
+                    }
                 }
 
                 IconMenuItem {
