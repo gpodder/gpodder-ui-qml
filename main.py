@@ -137,6 +137,7 @@ class gPotherSide:
             'coverart': self._get_cover(podcast),
             'updating': podcast._updating,
             'section': podcast.section,
+            'url': podcast.url,
         }
 
     def _get_podcasts_sorted(self):
@@ -305,13 +306,13 @@ class gPotherSide:
         self.core.save()
 
     @run_in_background_thread
-    def check_for_episodes(self):
+    def check_for_episodes(self, url=None):
         if self._checking_for_new_episodes:
             return
 
         self._checking_for_new_episodes = True
         pyotherside.send('refreshing', True)
-        podcasts = self._get_podcasts_sorted()
+        podcasts = [podcast for podcast in self._get_podcasts_sorted() if url is None or podcast.url == url]
         for index, podcast in enumerate(podcasts):
             pyotherside.send('refresh-progress', index, len(podcasts))
             pyotherside.send('updating-podcast', podcast.id)
