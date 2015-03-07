@@ -68,7 +68,7 @@ Item {
     // Initial focus
     focus: true
 
-    property real scalef: (width < height) ? (width / 480) : (height / 480)
+    property real scalef: 1.0 //(width < height) ? (width / 480) : (height / 480)
     property int shorterSide: (width < height) ? width : height
     property int dialogsVisible: 0
 
@@ -84,9 +84,9 @@ Item {
         }
 
         if (page.isDialog) {
-            children[index-1].opacity = 1;
+            //children[index-1].opacity = 1;
         } else {
-            children[index-1].opacity = x / width;
+            //children[index-1].opacity = x / width;
         }
 
         //children[index-1].pushPhase = x / width;
@@ -115,6 +115,26 @@ Item {
         }
     }
 
+    onChildrenChanged: resizePages()
+
+    function resizePages() {
+        var pages = [];
+        for (var i=0; i<children.length; i++) {
+            if (children[i].filename) {
+                pages.push(children[i]);
+            }
+        }
+
+        var l = 0;
+        for (var i=0; i<pages.length; i++) {
+            if (i === 0) {
+                pages[i].leftDragLimit = 0;
+            } else {
+                pages[i].leftDragLimit = Qt.binding(function () { return pages[i-1].nextDragLimit; });
+            }
+        }
+    }
+
     function topOfStackChanged(offset) {
         if (offset === undefined) {
             offset = 0;
@@ -130,6 +150,12 @@ Item {
         if (!page.isDialog) {
             pgst.windowTitle = page.title || 'gPodder';
         }
+
+        console.log('===== children =====');
+        for (var i=0; i<children.length; i++) {
+            console.log('child ' + i + ': ' + children[i] + ' / ' + (children[i].filename || '-') + ' / leftDragLimit = ' + children[i].leftDragLimit);
+        }
+        resizePages();
     }
 
     function showConfirmation(title, affirmative, negative, description, icon, callback) {
@@ -167,6 +193,18 @@ Item {
             return;
         }
 
+        for (var i=0; i<children.length; i++) {
+            if (children[i].filename === filename) {
+                console.log('reusing existing child, setting properties');
+                for (var key in properties) {
+                    children[i][key] = properties[key];
+                }
+                // just in case
+                topOfStackChanged();
+                return;
+            }
+        }
+
         var component = Qt.createComponent(filename);
         if (component.status != Component.Ready) {
             console.log('Error loading ' + filename + ':' +
@@ -178,6 +216,7 @@ Item {
         }
 
         pgst.loadPageInProgress = true;
+        properties.filename = filename;
         component.createObject(pgst, properties);
     }
 
@@ -350,5 +389,6 @@ Item {
 
     PodcastsPage {
         visible: py.ready
+        filename: 'PodcastsPage.qml'
     }
 }

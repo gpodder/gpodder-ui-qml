@@ -27,6 +27,8 @@ import 'icons/icons.js' as Icons
 SlidePage {
     id: detailPage
 
+    width: pgst.width / 3
+
     property int episode_id
     property string title
     property string link
@@ -43,7 +45,7 @@ SlidePage {
         visible: !detailPage.ready
     }
 
-    Component.onCompleted: {
+    onEpisode_idChanged: {
         py.call('main.show_episode', [episode_id], function (episode) {
             detailPage.title = episode.title;
             descriptionLabel.text = episode.description;

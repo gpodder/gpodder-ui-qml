@@ -28,6 +28,8 @@ import 'common/constants.js' as Constants
 SlidePage {
     id: page
 
+    width: pgst.width / 3
+
     canClose: false
 
     hasMenuButton: true

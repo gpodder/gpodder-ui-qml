@@ -27,8 +27,13 @@ import 'common/util.js' as Util
 
 PListView {
     id: episodeList
+    property alias podcast_id: episodeListModel.podcast_id
 
     property int selectedIndex: -1
+
+    onPodcast_idChanged: {
+        selectedIndex = -1;
+    }
 
     PScrollIntoView { id: scrollIntoView }
 

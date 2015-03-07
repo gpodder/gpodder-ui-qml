@@ -31,8 +31,8 @@ MouseArea {
     drag {
         target: parent
         axis: Drag.XAxis
-        minimumX: 0
-        maximumX: canClose ? parent.width : 0
+        minimumX: parent.leftDragLimit
+        maximumX: canClose ? pgst.width : 0
         filterChildren: true
     }
 
@@ -44,7 +44,7 @@ MouseArea {
         if (pressed) {
             dragging.stacking.stopAllAnimations();
         } else {
-            if (parent.x > parent.width / 3) {
+            if (parent.x > pgst.width * 3 / 4) {
                 dragging.stacking.startFadeOut();
             } else {
                 dragging.stacking.fadeInAgain();

@@ -28,7 +28,7 @@ Item {
         id: fadeIn
         target: stacking.page
         property: 'x'
-        to: 0
+        to: page.leftDragLimit
         duration: 500
         easing.type: Easing.OutCubic
 
@@ -41,7 +41,7 @@ Item {
         id: fadeOut
         target: stacking.page
         property: 'x'
-        to: stacking.page.width
+        to: pgst.width
         duration: 500
         easing.type: Easing.OutCubic
     }
@@ -62,7 +62,7 @@ Item {
 
     Component.onCompleted: {
         if (pgst.loadPageInProgress) {
-            page.x = page.width;
+            page.x = pgst.width;
             fadeIn.start();
         }
     }

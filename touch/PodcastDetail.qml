@@ -27,6 +27,8 @@ import 'icons/icons.js' as Icons
 SlidePage {
     id: page
 
+    width: pgst.width / 3
+
     property int podcast_id
     property string title
     property string description

@@ -33,6 +33,10 @@ Rectangle {
     property alias canClose: dragging.canClose
     property bool isDialog: false
 
+    property string filename
+    property int leftDragLimit
+    property int nextDragLimit: page.x + page.width
+
     property string title: ''
     property bool hasMenuButton: false
     property string menuButtonLabel: 'Menu'
@@ -53,6 +57,10 @@ Rectangle {
     y: platform.toolbarOnTop ? parent.bottomSpacing : 0
 
     Stacking { id: stacking }
+
+    function slideToLeft() {
+        stacking.fadeInAgain();
+    }
 
     Dragging {
         id: dragging

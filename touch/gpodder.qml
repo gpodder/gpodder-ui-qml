@@ -24,7 +24,7 @@ import 'common/constants.js' as Constants
 Rectangle {
     color: Constants.colors.page
 
-    width: 480
+    width: 1280
     height: 800
 
     Main {}
