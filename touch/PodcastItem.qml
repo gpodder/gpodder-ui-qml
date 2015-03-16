@@ -33,19 +33,6 @@ ButtonArea {
         right: parent.right
     }
 
-    Rectangle {
-        width: Constants.layout.padding * pgst.scalef * (newEpisodes > 0)
-        Behavior on width { PropertyAnimation { } }
-
-        anchors {
-            top: cover.top
-            bottom: cover.bottom
-            left: parent.left
-        }
-
-        color: Constants.colors.fresh
-    }
-
     CoverArt {
         id: cover
         visible: !updating
@@ -85,12 +72,18 @@ ButtonArea {
     PLabel {
         id: downloadsLabel
         anchors {
-            right: parent.right
+            right: newEpisodesIndicator.enabled ? newEpisodesIndicator.left : parent.right
             rightMargin: Constants.layout.padding * pgst.scalef
             verticalCenter: parent.verticalCenter
         }
 
         text: downloaded ? downloaded : ''
         color: Constants.colors.text
+    }
+
+    RectangleIndicator {
+        id: newEpisodesIndicator
+        enabled: newEpisodes > 0
+        color: Constants.colors.fresh
     }
 }

@@ -135,22 +135,22 @@ Item {
         Rectangle {
             anchors {
                 top: parent.top
-                left: downloadIndicator.right
+                left: parent.left
             }
 
             height: Constants.layout.padding * pgst.scalef
-            width: (parent.width - downloadIndicator.width) * progress
+            width: parent.width * progress
             color: Constants.colors.download
         }
 
         Rectangle {
             anchors {
                 bottom: parent.bottom
-                left: downloadIndicator.right
+                left: parent.left
             }
 
             height: Constants.layout.padding * pgst.scalef
-            width: (parent.width - downloadIndicator.width) * playbackProgress
+            width: parent.width * playbackProgress
             color: titleLabel.color
             opacity: episodeItem.isPlaying ? 1 : .2
         }
@@ -163,27 +163,17 @@ Item {
             right: parent.right
         }
 
-        Rectangle {
+        RectangleIndicator {
             id: downloadIndicator
-
-            width: Constants.layout.padding * pgst.scalef * (downloadState == Constants.state.downloaded)
-
-            Behavior on width { PropertyAnimation { } }
-
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                left: parent.left
-            }
-
+            enabled: downloadState == Constants.state.downloaded
             color: titleLabel.color
         }
 
         Column {
             anchors {
                 left: parent.left
-                leftMargin: 2 * Constants.layout.padding * pgst.scalef
-                right: parent.right
+                leftMargin: Constants.layout.padding * pgst.scalef
+                right: downloadIndicator.left
                 rightMargin: Constants.layout.padding * pgst.scalef
                 verticalCenter: parent.verticalCenter
             }
