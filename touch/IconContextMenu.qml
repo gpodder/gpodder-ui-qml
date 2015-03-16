@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+import 'common/constants.js' as Constants
+
 Item {
     id: contextMenu
     default property alias children: contextMenuRow.children
