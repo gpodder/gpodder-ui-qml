@@ -24,15 +24,29 @@ import 'common/constants.js' as Constants
 
 Item {
     property alias text: pLabel.text
+    property alias color: pLabel.color
 
     height: 70 * pgst.scalef
+    width: parent.width
+
+    Rectangle {
+        anchors {
+            verticalCenter: parent.verticalCenter
+            left: parent.left
+            right: pLabel.left
+            margins: Constants.layout.padding * pgst.scalef
+        }
+
+        color: pLabel.color
+        height: 1 * pgst.scalef
+    }
 
     PLabel {
         id: pLabel
         anchors {
-            left: parent.left
-            bottom: parent.bottom
-            margins: 10 * pgst.scalef
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+            margins: Constants.layout.padding * pgst.scalef
         }
 
         color: Constants.colors.secondaryHighlight

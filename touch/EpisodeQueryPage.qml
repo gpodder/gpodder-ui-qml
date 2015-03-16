@@ -44,6 +44,10 @@ SlidePage {
         title: 'Episodes'
 
         section.property: 'section'
-        section.delegate: SectionHeader { text: section }
+        section.delegate: SectionHeader {
+            text: section
+            color: episodeList.selectedIndex === -1 ? Constants.colors.secondaryHighlight : Constants.colors.text
+            opacity: episodeList.selectedIndex === -1 ? 1 : 0.2
+        }
     }
 }
