@@ -27,6 +27,10 @@ Item {
 
     Row {
         id: contextMenuRow
-        anchors.centerIn: parent
+        anchors {
+            verticalCenter: parent.verticalCenter
+            right: parent.right
+            margins: Constants.layout.padding * pgst.scalef
+        }
     }
 }
