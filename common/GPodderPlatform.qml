@@ -26,9 +26,11 @@ Item {
     property bool android: (typeof(gpodderAndroid) !== 'undefined') || emulatingAndroid
 
     property bool needsBackButton: !android
-    property bool toolbarOnTop: android
+
+    property bool toolbarOnTop: true
     property bool invertedToolbar: toolbarOnTop
     property bool titleInToolbar: toolbarOnTop
-    property bool floatingPlayButton: android
-    property bool hideDisabledMenu: android
+
+    property bool floatingPlayButton: true
+    property bool hideDisabledMenu: true
 }
