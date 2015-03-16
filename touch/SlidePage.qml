@@ -36,7 +36,7 @@ Rectangle {
     property string title: ''
     property bool hasMenuButton: false
     property string menuButtonLabel: 'Menu'
-    property string menuButtonIcon: Icons.vellipsis
+    property string menuButtonIcon: Icons.stack
     signal menuButtonClicked()
 
     function closePage() {

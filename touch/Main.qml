@@ -125,7 +125,7 @@ Item {
         pgst.hasBackButton = Qt.binding(function () { return page.isDialog || page.canClose; });
         pgst.hasMenuButton = Qt.binding(function () { return !page.isDialog && page.hasMenuButton; });
         pgst.menuButtonLabel = Qt.binding(function () { return (!page.isDialog && pgst.hasMenuButton) ? page.menuButtonLabel : 'Menu'; });
-        pgst.menuButtonIcon = Qt.binding(function () { return (!page.isDialog && pgst.hasMenuButton) ? page.menuButtonIcon : Icons.vellipsis; });
+        pgst.menuButtonIcon = Qt.binding(function () { return (!page.isDialog && pgst.hasMenuButton) ? page.menuButtonIcon : Icons.stack; });
 
         if (!page.isDialog) {
             pgst.windowTitle = page.title || 'gPodder';
