@@ -40,6 +40,7 @@ import datetime
 
 logger = logging.getLogger(__name__)
 
+
 def run_in_background_thread(f):
     """Decorator for functions that take longer to finish
 
@@ -142,8 +143,7 @@ class gPotherSide:
 
     def _get_podcasts_sorted(self):
         sort_key = self.core.model.podcast_sort_key
-        return sorted(self.core.model.get_podcasts(),
-                key=lambda podcast: (podcast.section, sort_key(podcast)))
+        return sorted(self.core.model.get_podcasts(), key=lambda podcast: (podcast.section, sort_key(podcast)))
 
     def load_podcasts(self):
         podcasts = self._get_podcasts_sorted()
@@ -319,8 +319,7 @@ class gPotherSide:
             try:
                 podcast.update()
             except Exception as e:
-                logger.warn('Could not update %s: %s', podcast.url,
-                        e, exc_info=True)
+                logger.warn('Could not update %s: %s', podcast.url, e, exc_info=True)
             pyotherside.send('updated-podcast', self.convert_podcast(podcast))
             pyotherside.send('update-stats')
 
@@ -336,9 +335,7 @@ class gPotherSide:
         return {
             'title': episode.title,
             'podcast_title': episode.podcast.title,
-            'source': episode.local_filename(False)
-                if episode.state == gpodder.STATE_DOWNLOADED
-                else episode.url,
+            'source': episode.local_filename(False) if episode.state == gpodder.STATE_DOWNLOADED else episode.url,
             'position': episode.current_position,
             'total': episode.total_time,
             'video': episode.file_type() == 'video',
@@ -372,7 +369,9 @@ class gPotherSide:
             yield '%.2f MiB' % (episode.file_size / (1024 * 1024))
 
         if episode.total_time > 0:
-            yield '%02d:%02d:%02d' % (episode.total_time / (60 * 60), (episode.total_time / 60) % 60, episode.total_time % 60)
+            yield '%02d:%02d:%02d' % (episode.total_time / (60 * 60),
+                                      (episode.total_time / 60) % 60,
+                                      episode.total_time % 60)
 
     def show_podcast(self, podcast_id):
         podcast = self._get_podcast_by_id(podcast_id)
@@ -404,8 +403,7 @@ class gPotherSide:
         return [{
             'label': provider.name,
             'can_search': provider.kind == provider.PROVIDER_SEARCH
-        } for provider in sorted(registry.directory.select(select_provider),
-            key=provider_sort_key, reverse=True)]
+        } for provider in sorted(registry.directory.select(select_provider), key=provider_sort_key, reverse=True)]
 
     def get_directory_entries(self, provider, query):
         def match_provider(p):
