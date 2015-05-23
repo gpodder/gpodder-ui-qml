@@ -47,9 +47,9 @@ SlidePage {
                 }
             },
             {
-                label: 'About',
+                label: 'Settings',
                 callback: function () {
-                    pgst.loadPage('AboutPage.qml');
+                    pgst.loadPage('SettingsPage.qml');
                 },
             },
             {

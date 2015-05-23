@@ -50,6 +50,7 @@ Item {
             right: clipboardIcon.left
             margins: 5 * pgst.scalef
         }
+        clip: true
 
         inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
 

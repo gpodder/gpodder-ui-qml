@@ -28,6 +28,7 @@ Item {
     property real value
     property real min: 0.0
     property real max: 1.0
+    property real step: 0.0
     property color color: Constants.colors.highlight
 
     property real displayedValue: mouseArea.pressed ? temporaryValue : value
@@ -42,13 +43,22 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: slider.valueChangeRequested(min + (max - min) * (mouse.x / width))
-        onPressed: {
-            slider.temporaryValue = (min + (max - min) * (mouse.x / width));
+        function updateValue(x) {
+            if (x > width) {
+                x = width;
+            } else if (x < 0) {
+                x = 0;
+            }
+            var v = (max - min) * (x / width);
+            if (slider.step > 0.0) {
+                v = slider.step * parseInt(0.5 + v / slider.step);
+            }
+            slider.temporaryValue = min + v;
+            return slider.temporaryValue;
         }
-        onPositionChanged: {
-            slider.temporaryValue = (min + (max - min) * (mouse.x / width));
-        }
+        onClicked: slider.valueChangeRequested(updateValue(mouse.x));
+        onPressed: updateValue(mouse.x);
+        onPositionChanged: updateValue(mouse.x);
         preventStealing: true
     }
 
@@ -66,6 +76,16 @@ Item {
 
         anchors {
             verticalCenter: parent.verticalCenter
+        }
+    }
+
+    Repeater {
+        model: slider.step ? ((slider.max - slider.min) / slider.step - 1) : 0
+        delegate: Rectangle {
+            width: Math.max(1, 1 * pgst.scalef)
+            height: parent.height
+            color: Constants.colors.area
+            x: parent.width * ((slider.step * (1 + index)) / (slider.max - slider.min));
         }
     }
 }

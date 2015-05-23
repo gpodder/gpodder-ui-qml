@@ -77,6 +77,16 @@ Python {
         });
     }
 
+    function setConfig(key, value) {
+        py.call('main.set_config_value', [key, value]);
+    }
+
+    function getConfig(key, callback) {
+        py.call('main.get_config_value', [key], function (result) {
+            callback(result);
+        });
+    }
+
     onReceived: {
         console.log('unhandled message: ' + data);
     }
