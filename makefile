@@ -1,5 +1,5 @@
 PROJECT := gpodder-ui-qml
-VERSION := 4.4.0
+VERSION := 4.6.0
 
 all:
 	@echo ""
