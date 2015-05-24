@@ -25,13 +25,9 @@ import 'util.js' as Util
 ListModel {
     id: podcastListModel
 
-    property var worker: ModelWorkerScript {
-        id: modelWorker
-    }
-
     function reload() {
         py.call('main.load_podcasts', [], function (podcasts) {
-            modelWorker.updateModelFrom(podcastListModel, podcasts);
+            Util.updateModelFrom(podcastListModel, podcasts);
         });
     }
 }

@@ -62,10 +62,6 @@ ListModel {
         });
     }
 
-    property var worker: ModelWorkerScript {
-        id: modelWorker
-    }
-
     function forEachEpisode(callback) {
         // Go from bottom up (= chronological order)
         for (var i=count-1; i>=0; i--) {
@@ -126,12 +122,11 @@ ListModel {
 
         ready = false;
         py.call('main.load_episodes', [podcast_id, query], function (episodes) {
-            modelWorker.updateModelFrom(episodeListModel, episodes, function () {
-                episodeListModel.ready = true;
-                if (callback !== undefined) {
-                    callback();
-                }
-            });
+            Util.updateModelFrom(episodeListModel, episodes);
+            episodeListModel.ready = true;
+            if (callback !== undefined) {
+                callback();
+            }
         });
     }
 }

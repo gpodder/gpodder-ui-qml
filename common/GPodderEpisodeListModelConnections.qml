@@ -26,11 +26,11 @@ Connections {
     target: py
 
     onDownloadProgress: {
-        episodeListModel.worker.updateModelWith(episodeListModel, 'id', episode_id,
+        Util.updateModelWith(episodeListModel, 'id', episode_id,
             {'progress': progress});
     }
     onPlaybackProgress: {
-        episodeListModel.worker.updateModelWith(episodeListModel, 'id', episode_id,
+        Util.updateModelWith(episodeListModel, 'id', episode_id,
             {'playbackProgress': progress});
     }
     onUpdatedEpisode: {
