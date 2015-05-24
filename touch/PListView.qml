@@ -30,6 +30,19 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
+    function relayout() {
+        var _contentY = contentY;
+        var _model = model;
+        model = null;
+        model = _model;
+        contentY = _contentY;
+    }
+
+    Connections {
+        target: pgst
+        onScalefChanged: relayout();
+    }
+
     header: SlidePageHeader {
         id: header
         title: pListView.title
