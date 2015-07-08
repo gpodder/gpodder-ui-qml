@@ -73,7 +73,7 @@ SlidePage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
                 text: [
-                    '© 2005-2014 Thomas Perl and the gPodder Team',
+                    '© 2005-2015 Thomas Perl and the gPodder Team',
                     'License: ISC / GPLv3 or later',
                     'Website: http://gpodder.org/',
                     '',
