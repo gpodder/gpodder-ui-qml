@@ -37,6 +37,7 @@ import logging
 import functools
 import time
 import datetime
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -113,6 +114,7 @@ class gPotherSide:
             'episodes': total,
             'newEpisodes': new,
             'downloaded': downloaded,
+            'unplayed': unplayed,
         }
 
     def _get_cover(self, podcast):
@@ -133,8 +135,10 @@ class gPotherSide:
         return {
             'id': podcast.id,
             'title': podcast.title,
+            'description': podcast.one_line_description(),
             'newEpisodes': new,
             'downloaded': downloaded,
+            'unplayed': unplayed,
             'coverart': self._get_cover(podcast),
             'updating': podcast._updating,
             'section': podcast.section,
@@ -419,6 +423,116 @@ class gPotherSide:
             } for e in provider.on_string(query)]
 
         return []
+
+
+PILL_TEMPLATE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="{height}" width="{width}"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient x1="0" y1="0" x2="1" y2="1" id="rightGradient">
+      <stop offset="0.0" style="stop-color: #333333; stop-opacity: 0.9;" />
+      <stop offset="0.4" style="stop-color: #333333; stop-opacity: 0.8;" />
+      <stop offset="0.6" style="stop-color: #333333; stop-opacity: 0.6;" />
+      <stop offset="0.9" style="stop-color: #333333; stop-opacity: 0.7;" />
+      <stop offset="1.0" style="stop-color: #333333; stop-opacity: 0.5;" />
+    </linearGradient>
+
+    <linearGradient x1="0" y1="0" x2="1" y2="1" id="leftGradient">
+      <stop offset="0.0" style="stop-color: #cccccc; stop-opacity: 0.5;" />
+      <stop offset="0.4" style="stop-color: #cccccc; stop-opacity: 0.7;" />
+      <stop offset="0.6" style="stop-color: #cccccc; stop-opacity: 0.6;" />
+      <stop offset="0.9" style="stop-color: #cccccc; stop-opacity: 0.8;" />
+      <stop offset="1.0" style="stop-color: #cccccc; stop-opacity: 0.9;" />
+    </linearGradient>
+
+    <path id="rightPath" d="M {width/2} 0 l {width/2-radius-1} 0
+             s {radius} 0 {radius} {radius} l 0 {height-radius*2}
+             s 0 {radius} {-radius} {radius} l {-(width/2-radius-1)} 0 z" />
+    <path id="rightPathOuter" d="M {width/2+0.5} {0.5} l {width/2-radius-2} 0
+             s {radius} 0 {radius} {radius} l 0 {height-radius*2-1}
+             s 0 {radius} {-radius} {radius} l {-(width/2-radius-2)} 0 z" />
+    <path id="rightPathInner" d="M {width/2+1.5} {1.5} l {width/2-radius-4} 0
+             s {radius} 0 {radius} {radius} l 0 {height-radius*2-3}
+             s 0 {radius} {-radius} {radius} l {-(width/2-radius-4)} 0 z" />
+
+    <path id="leftPath" d="M {width/2} 0 l {-(width/2-radius-1)} 0
+             s {-radius} 0 {-radius} {radius} l 0 {height-radius*2}
+             s 0 {radius} {radius} {radius} l {width/2-radius-1} 0 z" />
+    <path id="leftPathOuter" d="M {width/2-0.5} {0.5} l {-(width/2-radius-2)} 0
+             s {-radius} 0 {-radius} {radius} l 0 {height-radius*2-1}
+             s 0 {radius} {radius} {radius} l {width/2-radius-2} 0 z" />
+    <path id="leftPathInner" d="M {width/2-1.5} {1.5} l {-(width/2-radius-4)} 0
+             s {-radius} 0 {-radius} {radius} l 0 {height-radius*2-3}
+             s 0 {radius} {radius} {radius} l {width/2-radius-4} 0 z" />
+  </defs>
+
+  <g style="font-family: sans-serif; font-size: {font_size}px; font-weight: bold;">
+      <g style="display: {'inline' if left_text else 'none'};">
+          <use xlink:href="#leftPath" style="fill:url(#leftGradient);"/>
+          <use xlink:href="#leftPathOuter" style="{outer_style}" />
+          <use xlink:href="#leftPathInner" style="{inner_style}" />
+          <text x="{lx+1}" y="{height/2+font_size/3+1}" fill="black">{left_text}</text>
+          <text x="{lx}" y="{height/2+font_size/3}" fill="white">{left_text}</text>
+      </g>
+
+      <g style="display: {'inline' if right_text else 'none'};">
+          <use xlink:href="#rightPath" style="fill:url(#rightGradient);"/>
+          <use xlink:href="#rightPathOuter" style="{outer_style}" />
+          <use xlink:href="#rightPathInner" style="{inner_style}" />
+          <text x="{rx+1}" y="{height/2+font_size/3+1}" fill="black">{right_text}</text>
+          <text x="{rx}" y="{height/2+font_size/3}" fill="white">{right_text}</text>
+      </g>
+  </g>
+</svg>
+"""
+
+
+class PillExpression(object):
+    def __init__(self, **kwargs):
+        self.kwargs = kwargs
+
+    def __call__(self, matchobj):
+        return str(eval(matchobj.group(1), self.kwargs))
+
+
+def pill_image_provider(image_id, requested_size):
+    left_text, right_text = (int(x) for x in image_id.split('/'))
+
+    width = 44
+    height = 24
+    radius = 6
+    font_size = 13
+
+    text_lx = width / 4
+    text_rx = width * 3 / 4
+
+    charheight = font_size
+    charwidth = font_size / 1.3
+
+    if left_text:
+        text_lx -= charwidth * len(str(left_text)) / 2
+    if right_text:
+        text_rx -= charwidth * len(str(right_text)) / 2
+
+    outer_style = 'stroke: #333333; stroke-width: 1; fill-opacity: 0; stroke-opacity: 0.6;'
+    inner_style = 'stroke: #ffffff; stroke-width: 1; fill-opacity: 0; stroke-opacity: 0.3;'
+
+    expression = PillExpression(height=height, width=width, left_text=left_text,
+                                right_text=right_text, radius=radius,
+                                lx=text_lx, rx=text_rx, font_size=font_size,
+                                outer_style=outer_style, inner_style=inner_style)
+    svg = re.sub(r'[{]([^}]+)[}]', expression, PILL_TEMPLATE)
+    return bytearray(svg.encode('utf-8')), (width, height), pyotherside.format_data
+
+
+@pyotherside.set_image_provider
+def gpotherside_image_provider(image_id, requested_size):
+    provider, args = image_id.split('/', 1)
+    if provider == 'pill':
+        return pill_image_provider(args, requested_size)
+
+    raise ValueError('Unknown provider: %s' % (provider,))
+
 
 gpotherside = gPotherSide()
 pyotherside.atexit(gpotherside.atexit)
