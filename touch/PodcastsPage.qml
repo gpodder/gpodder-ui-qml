@@ -67,6 +67,20 @@ SlidePage {
                 },
             },
             {
+                label: 'Add from OPML',
+                callback: function () {
+                    var ctx = { py: py };
+                    pgst.loadPage('TextInputDialog.qml', {
+                        buttonText: 'Subscribe',
+                        placeholderText: 'OPML URL',
+                        pasteOnLoad: true,
+                        callback: function (url) {
+                            ctx.py.call('main.import_opml', [url]);
+                        }
+                    });
+                },
+            },
+            {
                 label: 'Discover new podcasts',
                 callback: function () {
                     py.call('main.get_directory_providers', [], function (result) {

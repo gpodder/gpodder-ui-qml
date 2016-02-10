@@ -55,6 +55,19 @@ ApplicationWindow {
             }
 
             MenuItem {
+                text: 'Add from OPML'
+                onTriggered: {
+                    openDialog('dialogs/AddPodcastDialog.qml', function(dialog) {
+                        dialog.title = "Add from OPML"
+                        dialog.labelText = "OPML URL:"
+                        dialog.addUrl.connect(function (url) {
+                            py.call('main.import_opml', [url]);
+                        })
+                    })
+                }
+            }
+
+            MenuItem {
                 text: 'Quit'
                 onTriggered: Qt.quit()
             }
