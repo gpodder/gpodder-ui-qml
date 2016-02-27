@@ -32,6 +32,7 @@ from gpodder.api import core
 from gpodder.api import util
 from gpodder.api import query
 from gpodder.api import registry
+from gpodder import opml
 
 import logging
 import functools
@@ -221,6 +222,21 @@ class gPotherSide:
         summary.sort(key=lambda e: e['newEpisodes'], reverse=True)
         return summary[:int(count)]
 
+    @run_in_background_thread
+    def import_opml(self, url):
+        """Import subscriptions from an OPML file
+
+        import http://example.com/subscriptions.opml
+
+            Import subscriptions from the given URL
+
+        import ./feeds.opml
+
+            Import subscriptions from a local file
+        """
+        for channel in opml.Importer(url).items:
+            self.subscribe(channel['url'])
+    
     @run_in_background_thread
     def subscribe(self, url):
         url = self.core.model.normalize_feed_url(url)
@@ -545,6 +561,7 @@ load_podcasts = gpotherside.load_podcasts
 load_episodes = gpotherside.load_episodes
 show_episode = gpotherside.show_episode
 play_episode = gpotherside.play_episode
+import_opml = gpotherside.import_opml
 subscribe = gpotherside.subscribe
 unsubscribe = gpotherside.unsubscribe
 check_for_episodes = gpotherside.check_for_episodes

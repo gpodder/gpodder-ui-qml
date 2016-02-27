@@ -7,6 +7,7 @@ import '../common'
 import '../common/util.js' as Util
 
 Dialog {
+    property alias labelText: urlEntyLabel.text
     signal addUrl(string url)
 
     width: 300
@@ -18,6 +19,7 @@ Dialog {
         anchors.fill: parent
 
         Label {
+            id: urlEntyLabel
             text: 'URL:'
         }
 
