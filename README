@@ -7,8 +7,8 @@ Desktop UI requires Qt Quick Controls, included in Qt 5.2 and newer.
 
 Usage:
 
-    qmlscene desktop/index.qml
-    qmlscene touch/index.qml
+    qmlscene desktop/gpodder.qml
+    qmlscene touch/gpodder.qml
 
 Dependencies:
 
