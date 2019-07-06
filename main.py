@@ -173,6 +173,7 @@ class gPotherSide:
             'published': util.format_date(episode.published),
             'section': self._format_published_section(now, tnow, episode.published),
             'hasShownotes': episode.description != '',
+            'mime_type': episode.mime_type,
         }
 
     def _format_published_section(self, now, tnow, published):
