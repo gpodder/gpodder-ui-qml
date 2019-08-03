@@ -40,14 +40,14 @@ ListModel {
     })
 
     property var filters: ([
-        { label: 'All', query: episodeListModel.queries.All },
-        { label: 'Fresh', query: episodeListModel.queries.Fresh },
-        { label: 'Downloaded', query: episodeListModel.queries.Downloaded },
-        { label: 'Unplayed downloads', query: episodeListModel.queries.UnplayedDownloads },
-        { label: 'Finished downloads', query: episodeListModel.queries.FinishedDownloads },
-        { label: 'Hide deleted', query: episodeListModel.queries.HideDeleted },
-        { label: 'Deleted episodes', query: episodeListModel.queries.Deleted },
-        { label: 'Short downloads (< 10 min)', query: episodeListModel.queries.ShortDownloads },
+        { label: qsTr("All"), query: episodeListModel.queries.All },
+        { label: qsTr("Fresh"), query: episodeListModel.queries.Fresh },
+        { label: qsTr("Downloaded"), query: episodeListModel.queries.Downloaded },
+        { label: qsTr("Unplayed downloads"), query: episodeListModel.queries.UnplayedDownloads },
+        { label: qsTr("Finished downloads"), query: episodeListModel.queries.FinishedDownloads },
+        { label: qsTr("Hide deleted"), query: episodeListModel.queries.HideDeleted },
+        { label: qsTr("Deleted episodes"), query: episodeListModel.queries.Deleted },
+        { label: qsTr("Short downloads (< 10 min)"), query: episodeListModel.queries.ShortDownloads },
     ])
 
     property bool ready: false
