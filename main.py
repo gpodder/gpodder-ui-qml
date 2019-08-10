@@ -356,6 +356,7 @@ class gPotherSide:
         return {
             'title': episode.title,
             'podcast_title': episode.podcast.title,
+            'podcast_coverart': self._get_cover(episode.podcast),
             'source': episode.local_filename(False) if episode.state == gpodder.STATE_DOWNLOADED else episode.url,
             'position': episode.current_position,
             'total': episode.total_time,
