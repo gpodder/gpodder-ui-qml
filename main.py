@@ -237,6 +237,14 @@ class gPotherSide:
         """
         for channel in opml.Importer(url).items:
             self.subscribe(channel['url'])
+
+    @run_in_background_thread
+    def export_opml(self, uri):
+        """ Export subscriptions to an OPML file
+
+        URI can be either just a name or a full path as long as writing to said path is possible.
+        """
+        opml.Exporter(uri).write(self.core.model.get_podcasts())
     
     @run_in_background_thread
     def subscribe(self, url):
@@ -356,6 +364,7 @@ class gPotherSide:
         return {
             'title': episode.title,
             'podcast_title': episode.podcast.title,
+            'podcast_coverart': self._get_cover(episode.podcast),
             'source': episode.local_filename(False) if episode.state == gpodder.STATE_DOWNLOADED else episode.url,
             'position': episode.current_position,
             'total': episode.total_time,
@@ -563,6 +572,7 @@ load_episodes = gpotherside.load_episodes
 show_episode = gpotherside.show_episode
 play_episode = gpotherside.play_episode
 import_opml = gpotherside.import_opml
+export_opml = gpotherside.export_opml
 subscribe = gpotherside.subscribe
 unsubscribe = gpotherside.unsubscribe
 check_for_episodes = gpotherside.check_for_episodes
