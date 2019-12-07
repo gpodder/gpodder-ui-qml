@@ -174,6 +174,7 @@ class gPotherSide:
             'section': self._format_published_section(now, tnow, episode.published),
             'hasShownotes': episode.description != '',
             'mime_type': episode.mime_type,
+            'total_time': episode.total_time
         }
 
     def _format_published_section(self, now, tnow, published):
