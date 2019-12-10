@@ -19,7 +19,7 @@
 # of gpodder-core, but we might have a different release schedule later on. If
 # we decide to have parallel releases, we can at least start using this version
 # to check if the core version is compatible with the QML UI version.
-__version__ = '4.8.0'
+__version__ = '4.9.0'
 
 import sys
 import os
@@ -174,6 +174,7 @@ class gPotherSide:
             'section': self._format_published_section(now, tnow, episode.published),
             'hasShownotes': episode.description != '',
             'mime_type': episode.mime_type,
+            'total_time': episode.total_time
         }
 
     def _format_published_section(self, now, tnow, published):
@@ -245,7 +246,7 @@ class gPotherSide:
         URI can be either just a name or a full path as long as writing to said path is possible.
         """
         opml.Exporter(uri).write(self.core.model.get_podcasts())
-    
+
     @run_in_background_thread
     def subscribe(self, url):
         url = self.core.model.normalize_feed_url(url)
