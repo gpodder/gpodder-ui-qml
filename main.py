@@ -19,7 +19,7 @@
 # of gpodder-core, but we might have a different release schedule later on. If
 # we decide to have parallel releases, we can at least start using this version
 # to check if the core version is compatible with the QML UI version.
-__version__ = '4.9.0'
+__version__ = '4.10.0'
 
 import sys
 import os
