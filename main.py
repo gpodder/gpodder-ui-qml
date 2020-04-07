@@ -174,7 +174,9 @@ class gPotherSide:
             'section': self._format_published_section(now, tnow, episode.published),
             'hasShownotes': episode.description != '',
             'mime_type': episode.mime_type,
-            'total_time': episode.total_time
+            'total_time': episode.total_time,
+            'episode_art': self._get_episode_art(episode),
+            'cover_art': self._get_cover(episode.podcast),
         }
 
     def _format_published_section(self, now, tnow, published):
@@ -357,6 +359,12 @@ class gPotherSide:
         self._checking_for_new_episodes = False
         pyotherside.send('refreshing', False)
 
+    def _get_episode_art(self, episode):
+        filename = self.core.cover_downloader.get_cover(episode.podcast, False, episode)
+        if not filename:
+            return ''
+        return 'file://' + filename
+
     def play_episode(self, episode_id):
         episode = self._get_episode_by_id(episode_id)
         episode.playback_mark()
@@ -366,6 +374,7 @@ class gPotherSide:
             'title': episode.title,
             'podcast_title': episode.podcast.title,
             'podcast_coverart': self._get_cover(episode.podcast),
+            'episode_art' : self._get_episode_art(episode),
             'source': episode.local_filename(False) if episode.state == gpodder.STATE_DOWNLOADED else episode.url,
             'position': episode.current_position,
             'total': episode.total_time,
