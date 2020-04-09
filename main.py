@@ -177,6 +177,7 @@ class gPotherSide:
             'total_time': episode.total_time,
             'episode_art': self._get_episode_art(episode),
             'cover_art': self._get_cover(episode.podcast),
+            'podcast_title': episode.podcast.title
         }
 
     def _format_published_section(self, now, tnow, published):
@@ -373,7 +374,7 @@ class gPotherSide:
         return {
             'title': episode.title,
             'podcast_title': episode.podcast.title,
-            'podcast_coverart': self._get_cover(episode.podcast),
+            'cover_art': self._get_cover(episode.podcast),
             'episode_art' : self._get_episode_art(episode),
             'source': episode.local_filename(False) if episode.state == gpodder.STATE_DOWNLOADED else episode.url,
             'position': episode.current_position,

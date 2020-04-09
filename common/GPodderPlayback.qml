@@ -28,7 +28,8 @@ MediaPlayer {
     property string episode_title: ''
     property var episode_chapters: ([])
     property string podcast_title: ''
-    property string podcast_coverart: ''
+    property string cover_art: ''
+    property string episode_art: ''
     signal playerCreated()
 
     property var queue: ([])
@@ -110,7 +111,8 @@ MediaPlayer {
             player.episode_title = episode.title;
             player.episode_chapters = episode.chapters;
             player.podcast_title = episode.podcast_title;
-            player.podcast_coverart = episode.podcast_coverart;
+            player.cover_art = episode.cover_art;
+            player.episode_art = episode.episode_art;
             var source = episode.source;
             if (source.indexOf('/') === 0) {
                 player.source = 'file://' + source;
