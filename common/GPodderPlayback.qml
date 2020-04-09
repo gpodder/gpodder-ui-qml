@@ -35,6 +35,8 @@ MediaPlayer {
     property var queue: ([])
     signal queueUpdated()
     property bool isPlaying: playbackState == MediaPlayer.PlayingState
+    property bool isPaused: playbackState == MediaPlayer.PausedState
+    property bool isStopped: playbackState == MediaPlayer.StoppedState
 
     property bool inhibitPositionEvents: false
     property bool seekAfterPlay: false
